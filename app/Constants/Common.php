@@ -44,7 +44,7 @@ class Common {
     CONST TABLE_LIST = [
         self::USERS, self::VENDORS, self::CATEGORIES, self::BANNERS,
         self::CONTACTS, self::POSTS, self::PRODUCTS,
-        self::IMAGES_PRODUCT, self::PAGES, self::ORDERS, self::ORDER_DETAILS,
+        self::IMAGES_PRODUCT, self::ORDERS, self::ORDER_DETAILS,
         self::PRODUCT_DETAILS, self::PRODUCT_DETAIL_GROUPS, self::POST_GROUPS, self::IP_ADDRESS
     ];
     
