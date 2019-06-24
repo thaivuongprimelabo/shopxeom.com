@@ -285,6 +285,7 @@ $auth = [
                 'width' => '15%'
             ],
             'link' => [
+                'type' => 'link',
                 'text' => 'Đường dẫn',
                 'width' => '20%'
             ],
