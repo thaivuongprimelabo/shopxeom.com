@@ -93,7 +93,7 @@
           	<b>C</b>P
           </span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">{{ trans('auth.title') }}</span>
+          <span class="logo-lg">{{ $config['web_name'] }}</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -386,7 +386,6 @@
 				$('#format_discount strong small i').html(formatCurrency(discount_money, '.', '.'));
 			}
 		}
-
 	});
 
 	$(document).on('mouseup keyup', '#discount', function(e) {

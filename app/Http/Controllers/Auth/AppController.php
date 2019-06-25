@@ -31,13 +31,12 @@ class AppController extends Controller
      */
     public function __construct() {
         
-        $this->middleware(['auth', 'admin'])->except('showLoginForm', 'login');
+        $this->middleware(['auth', 'admin', 'accessByRole'])->except('showLoginForm', 'login');
         
         $this->middleware(function ($request, $next) {
             $this->uploadLastLogin();
-            
             return $next($request);
-        })->except('showLoginForm', 'login');;
+        })->except('showLoginForm', 'login');
         
         // Config
         $config = Utils::getConfig();
@@ -109,17 +108,18 @@ class AppController extends Controller
             
             $data = $request->all();
             $search_condition = trans('auth.' . $name . '.search_form');
-            
-            foreach($search_condition as $key=>$con) {
-                $value = $data[$key];
-                if(!Utils::blank($value)) {
-                    if($key == 'name' || $key == 'customer_name') {
-                        $wheres[] = [$key, 'LIKE', '%' . $value . '%'];
-                    }elseif($key == 'created_at') { 
-                        $value = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-                        $wheres[] = [DB::raw('DATE(' . $key . ')'), '=', $value];
-                    }else {
-                        $wheres[] = [$key, '=', $value];
+            if(is_array($search_condition)) {
+                foreach($search_condition as $key=>$con) {
+                    $value = $data[$key];
+                    if(!Utils::blank($value)) {
+                        if($key == 'name' || $key == 'customer_name') {
+                            $wheres[] = [$key, 'LIKE', '%' . $value . '%'];
+                        }elseif($key == 'created_at') { 
+                            $value = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+                            $wheres[] = [DB::raw('DATE(' . $key . ')'), '=', $value];
+                        }else {
+                            $wheres[] = [$key, '=', $value];
+                        }
                     }
                 }
             }
@@ -158,7 +158,7 @@ class AppController extends Controller
             $this->result['data'] = view($view, compact('data_list', 'data_count', 'paging', 'name'))->render();
             return response()->json($this->result);
         } else {
-            return compact('data_list', 'data_count', 'paging', 'name');
+            return compact('data_list', 'data_count', 'paging', 'name', 'view');
         }
     }
     

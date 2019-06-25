@@ -43,4 +43,26 @@ class UserRole {
         }
         return $html;
     }
+    
+    public static function notAccessByRole($roleId) {
+        $array = [
+            self::SUPER_ADMIN   => ['*'],
+            self::ADMIN         => ['backup'],
+            self::MOD           => ['users', 'backup'],
+            self::MEMBERS       => [':deny_login']
+        ];
+        
+        return $array[$roleId];
+    }
+    
+    public static function notAccessTabByRole($roleId) {
+        $array = [
+            self::SUPER_ADMIN   => ['*'],
+            self::ADMIN         => ['upload_setting'],
+            self::MOD           => ['upload_setting'],
+        ];
+        
+        return $array[$roleId];
+    }
+    
 }

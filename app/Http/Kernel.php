@@ -45,6 +45,10 @@ class Kernel extends HttpKernel
         
         'admin' => [
             \App\Http\Middleware\Admin::class
+        ],
+        
+        'accessByRole' => [
+            \App\Http\Middleware\AccessByRole::class
         ]
     ];
 
@@ -62,6 +66,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'admin' => \App\Http\Middleware\Admin::class
+        'admin' => \App\Http\Middleware\Admin::class,
+        'accessByRole' => \App\Http\Middleware\AccessByRole::class
     ];
 }

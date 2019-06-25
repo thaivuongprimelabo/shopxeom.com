@@ -104,6 +104,13 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::match(['get', 'post'], '/ip_address/search', 'ConfigController@ipSearch')->name('auth_ip_search');
     Route::post('/ip_address/remove', 'ConfigController@ipRemove')->name('auth_ip_remove');
     
+    // Backup source + database
+    $this->get('/backup', 'BackupController@index')->name('auth_backup');
+    Route::match(['get', 'post'], '/backup/search', 'BackupController@search')->name('auth_backup_search');
+    Route::match(['post'], '/backup/create', 'BackupController@create')->name('auth_backup_create');
+    Route::post('/backup/remove', 'BackupController@remove')->name('auth_backup_remove');
+    $this->get('/backup/download/{file_download}', 'BackupController@download')->name('auth_backup_download');
+    
     
     // Registration Routes...
 //     $this->get('/register', 'RegisterController@showRegistrationForm')->name('register');

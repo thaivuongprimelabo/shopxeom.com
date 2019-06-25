@@ -1,4 +1,4 @@
-var callAjax = function(url, data, page) {
+var callAjax = function(url, data, page, callback) {
 	var output = {};
 	$.ajax({
 	    url: url,
@@ -39,6 +39,9 @@ var callAjax = function(url, data, page) {
 	    			case 'add-color':
 	    				output = res.data;
 	    				break;
+	    			case 'api.backup':
+	    				callback(res);
+	    				break;
 	    			default:
 	    				output = res;
 	    				break;
@@ -67,7 +70,8 @@ var loadProducts = function(url) {
 }
 
 var search = function(page_number) {
-	var url = $('#search').attr('data-url');
+	// var url = $('#search').attr('data-url');
+	var url = window.location.href + '/search';
 	url = url + '?page=' + page_number;
 	var data = getFormData($('#search_form'));
 	data['type'] = 'post';

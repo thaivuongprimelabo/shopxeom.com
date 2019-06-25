@@ -27,4 +27,5 @@ Route::post('/check-upload-file', 'ApiController@checkUploadFile')->name('checkU
 Route::get('/get-select-post', 'ApiController@getSelectPost')->name('getSelectPost');
 Route::post('/update-ship-fee', 'ApiController@updateShipFee')->name('updateShipFee');
 Route::post('/order-checking', 'ApiController@orderChecking')->name('orderChecking');
+Route::post('/backup', 'ApiController@backup')->name('api.backup');
 

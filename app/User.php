@@ -34,7 +34,10 @@ class User extends Authenticatable
     ];
     
     public function isAdmin() {
-        if($this->role_id == UserRole::SUPER_ADMIN || $this->role_id == UserRole::ADMIN || $this->role_id == UserRole::MOD) {
+        
+        $notAccessByRole = UserRole::notAccessByRole($this->role_id);
+        
+        if(!in_array(':deny_login', $notAccessByRole)) {
             return true;
         }
         

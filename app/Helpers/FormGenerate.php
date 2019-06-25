@@ -7,6 +7,7 @@ use App\Constants\ProductStatus;
 use App\Constants\Status;
 use App\Constants\StatusOrders;
 use App\Constants\UserRole;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 class FormGenerate {
@@ -275,7 +276,13 @@ class FormGenerate {
             $tabContent = '';
             $tabFooter = '';
             $tabActive = $name == 'banners' && !is_null($data) ? $data['select_type'] : key($tabForms);
+            $notAccessTabByRole = UserRole::notAccessTabByRole(Auth::user()->role_id);
             foreach($tabForms as $id => $forms) {
+                
+                if(!in_array('*', $notAccessTabByRole) && in_array($id, $notAccessTabByRole)) {
+                    continue;
+                }
+                
                 if(isset($forms['title'])) {
                     
                     $tabHeader .= '<li class="' . ($id == $tabActive ? 'active' : '') . '" data-tab="' . $id . '">';
@@ -470,8 +477,11 @@ class FormGenerate {
                 break;
                 
             case 'checkbox':
-                if(!$value) {
-                    $arrParams['checked'] = '';
+                if(isset($data[$key])) {
+                    $valueData = boolval($data[$key]);
+                    if(!$valueData) {
+                        $arrParams['checked'] = '';
+                    }
                 }
                 $view = 'helpers.form_generate.checkbox';
                 break;

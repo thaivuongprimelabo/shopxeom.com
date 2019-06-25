@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Banner;
 use App\Vendor;
 use App\Constants\Status;
+use App\Helpers\BackupGenerate;
 use App\Helpers\Utils;
 use App\Category;
 use App\Color;
@@ -248,6 +249,11 @@ class ApiController extends Controller
         $value = $request->value;
         $orders = Order::where('customer_email', $value)->orWhere('customer_phone', $value)->orderBy('created_at')->get();
         return response()->json(['#order_checking_list' => view('shop.order_checking_list', compact('orders'))->render()]);
+    }
+    
+    public function backup(Request $request) {
+        $this->output = BackupGenerate::getInstance()->make();
+        return response()->json($this->output);
     }
     
 }

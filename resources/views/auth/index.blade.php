@@ -19,7 +19,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div id="ajax_list">
-                @include('auth.ajax_list')
+                @include($view)
             </div>
           </div>
           <!-- /.box -->

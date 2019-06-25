@@ -490,6 +490,7 @@ return [
 
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
 	'FormGenerate' => App\Helpers\FormGenerate::class,
+        'BackupGenerate' => App\Helpers\BackupGenerate::class
 
     ],
 

@@ -77,15 +77,15 @@
                 	 @if($routes->hasNamedRoute($createRoute))
                      <div class="col-md-6">
                     	<div class="btn-group">
-                        	<button type="button" id="create" class="btn btn-warning pull-left" onclick="window.location='{{ $createUrl }}'">{{ trans('auth.button.create') }}</button>
+                        	<button type="button" id="create" class="btn btn-warning pull-left" onclick="window.location='{{ $createUrl }}'"><i class="fa fa-plus"></i> {{ trans('auth.button.create') }}</button>
                      	</div>
                      </div>
                      <div class="col-md-6">
-                    	<button type="button" id="search" class="btn btn-primary pull-right" data-url="{{ $searchUrl }}">{{ trans('auth.button.search') }}</button>
+                    	<button type="button" id="search" class="btn btn-primary pull-right" data-url="{{ $searchUrl }}"><i class="fa fa-search"></i> {{ trans('auth.button.search') }}</button>
                   	 </div>
                   	 @else
                   	 <div class="col-md-12">
-                    	<button type="button" id="search" class="btn btn-primary pull-right" data-url="{{ $searchUrl }}">{{ trans('auth.button.search') }}</button>
+                    	<button type="button" id="search" class="btn btn-primary pull-right" data-url="{{ $searchUrl }}"><i class="fa fa-search"></i> {{ trans('auth.button.search') }}</button>
                   	 </div>
                      @endif
                  	 
