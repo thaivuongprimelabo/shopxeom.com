@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use App\Backup;
+use App\Config;
 use DeepCopy\f001\B;
+use App\Constants\UploadPath;
 
 class BackupGenerate {
+    
+    CONST BACKUP_SUCCESS = 1;
+    CONST BACKUP_FAILED = 2;
+    CONST BACKUP_FAILED_MAIL = 3;
+    CONST BACKUP_FAILED_CREATE_ZIP = 4;
     
     private $dumpPath = 'C:/wamp64/bin/mysql/mysql5.7.21/bin/';
     
@@ -78,23 +85,10 @@ class BackupGenerate {
         $code = 200;
         $status = true;
         $message = '';
-        
+        $processStatus = self::BACKUP_SUCCESS;
         try {
             
-//             if(!file_exists($this->getBackupFilePath())) {
-//                 mkdir(storage_path($this->getBackupFilePath()));
-//             }
-            
             $filename = 'backup_' . time() . '.sql';
-            $filepath = $this->getBackupFilePath($filename);
-//             $username = config('database.connections.mysql.username');
-//             $password = config('database.connections.mysql.password');
-//             $database = config('database.connections.mysql.database');
-//             $command  = 'mysqldump -u' . $username . ' ' . $database . ' > ' . $filename;
-            
-//             $this->process = new Process($command);
-            
-//             $this->process->mustRun();
 
             $params = [
                 'tables' => Common::TABLE_LIST,
@@ -107,26 +101,82 @@ class BackupGenerate {
             ];
             
             $output = $this->_backup($params);
+            $zip = new ZipUtils();
+            $zip->add_data($filename, $output);
             
-            if($output) {
+            $uploadPath = public_path(UploadPath::getUploadPath());
+            $this->_backupFile($uploadPath, $zip);
+            $zipFile = $zip->get_zip();
+            
+            $backup_name = 'database_backup_' . date("Y-m-d-H-i-s") . '.zip';
+            $filepath = $this->getBackupFilePath($backup_name);
+            
+            if($zipFile) {
                 $myfile = fopen($filepath, 'w');
-                $txt = $output;
+                $txt = $zipFile;
                 fwrite($myfile, $txt);
                 fclose($myfile);
                 
-                $backup = new Backup();
-                $backup->name = $filename;
-                $backup->size = filesize($filepath);
-                $backup->save();
+                $config = Utils::getConfig();
+                $subject = trans('auth.subject_mail', ['web_name' => $config->web_title, 'title' => $backup_name]);
                 
+                // Config mail
+                $config = [
+                    'subject' => $subject,
+                    'msg' => [
+                        'content' => $subject,
+                    ],
+                    'to' => 'thai.vuong@primelabo.com.vn',
+                    'template' => 'auth.emails.backup',
+                    'pathToFile' => [$filepath]
+                ];
+                
+                $message = Utils::sendMail($config);
+                if(!Utils::blank($message)) {
+                    \Log::error($message);
+                    $processStatus = self::BACKUP_FAILED_MAIL;
+                }
+            } else {
+                $processStatus = self::BACKUP_FAILED_CREATE_ZIP;
             }
             
         } catch (ProcessFailedException $exception) {
             $status = false;
             $message = $exception->getMessage();
+            $processStatus = self::BACKUP_FAILED;
+        }
+        
+        $backup = new Backup();
+        $backup->name = $backup_name;
+        $backup->size = filesize($filepath);
+        $backup->status = $processStatus;
+        if($backup->save()) {
+            unlink($filepath);
         }
         
         return compact('status', 'message', 'filename', 'code');
+    }
+    
+    private function _backupFile($dirPath, &$zip) {
+        if (!is_dir($dirPath)) {
+            return true;
+        }
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            $file = str_replace('\\', '/', $file);
+            if (is_dir($file)) {
+                $file = substr($file, 0, -1);
+                $folder_zip = str_replace(str_replace('\\', '/', public_path('upload/')), '', $file);
+                $zip->add_dir($folder_zip);
+                self::_backupFile($file, $zip);
+            } else {
+                $file_zip = str_replace(str_replace('\\', '/', public_path('upload/')), '', $file);
+                $zip->add_data($file_zip, file_get_contents($file));
+            }
+        }
     }
     
     /**

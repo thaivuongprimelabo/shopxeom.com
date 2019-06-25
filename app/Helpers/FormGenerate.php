@@ -127,6 +127,23 @@ class FormGenerate {
                                 
                             case 'label':
                                 switch($key) {
+                                    case 'backup_status':
+                                        $label = '<span class="label label-success">' . trans('auth.status.backup_success') . '</span>';
+                                        if($item->status == BackupGenerate::BACKUP_FAILED) {
+                                            $label = '<span class="label label-danger">' . trans('auth.status.backup_success') . '</span>';
+                                        }
+                                        
+                                        if($item->status == BackupGenerate::BACKUP_FAILED_MAIL) {
+                                            $label = '<span class="label label-danger">' . trans('auth.status.backup_failed_mail') . '</span>';
+                                        }
+                                        
+                                        if($item->status == BackupGenerate::BACKUP_FAILED_CREATE_ZIP) {
+                                            $label = '<span class="label label-danger">' . trans('auth.status.backup_failed_create_zip') . '</span>';
+                                        }
+                                        
+                                        $tdElement = '<td>' . $label . '</td>';
+                                        break;
+                                        
                                     case 'status':
                                         $label = '<span class="label label-danger">' . trans('auth.status.unactive') . '</span>';
                                         if($item->status == Status::ACTIVE) {

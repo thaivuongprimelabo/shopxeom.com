@@ -29,6 +29,9 @@ class UploadPath {
     
     public static function getUploadPath($key = '') {
         
+        if(empty($key)) {
+            return self::UPLOAD;
+        }
         return self::UPLOAD . self::PATH_LIST[$key];
     }
     

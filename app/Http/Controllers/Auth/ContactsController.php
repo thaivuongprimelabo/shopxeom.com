@@ -64,10 +64,11 @@ class ContactsController extends AppController
                 $data->updated_at    = date('Y-m-d H:i:s');
                 
                 // Config mail
+                $subject = trans('auth.subject_mail', ['web_name' => $this->config['config']['web_name'], 'title' => 'Reply to: '.$data->email]);
                 $config = [
                     'from' => $this->config['config']['mail_from'],
                     'from_name' => $this->config['config']['mail_name'],
-                    'subject' => '[Reply to: '.$data->email . ']' . $data->subject,
+                    'subject' => $subject,
                     'msg' => [
                         'name' => $data->name,
                         'content' => $data->reply_content,

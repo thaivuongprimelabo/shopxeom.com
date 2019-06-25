@@ -98,12 +98,15 @@ $auth = [
                 'width' => '3%'
             ],
             'name' => [
-                'type' => 'link',
                 'text' => 'Tên tập tin',
                 'width' => '30%'
             ],
             'size' => [
                 'text' => 'Dung lượng',
+                'width' => '10%'
+            ],
+            'backup_status' => [
+                'text' => 'Trạng thái',
                 'width' => '10%'
             ],
             'created_at' => [
@@ -1556,7 +1559,11 @@ $auth = [
         'booking_cancel' => 'Đã hủy',
         'booking_confirm' => 'Đang đợi xác nhận',
         'booking_available' => 'Có thể đăng ký',
-        'booking_done' => 'Đã xác nhận'
+        'booking_done' => 'Đã xác nhận',
+        'backup_success' => 'Hoàn tất',
+        'backup_failed' => 'Thất bại',
+        'backup_failed_mail' => 'Không thể gửi mail',
+        'backup_failed_create_zip' => 'Tạo file zip thất bại'
     ],
     'role' => [
         'super_admin' => 'Kỹ thuật viên',
@@ -1585,7 +1592,8 @@ $auth = [
         'add_service' => 'Đăng ký thông tin',
         'add_item' => 'Thêm',
         'copy_service' => 'Sử dụng dịch vụ của sản phẩm khác'
-    ]
+    ],
+    'subject_mail' => '【:web_name】 :title'
 ];
 
 return $auth;

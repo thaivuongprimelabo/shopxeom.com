@@ -442,7 +442,7 @@ class Utils {
             $count = '';
             if(!isset($v['sub_menu'])) {
                 
-                if(!$routes->hasNamedRoute('auth_' . $k)) {
+                if($k != 'dashboard' && !$routes->hasNamedRoute('auth_' . $k)) {
                     continue;
                 }
                 

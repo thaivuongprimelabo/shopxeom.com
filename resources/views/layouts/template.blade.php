@@ -1,6 +1,6 @@
-Xin chào, {{ $name }}<br/>
 @yield('content')
-<hr/>
+<br/>
+----------------------------------------------------------------------------<br/>
 <b>{{ $config['web_name'] }}</b><br/>
 @php
 	$branch = explode('|', $config['web_address'])
