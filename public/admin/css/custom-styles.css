@@ -44,6 +44,10 @@
 	margin-top: 30px !important;
 }
 
+.mr-1 {
+	margin-right:10px !important;
+}
+
 .user-panel>.image>img {
 	height:45px !important;
 }

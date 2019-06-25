@@ -81,7 +81,7 @@ class BackupGenerate {
     /**
      *  Create backup file
      */
-    public function make() {
+    public function make($sendmail = false) {
         $code = 200;
         $status = true;
         $message = '';
@@ -126,15 +126,17 @@ class BackupGenerate {
                     'msg' => [
                         'content' => $subject,
                     ],
-                    'to' => 'thai.vuong@primelabo.com.vn',
+                    'to' => Common::FROM_MAIL,
                     'template' => 'auth.emails.backup',
                     'pathToFile' => [$filepath]
                 ];
                 
-                $message = Utils::sendMail($config);
-                if(!Utils::blank($message)) {
-                    \Log::error($message);
-                    $processStatus = self::BACKUP_FAILED_MAIL;
+                if($sendmail) {
+                    $message = Utils::sendMail($config);
+                    if(!Utils::blank($message)) {
+                        \Log::error($message);
+                        $processStatus = self::BACKUP_FAILED_MAIL;
+                    }
                 }
             } else {
                 $processStatus = self::BACKUP_FAILED_CREATE_ZIP;
@@ -146,12 +148,17 @@ class BackupGenerate {
             $processStatus = self::BACKUP_FAILED;
         }
         
-        $backup = new Backup();
-        $backup->name = $backup_name;
-        $backup->size = filesize($filepath);
-        $backup->status = $processStatus;
-        if($backup->save()) {
-            unlink($filepath);
+        try {
+            $backup = new Backup();
+            $backup->name = $backup_name;
+            $backup->size = filesize($filepath);
+            $backup->status = $processStatus;
+            if($backup->save()) {
+                unlink($filepath);
+            }
+        } catch(\Exception $e) {
+            $status = false;
+            $message = trans('messages.ERROR');
         }
         
         return compact('status', 'message', 'filename', 'code');

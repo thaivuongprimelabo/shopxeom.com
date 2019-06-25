@@ -252,7 +252,7 @@ class ApiController extends Controller
     }
     
     public function backup(Request $request) {
-        $this->output = BackupGenerate::getInstance()->make();
+        $this->output = BackupGenerate::getInstance()->make($request->sendmail);
         return response()->json($this->output);
     }
     
