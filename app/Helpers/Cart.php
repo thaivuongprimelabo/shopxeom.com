@@ -17,9 +17,7 @@ class Cart {
     private $shipFee = 0;
     public static $instance;
     
-    public function __construct() {
-        self::$instance = self::$instance;
-    }
+    private function __construct() {}
     
     public static function getInstance($session) {
         if (self::$instance === null) {

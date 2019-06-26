@@ -13,7 +13,7 @@
     </div>
   </div>
   <!-- sidebar menu: : style can be found in sidebar.less -->
-  {!! Utils::createSidebar() !!}
+  {!! FormGenerate::getInstance($config)->createSidebar() !!}
 </section>
 <!-- /.sidebar -->
 </aside>

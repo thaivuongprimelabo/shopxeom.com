@@ -38,13 +38,13 @@ class BackupDatabase extends Command
      */
     public function handle()
     {
-//         $this->info('The backup has been proceed successfully.');
-        \Log::info('The backup has been proceed successfully');
-        //$reponse = BackupGenerate::getInstance()->make();
-//         if($reponse['status']) {
-//             $this->info('The backup has been proceed successfully.');
-//         } else {
-//             $this->error('The backup process has been failed.');
-//         }
+        $reponse = BackupGenerate::getInstance()->make(true);
+        if($reponse['status']) {
+        	$this->info('The backup has been proceed successfully');
+            \Log::info('The backup has been proceed successfully');
+        } else {
+        	$this->info('The backup process has been failed.');
+            \Log::error('The backup process has been failed.');
+        }
     }
 }

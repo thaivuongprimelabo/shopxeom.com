@@ -41,8 +41,7 @@ class BackupGenerate {
     
     public static $instance;
     
-    public function __construct() {
-    }
+    private function __construct() {}
     
     public static function getInstance() {
         if (self::$instance === null) {

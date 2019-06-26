@@ -18,8 +18,7 @@ class FormGenerate {
     
     public static $instance;
     
-    public function __construct() {
-    }
+    private function __construct() {}
     
     public static function getInstance($config) {
         if (self::$instance === null) {
@@ -654,10 +653,6 @@ class FormGenerate {
      * @return string
      */
     public function createSidebar() {
-        
-        $arrUnaccess = [
-            'users'
-        ];
         
         $html = '';
         $routes = Route::getRoutes();
