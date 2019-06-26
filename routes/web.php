@@ -111,6 +111,10 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::post('/backup/remove', 'BackupController@remove')->name('auth_backup_remove');
     $this->get('/backup/download/{file_download}', 'BackupController@download')->name('auth_backup_download');
     
+    // Jobs
+    Route::get('/jobs', 'JobsController@index')->name('auth_jobs');
+    Route::post('/jobs/run', 'JobsController@doRun')->name('auth_jobs_run');
+    Route::post('/jobs/dispatch', 'JobsController@doDispatch')->name('auth_jobs_dispatch');
     
     // Registration Routes...
 //     $this->get('/register', 'RegisterController@showRegistrationForm')->name('register');

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Contact;
 use App\Constants\ContactStatus;
+use App\Jobs\SendMail;
 
 class ContactsController extends AppController
 {
@@ -78,15 +79,21 @@ class ContactsController extends AppController
                     'template' => 'auth.emails.reply'
                 ];
                 
-                $message = Utils::sendMail($config);
-                if(Utils::blank($message)) {
-                    if($data->save()) {
-                        return redirect(route('auth_contacts'))->with('success', trans('messages.UPDATE_SUCCESS'));
-                    }
-                } else {
-                    \Log::error($message);
-                    return redirect(route('auth_contacts'))->with('error', trans('messages.SEND_MAIL_ERROR'));
+                dispatch(new SendMail($config));
+                
+                if($data->save()) {
+                    return redirect(route('auth_contacts'))->with('success', trans('messages.UPDATE_SUCCESS'));
                 }
+                
+//                 $message = Utils::sendMail($config);
+//                 if(Utils::blank($message)) {
+//                     if($data->save()) {
+//                         return redirect(route('auth_contacts'))->with('success', trans('messages.UPDATE_SUCCESS'));
+//                     }
+//                 } else {
+//                     \Log::error($message);
+//                     return redirect(route('auth_contacts'))->with('error', trans('messages.SEND_MAIL_ERROR'));
+//                 }
             } else {
                 return redirect(route('auth_contacts'))->with('error', trans('messages.ERROR'));
             }

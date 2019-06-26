@@ -1,6 +1,6 @@
 <div>
 	<select class="form-control" name="{{ $key }}" id="{{ $key }}">
-		<option value="">{{ $empty_text }}</option>
+		@if(!empty($empty_text))<option value="">{{ $empty_text }}</option>@endif
 		{!! $options !!}
 	</select>
 </div>

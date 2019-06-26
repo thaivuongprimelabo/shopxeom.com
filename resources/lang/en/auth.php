@@ -82,6 +82,7 @@ $auth = [
         'shipfee' => ['title' => 'Phí ship', 'icon' => 'fa fa-money'],
         'booking' => ['title' => 'Quản lý đặt chỗ', 'icon' => 'fa  fa-hand-paper-o'],
         'backup' => ['title' => 'Sao lưu hệ thống', 'icon' => 'fa fa-database'],
+        'jobs' => ['title' => 'Jobs list (Queue)', 'icon' => 'fa fa-reorder'],
         'config' => ['title' => 'Cài đặt', 'icon' => 'fa fa-wrench'],
     ],
     'banner_type' => $bannerType,
@@ -117,6 +118,28 @@ $auth = [
                 'text' => '',
                 'width' => '5%'
             ],
+        ],
+    ],
+    /*------------ Jobs page ------------------- */
+    'jobs' => [
+        'list_title' => 'Jobs list',
+        'table_header' => [
+            'id' => [
+                'text' => 'ID',
+                'width' => '3%'
+            ],
+            'queue' => [
+                'text' => 'Queue',
+                'width' => '40%'
+            ],
+            'payload' => [
+                'text' => 'Payload',
+                'width' => '20%'
+            ],
+            'attemps' => [
+                'text' => 'Attemps',
+                'width' => '20%'
+            ]
         ],
     ],
     /*------------ Vendor page ------------------- */

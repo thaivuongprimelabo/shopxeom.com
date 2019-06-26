@@ -48,7 +48,7 @@ class UserRole {
         $array = [
             self::SUPER_ADMIN   => ['*'],
             self::ADMIN         => ['backup'],
-            self::MOD           => ['users', 'backup'],
+            self::MOD           => ['users', 'backup', 'jobs'],
             self::MEMBERS       => [':deny_login']
         ];
         

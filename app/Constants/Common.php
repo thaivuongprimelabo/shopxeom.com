@@ -41,12 +41,13 @@ class Common {
     CONST POST_GROUPS = 'post_groups';
     CONST IP_ADDRESS = 'ip_address';
     CONST BACKUP = 'backup';
+    CONST JOBS = 'jobs';
     
     CONST TABLE_LIST = [
         self::USERS, self::VENDORS, self::CATEGORIES, self::BANNERS,
         self::CONTACTS, self::POSTS, self::PRODUCTS,
         self::IMAGES_PRODUCT, self::PAGES, self::ORDERS, self::ORDER_DETAILS,
-        self::PRODUCT_DETAILS, self::PRODUCT_DETAIL_GROUPS, self::POST_GROUPS, self::IP_ADDRESS, self::BACKUP
+        self::PRODUCT_DETAILS, self::PRODUCT_DETAIL_GROUPS, self::POST_GROUPS, self::IP_ADDRESS, self::BACKUP, self::JOBS
     ];
     
     /** Role **/

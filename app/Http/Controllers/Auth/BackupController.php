@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Backup;
 use App\Helpers\BackupGenerate;
+use Illuminate\Http\Request;
 
 class BackupController extends AppController
 {

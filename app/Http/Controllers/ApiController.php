@@ -32,6 +32,10 @@ class ApiController extends Controller
         $value = trim($request->value);
         $col = trim($request->col);
         $table = $request->table;
+        if($table == 'contacts') {
+            $this->output['code'] = 200;
+            return response()->json($this->output);
+        }
         if($table == 'postgroups') {
             $table = Common::POST_GROUPS;
         }
