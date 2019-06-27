@@ -98,11 +98,15 @@ class AppController extends Controller
         $this->output['rules'] = $this->rules;
     }
     
-    public function doSearch($request, Model $model, $type = '', $view = 'auth.ajax_list') {
+    public function doSearch($request, $model = null, $type = '', $view = 'auth.ajax_list') {
         
         $wheres = [];
         $route = Route::currentRouteName();
         $name = str_replace('auth_', '', str_replace('_search', '', Route::currentRouteName()));
+        
+        if(is_null($model)) {
+            return compact('name', 'view');
+        }
         
         if($request->isMethod('post')) {
             

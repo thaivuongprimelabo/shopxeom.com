@@ -116,6 +116,9 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::post('/jobs/run', 'JobsController@doRun')->name('auth_jobs_run');
     Route::post('/jobs/dispatch', 'JobsController@doDispatch')->name('auth_jobs_dispatch');
     
+    // Source editor
+    Route::get('/editor', 'EditorController@index')->name('auth_editor');
+    
     // Registration Routes...
 //     $this->get('/register', 'RegisterController@showRegistrationForm')->name('register');
 //     $this->post('/register', 'RegisterController@register');

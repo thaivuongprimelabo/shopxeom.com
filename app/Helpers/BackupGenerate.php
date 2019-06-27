@@ -68,6 +68,14 @@ class BackupGenerate {
         
         return $path;
     }
+    
+    /**
+     * @param string $backupFolder
+     */
+    public function getBackupFolder()
+    {
+        return $this->backupFolder;
+    }
 
     /**
      * @param string $backupFolder

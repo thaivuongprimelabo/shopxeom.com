@@ -83,12 +83,17 @@ $auth = [
         'booking' => ['title' => 'Quản lý đặt chỗ', 'icon' => 'fa  fa-hand-paper-o'],
         'backup' => ['title' => 'Sao lưu hệ thống', 'icon' => 'fa fa-database'],
         'jobs' => ['title' => 'Jobs list (Queue)', 'icon' => 'fa fa-reorder'],
+        'editor' => ['title' => 'Source editor', 'icon' => 'fa fa-pencil'],
         'config' => ['title' => 'Cài đặt', 'icon' => 'fa fa-wrench'],
     ],
     'banner_type' => $bannerType,
     /*------------ Vendor page ------------------- */
     'booking' => [
         'list_title' => 'Danh mục đặt chỗ',
+    ],
+    /*------------ Editor page ------------------- */
+    'editor' => [
+        'list_title' => 'Source Editor',
     ],
     /*------------ Backup page ------------------- */
     'backup' => [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Backup;
 use App\Helpers\BackupGenerate;
+use App\Helpers\Utils;
 use Illuminate\Http\Request;
 
 class BackupController extends AppController
@@ -58,6 +59,10 @@ class BackupController extends AppController
     public function remove(Request $request) {
         $result = ['code' => 404];
         $ids = $request->ids;
+        $data = Backup::whereIn('id', $ids)->get();
+        foreach($data as $dt) {
+            Utils::removeFile(BackupGenerate::getInstance()->getBackupFolder() . '/' . $dt->banner);
+        }
         if(Backup::destroy($ids)) {
             $result['code'] = 200;
             return response()->json($result);

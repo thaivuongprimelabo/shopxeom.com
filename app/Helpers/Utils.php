@@ -26,6 +26,7 @@ use App\PostGroups;
 use App\Constants\ProductStatus;
 use App\Constants\UploadPath;
 use Illuminate\Http\UploadedFile;
+use App\Jobs\SendMail;
 
 class Utils {
     
@@ -448,43 +449,7 @@ class Utils {
         
         $message = '';
         
-        try {
-            $from = isset($config_email['from'])?$config_email['from']: Common::FROM_MAIL;
-            $from_name = isset($config_email['from_name'])?$config_email['from_name']: Common::FROM_NAME;
-            $to = isset($config_email['to'])?$config_email['to']:'';
-            $subject = isset($config_email['subject'])?$config_email['subject']: Common::SUBJECT;
-            $msg = isset($config_email['msg'])?$config_email['msg']:'';
-            $template = isset($config_email['template'])?$config_email['template']: Common::TEMPLATE;
-            $cc = isset($config_email['cc'])?$config_email['cc']:null;
-            $bcc = isset($config_email['bcc'])?$config_email['bcc']:null;
-            $pathToFile = isset($config_email['pathToFile'])?$config_email['pathToFile']:null;
-            
-            Mail::send($template, $msg, function ($email) use ($from, $from_name, $to, $subject, $cc, $bcc, $pathToFile) {
-                if ($from_name != '') {
-                    $email->from($from, $from_name);
-                } else {
-                    $email->from($from, $from);
-                }
-                $email->to($to);
-                if ($cc !== null) {
-                    $email->cc($cc);
-                }
-                if ($bcc !== null) {
-                    $email->bcc($bcc);
-                }
-                if ($pathToFile !== null) {
-                    if(count($pathToFile)) {
-                        foreach($pathToFile as $attach) {
-                            $email->attach($attach);
-                        }
-                    }
-                }
-                $email->subject($subject);
-            });
-            
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-        }
+        dispatch(new SendMail($config_email));
         
         return $message;
     }

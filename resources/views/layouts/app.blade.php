@@ -33,6 +33,8 @@
   
   <link rel="stylesheet" href="{{ url('admin/dist/css/skins/_all-skins.min.css') }}">
   
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+  
   <link rel="stylesheet" href="{{ url('admin/css/custom-styles.css') }}">
   
   <!-- Google Font -->
@@ -182,6 +184,10 @@
 <script src="{{ url('admin/bower_components/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ url('admin/js/jquery.validate.js') }}" type="text/javascript"></script>
 <script src="{{ url('js/custom.js?t=' . time()) }}"></script>
+
+<!-- Js Tree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
 <script>
   $(function () {
 	if($('.alert').length > 0) {
