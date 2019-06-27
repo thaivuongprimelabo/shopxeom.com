@@ -35,11 +35,15 @@ class Post extends Model
     }
     
     public function getSEOKeywords() {
-        return $this->seo_keywords;
+        return !Utils::blank($this->seo_keywords) ? $this->seo_keywords : $this->name;
     }
     
     public function getSEODescription() {
-        return $this->seo_description;
+        $seoDescription = !Utils::blank($this->seo_description) ? $this->seo_description : trim(strip_tags($this->description));
+        if(Utils::blank($seoDescription)) {
+            $seoDescription = $this->name;
+        }
+        return $seoDescription;
     }
     
     public function getCreatedAt() {

@@ -130,7 +130,7 @@ class Product extends Model
     }
     
     public function getSEODescription() {
-        $seoDescription = !Utils::blank($this->seo_description) ? $this->seo_description : $this->summary;
+        $seoDescription = !Utils::blank($this->seo_description) ? $this->seo_description : trim(strip_tags($this->summary));
         if(Utils::blank($seoDescription)) {
             $seoDescription = $this->name; 
         }

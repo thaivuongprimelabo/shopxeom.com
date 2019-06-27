@@ -67,26 +67,3 @@
 	</div>
 </section>
 @endsection
-@section('script')
-<script type="text/javascript">
-	var validateObject = {!! Utils::generateValidation($name, $rules, $data) !!}
-    var validatorEventSetting = $("#submit_form").validate({
-        ignore: '',
-    	onfocusout: false,
-    	success: function(label, element) {
-        	var jelm = $(element);
-        	var parent = jelm.parent().parent();
-        	parent.removeClass('has-error');
-        	parent.find('.help-block').empty();
-    	},
-    	rules: validateObject.rules,
-    	messages: validateObject.messages,
-    	errorPlacement: function(error, element) {
-    		customErrorValidate(error, element);
-	  	},
-    	submitHanlder: function(form) {
-    	    form.submit();
-    	}
-    });
-</script>
-@endsection

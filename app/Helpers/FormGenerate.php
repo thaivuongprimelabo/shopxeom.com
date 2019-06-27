@@ -506,7 +506,9 @@ class FormGenerate {
                 
             case 'select':
                 $options = Utils::createSelectList($table, $value);
-                $arrParams['empty_text'] = $empty_text;
+                if(!Utils::blank($empty_text)) {
+                    $arrParams['empty_text'] = $empty_text;
+                }
                 $arrParams['options']    = $options;
                 $view = 'helpers.form_generate.select';
                 break;
