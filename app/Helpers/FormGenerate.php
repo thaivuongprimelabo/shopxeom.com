@@ -723,12 +723,15 @@ class FormGenerate {
                         $subMenuHtml .= '<li class="' . $active . '"><a href="' . route($href) . '"><i class="' . $iconSub . '"></i><span>' . $titleSub . '</span></a></li>';
                     }
                 }
-                $html .= '<li class="treeview ' . $open . '">';
-                $html .= '<a href="javascript:void(0)"><i class="' . $icon . '"></i><span>' . $title . '</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
-                $html .= '<ul class="treeview-menu" ' . $display . '>';
-                $html .= $subMenuHtml;
-                $html .= '</ul>';
-                $html .= '</li>';
+                
+                if(in_array('*', $notAccessByRole) || !in_array($r, $notAccessByRole)) {
+                    $html .= '<li class="treeview ' . $open . '">';
+                    $html .= '<a href="javascript:void(0)"><i class="' . $icon . '"></i><span>' . $title . '</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
+                    $html .= '<ul class="treeview-menu" ' . $display . '>';
+                    $html .= $subMenuHtml;
+                    $html .= '</ul>';
+                    $html .= '</li>';
+                }
                 
             }
         }

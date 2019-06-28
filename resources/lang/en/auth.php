@@ -81,10 +81,16 @@ $auth = [
         'users' => ['title' => 'Quản lý tài khoản', 'icon' => 'fa fa-user-o'],
         'shipfee' => ['title' => 'Phí ship', 'icon' => 'fa fa-money'],
         'booking' => ['title' => 'Quản lý đặt chỗ', 'icon' => 'fa  fa-hand-paper-o'],
-        'backup' => ['title' => 'Sao lưu hệ thống', 'icon' => 'fa fa-database'],
-        'jobs' => ['title' => 'Jobs list (Queue)', 'icon' => 'fa fa-reorder'],
-        'editor' => ['title' => 'Source editor', 'icon' => 'fa fa-pencil'],
         'config' => ['title' => 'Cài đặt', 'icon' => 'fa fa-wrench'],
+        'developer' => [
+            'title' => 'Quản trị hệ thống',
+            'icon' => 'fa fa-chrome',
+            'sub_menu' => [
+                'backup' => ['title' => 'Sao lưu hệ thống', 'icon' => 'fa fa-database'],
+                'jobs' => ['title' => 'Jobs list (Queue)', 'icon' => 'fa fa-reorder'],
+                'editor' => ['title' => 'Source editor', 'icon' => 'fa fa-pencil'],
+            ]
+        ],
     ],
     'banner_type' => $bannerType,
     /*------------ Vendor page ------------------- */
@@ -1620,7 +1626,8 @@ $auth = [
         'clear_config_cache' => 'Xóa cache',
         'add_service' => 'Đăng ký thông tin',
         'add_item' => 'Thêm',
-        'copy_service' => 'Sử dụng dịch vụ của sản phẩm khác'
+        'copy_service' => 'Sử dụng dịch vụ của sản phẩm khác',
+        'refresh' => 'Tải lại'
     ],
     'subject_mail' => '【:web_name】 :title'
 ];

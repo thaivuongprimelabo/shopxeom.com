@@ -27,14 +27,13 @@ class SourceUtils {
     
     public function make() {
         $root = $_SERVER['DOCUMENT_ROOT'];
-        $sources = [];
-        $this->loadFoldersAndFiles($root, $sources);
-        $json = json_encode(array_values($sources));
-        return $json;
+        $sources = $this->loadFoldersAndFiles($root);
+        return $sources;
     }
     
-    public function loadFoldersAndFiles($dirPath, &$sources = []) {
+    public function loadFoldersAndFiles($dirPath) {
         
+        $sources = [];
         $arrFolders = [];
         $arrFiles = [];
         
@@ -59,13 +58,16 @@ class SourceUtils {
                 
                 $arrFolders[$indx] = $node;
                 
-                $this->loadFoldersAndFiles($filePath, $arrFolders[$indx]['children']);
+                $arrFolders[$indx]['children'] = $this->loadFoldersAndFiles($filePath);
             } else {
                 $node = [
                     'id' => $file,
                     'text' => $file,
                     'icon' => 'fa fa-sticky-note-o',
                     'children' => [],
+                    'data' => [
+                        'path' => str_replace($_SERVER['DOCUMENT_ROOT'], '', $dirPath . $file)
+                     ]
                 ];
 
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
@@ -78,6 +80,37 @@ class SourceUtils {
         }
         
         $sources = array_merge($arrFolders, $arrFiles);
+        return $sources;
+    }
+    
+    public function readDataFile($filepath = null) {
+        $content = '';
+        $filepath = $_SERVER['DOCUMENT_ROOT'] . $filepath;
+        if(!is_null($filepath)) {
+            if(file_exists($filepath)) {
+//                 $fp = fopen($filepath, 'r');
+//                 while ($line = stream_get_line($fp, 1024 * 1024, "\n"))
+//                 {
+//                     $content .= $line;
+//                 }
+//                 fclose($fp);
+                $content = file_get_contents($filepath);
+            }
+        }
+        return $content;
+    }
+    
+    public function saveFile($filepath = null, $content = null) {
+        $filepath = $_SERVER['DOCUMENT_ROOT'] . $filepath;
+        if(!is_null($filepath)) {
+            if(file_exists($filepath)) {
+                $fp = fopen($filepath, 'w');
+                fwrite($fp, base64_decode($content));
+                fclose($fp);
+                return true;
+            }
+        }
+        return false;
     }
 }
 ?>

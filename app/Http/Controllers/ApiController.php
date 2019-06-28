@@ -23,6 +23,7 @@ use App\Constants\PostStatus;
 use App\PostGroups;
 use App\Constants\ProductStatus;
 use App\Order;
+use App\Helpers\SourceUtils;
 
 class ApiController extends Controller
 {
@@ -258,6 +259,31 @@ class ApiController extends Controller
     public function backup(Request $request) {
         $this->output = BackupGenerate::getInstance()->make($request->sendmail);
         return response()->json($this->output);
+    }
+    
+    public function readSourceFile(Request $request) {
+        $content = SourceUtils::getInstance()->readDataFile($request->path);
+        if(strlen($content) == 0) {
+            return response()->json($this->output);
+        }
+        $this->output['code'] = 200;
+        $this->output['data'] = $content;
+        return response()->json($this->output);
+    }
+    
+    public function loadSource(Request $request) {
+        $sources = SourceUtils::getInstance()->make();
+        return response()->json($sources);
+    }
+    
+    public function saveFile(Request $request) {
+        $filePath = $request->path;
+        $content = $request->content;
+        if(SourceUtils::getInstance()->saveFile($filePath, $content)) {
+            $this->output['code'] = 200;
+            return response()->json($this->output);
+        }
+        return response()->json($sources);
     }
     
 }

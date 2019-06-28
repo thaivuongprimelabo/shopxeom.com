@@ -47,8 +47,8 @@ class UserRole {
     public static function notAccessByRole($roleId) {
         $array = [
             self::SUPER_ADMIN   => ['*'],
-            self::ADMIN         => ['backup'],
-            self::MOD           => ['users', 'backup', 'jobs'],
+            self::ADMIN         => ['backup', 'jobs', 'editor', 'developer'],
+            self::MOD           => ['users', 'backup', 'jobs', 'editor', 'developer'],
             self::MEMBERS       => [':deny_login']
         ];
         
