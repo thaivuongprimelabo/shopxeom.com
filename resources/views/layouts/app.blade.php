@@ -185,9 +185,6 @@
 <script src="{{ url('admin/js/jquery.validate.js') }}" type="text/javascript"></script>
 <script src="{{ url('js/custom.js?t=' . time()) }}"></script>
 
-<!-- Js Tree -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
 <script>
   $(function () {
 	if($('.alert').length > 0) {

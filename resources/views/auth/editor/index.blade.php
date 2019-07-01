@@ -14,7 +14,7 @@
 <!-- Main content -->
 <section class="content">
 	<div class="row">
-        <div class="col-xs-2">
+        <div class="col-xs-3">
           <div class="box">
             <!-- Box Body -->
             <div class="box-body">
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-10">
+        <div class="col-xs-9">
         	<div class="box">
             <!-- Box Body -->
             	<div class="box-body">
@@ -52,6 +52,7 @@
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+<script src="{{ url('admin/jstree/jstree.min.js') }}"></script>
 <script type="text/javascript">
 	$(function () { 
 
@@ -62,65 +63,177 @@
 	    
 		var data = null;
 
-		
+		var getPath = function(parents) {
+			var path = '';
+			if(parents.length) {
+				var start = parents.length - 1;
+				for(var i = start; i >= 0; i--) {
+					if(parents[i] === '#') {
+						path += '/';
+					} else {
+						var split = parents[i].split('_');
+						path += split[0] + '/';
+					}
+				}
+			}
+			return path;
+		}
 
 		var loadSources = function() {
 			var data = {
     			type : 'post',
     			async : false,
+    			action: 'init'
     		}
 
-            callAjax('{{ route('source.load') }}', data, 'source.load', callback);
-		}
-
-		var callbackLoadSuccess = function(res) {
-			data = res.data;
+            callAjax('{{ route('source.editor') }}', data, 'callback', function(res) { data = res.data; });
 		}
 
 		$('#jstree_demo_div')
-		.on('select_node.jstree', function (e, res) {
-//             var data = {
-//     			type : 'post',
-//     			async : false,
-//     			path : res.node.data.path,
-//     		}
-
-//             callAjax('{{ route('source.read') }}', data, 'source.read', callbackReadSuccess);
-
-			var type = res.selected[0].split('.').pop();
-			alert(type);
-        })
 		.jstree({
 			'core' : {
 				 'data': {
-		                'url': '{{ route('source.load') }}',
+		                'url': '{{ route('source.editor') }}',
+		                'data': {
+							'action': 'init'
+		                },
 		                'type': 'post'
-		          }
-			}
-		}); 
+		          },
+		          "check_callback": true
+			},
+	        'contextmenu': {
+	            'items': function (node) {
+	                var tmp = $.jstree.defaults.contextmenu.items();
+	                delete tmp.create.action;
+	                tmp.create.label = "Folder";
+	                tmp.create.submenu = {
+	                    "create_folder": {
+	                        "separator_after": true,
+	                        "label": "Create folder",
+	                        "action": function (data) {
+	                            var inst = $.jstree.reference(data.reference),
+	                            obj = inst.get_node(data.reference);
+	                            inst.create_node(obj, {}, "last", function (new_node) {
+	                                setTimeout(function () {
+	                                    inst.edit(new_node);
+	                                }, 0);
+	                            });
+	                        }
+	                    },
+	                    "create_file": {
+	                        "label": "Create file",
+	                        "action": function (data) {
+	                            var inst = $.jstree.reference(data.reference),
+	                            obj = inst.get_node(data.reference);
+	                            inst.create_node(obj, {icon: 'fa fa-sticky-note-o'}, "last", function (new_node) {
+	                                setTimeout(function () {
+	                                    inst.edit(new_node);
+	                                }, 0);
+	                            });
+	                        }
+	                    }
+	                };
+	                if (this.get_type(node) === "file") {
+	                    delete tmp.create;
+	                }
+	                return tmp;
+	            }
+	        },
+	        'unique': {
+	            'duplicate': function (name, counter) {
+	                return name + ' ' + counter;
+	            }
+	        },
+	        'plugins': ['state', 'dnd', 'types', 'contextmenu', 'unique']
+		})
+        .on('rename_node.jstree', function (e, res) {
+        	var path = getPath(res.node.parents);
+        	var params = {
+    			type : 'post',
+    			async : false,
+    			path: path + res.node.text,
+    			type: res.node.original.type,
+    			action: 'create_folder'
+    		}
 
-		var callbackReadSuccess = function(res) {
+            callAjax('{{ route('source.editor') }}', params, 'callback', function(d) {
+            	res.instance.set_id(res.node, res.node.text);
+            });
+    	})
+    	.on('delete_node.jstree', function (e, res) {
+            
+        })
+        .on('select_node.jstree', function (e, res) {
+ 			var type = res.selected[0].split('.').pop();
+ 			switch (type) {
+                 case 'text':
+                 case 'txt':
+                 case 'md':
+                 case 'htaccess':
+                 case 'log':
+                 case 'sql':
+                     editor.getSession().setMode("ace/mode/html");
+                     break;
+                 case 'xml':
+                     editor.getSession().setMode("ace/mode/xml");
+                     break;
+                 case 'php':
+                     editor.getSession().setMode("ace/mode/php");
+                     button = 'run';
+                     break;
+                 case 'js':
+                     editor.getSession().setMode("ace/mode/javascript");
+                     break;
+                 case 'json':
+                     editor.getSession().setMode("ace/mode/json");
+                     break;
+                 case 'css':
+                     editor.getSession().setMode("ace/mode/css");
+                     break;
+                 case 'html':
+                     editor.getSession().setMode("ace/mode/html");
+                     break;
+                 case 'png':
+                 case 'jpg':
+                 case 'jpeg':
+                 case 'bmp':
+                 case 'gif':
+                     break;
+                 default:
+                     break;
+             }
 
-			editor.setValue(res.data);
-		}
+             if(res.node.original.type === 'file') {
+            	 var path = getPath(res.node.parents);
+                 var data = {
+         			type : 'post',
+         			async : false,
+         			path : path + res.node.text,
+         			action: 'read_file'
+         		}
+
+                 callAjax('{{ route('source.editor') }}', data, 'callback', function(res) { editor.setValue(res.data); });
+             }
+        }); 
 
 		$(document).on('click', '#save_source', function(e) {
-			var path = $('#jstree_demo_div').jstree().get_selected(true)[0].data.path;
+			var node = $('#jstree_demo_div').jstree().get_selected(true)[0];
+			var path = getPath(node.parents) + node.text;
 			var data = {
     			type : 'post',
     			async : false,
     			path : path,
-    			content: btoa(editor.getValue())
+    			content: editor.getValue(),
+    			action: 'save_file'
     		}
 
-            callAjax('{{ route('source.save') }}', data, 'source.save', callbackSaveSuccess);
+            callAjax('{{ route('source.editor') }}', data, 'callback', function(res) {
+            	if(res.code === 200) {
+            		successAlert('Saved!!!');
+    			}
+            });
 		});
 
-		var callbackSaveSuccess = function(res) {
-			if(res.code === 200) {
-				alert('Save Ok');
-			}
-		}
 	});
 	</script>
 @endsection

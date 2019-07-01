@@ -40,8 +40,7 @@ var callAjax = function(url, data, page, callback) {
 	    				output = res.data;
 	    				break;
 	    			case 'api.backup':
-	    			case 'source.read':
-	    			case 'source.save':
+	    			case 'callback':
 	    				callback(res);
 	    				break;
 	    			default:

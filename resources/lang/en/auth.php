@@ -83,12 +83,12 @@ $auth = [
         'booking' => ['title' => 'Quản lý đặt chỗ', 'icon' => 'fa  fa-hand-paper-o'],
         'config' => ['title' => 'Cài đặt', 'icon' => 'fa fa-wrench'],
         'developer' => [
-            'title' => 'Quản trị hệ thống',
+            'title' => 'Công cụ quản trị',
             'icon' => 'fa fa-chrome',
             'sub_menu' => [
                 'backup' => ['title' => 'Sao lưu hệ thống', 'icon' => 'fa fa-database'],
-                'jobs' => ['title' => 'Jobs list (Queue)', 'icon' => 'fa fa-reorder'],
-                'editor' => ['title' => 'Source editor', 'icon' => 'fa fa-pencil'],
+                'jobs' => ['title' => 'Quản lý hàng đợi', 'icon' => 'fa fa-reorder'],
+                'editor' => ['title' => 'Chỉnh sửa mã nguồn', 'icon' => 'fa fa-pencil'],
             ]
         ],
     ],

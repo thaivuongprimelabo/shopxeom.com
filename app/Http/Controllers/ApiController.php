@@ -261,29 +261,44 @@ class ApiController extends Controller
         return response()->json($this->output);
     }
     
-    public function readSourceFile(Request $request) {
-        $content = SourceUtils::getInstance()->readDataFile($request->path);
-        if(strlen($content) == 0) {
-            return response()->json($this->output);
+    public function editor(Request $request) {
+        $action = $request->action;
+        switch($action) {
+            case 'init':
+                
+                $sources = SourceUtils::getInstance()->make();
+                return response()->json($sources);
+                
+                break;
+                
+            case 'read_file':
+                
+                $content = SourceUtils::getInstance()->readDataFile($request->path);
+                if(strlen($content) == 0) {
+                    return response()->json($this->output);
+                }
+                $this->output['code'] = 200;
+                $this->output['data'] = $content;
+                
+                break;
+                
+            case 'save_file':
+                $filePath = $request->path;
+                $content = $request->content;
+                if(SourceUtils::getInstance()->saveFile($filePath, $content)) {
+                    $this->output['code'] = 200;
+                }
+                break;
+                
+            case 'create_folder':
+                $path = $request->path;
+                $type = $request->type;
+                if(SourceUtils::getInstance()->createFolder($path)) {
+                    $this->output['code'] = 200;
+                }
+                break;
         }
-        $this->output['code'] = 200;
-        $this->output['data'] = $content;
+        
         return response()->json($this->output);
     }
-    
-    public function loadSource(Request $request) {
-        $sources = SourceUtils::getInstance()->make();
-        return response()->json($sources);
-    }
-    
-    public function saveFile(Request $request) {
-        $filePath = $request->path;
-        $content = $request->content;
-        if(SourceUtils::getInstance()->saveFile($filePath, $content)) {
-            $this->output['code'] = 200;
-            return response()->json($this->output);
-        }
-        return response()->json($sources);
-    }
-    
 }

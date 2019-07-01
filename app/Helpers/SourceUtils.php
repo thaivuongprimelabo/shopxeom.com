@@ -51,9 +51,10 @@ class SourceUtils {
             $filePath = $dirPath . $file;
             if (is_dir($filePath)) {
                 $node = [
-                    'id' => $file . $indx . time(),
+                    'id' => $file . '_' . $indx . time(),
                     'text' => $file,
                     'children' => [],
+                    'type' => 'default'
                 ];
                 
                 $arrFolders[$indx] = $node;
@@ -65,9 +66,7 @@ class SourceUtils {
                     'text' => $file,
                     'icon' => 'fa fa-sticky-note-o',
                     'children' => [],
-                    'data' => [
-                        'path' => str_replace($_SERVER['DOCUMENT_ROOT'], '', $dirPath . $file)
-                     ]
+                    'type' => 'file'
                 ];
 
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
@@ -88,12 +87,6 @@ class SourceUtils {
         $filepath = $_SERVER['DOCUMENT_ROOT'] . $filepath;
         if(!is_null($filepath)) {
             if(file_exists($filepath)) {
-//                 $fp = fopen($filepath, 'r');
-//                 while ($line = stream_get_line($fp, 1024 * 1024, "\n"))
-//                 {
-//                     $content .= $line;
-//                 }
-//                 fclose($fp);
                 $content = file_get_contents($filepath);
             }
         }
@@ -105,10 +98,18 @@ class SourceUtils {
         if(!is_null($filepath)) {
             if(file_exists($filepath)) {
                 $fp = fopen($filepath, 'w');
-                fwrite($fp, base64_decode($content));
+                fwrite($fp, ($content));
                 fclose($fp);
                 return true;
             }
+        }
+        return false;
+    }
+    
+    public function createFolder($path) {
+        $path = $_SERVER['DOCUMENT_ROOT'] . $path;
+        if(!file_exists($path)) {
+            return mkdir($path, 0777);
         }
         return false;
     }
