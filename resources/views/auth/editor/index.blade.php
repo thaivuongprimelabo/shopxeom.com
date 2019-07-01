@@ -113,7 +113,7 @@
 	                        "action": function (data) {
 	                            var inst = $.jstree.reference(data.reference),
 	                            obj = inst.get_node(data.reference);
-	                            inst.create_node(obj, {}, "last", function (new_node) {
+	                            inst.create_node(obj, {type: 'folder'}, "last", function (new_node) {
 	                                setTimeout(function () {
 	                                    inst.edit(new_node);
 	                                }, 0);
@@ -125,7 +125,7 @@
 	                        "action": function (data) {
 	                            var inst = $.jstree.reference(data.reference),
 	                            obj = inst.get_node(data.reference);
-	                            inst.create_node(obj, {icon: 'fa fa-sticky-note-o'}, "last", function (new_node) {
+	                            inst.create_node(obj, {type: 'file', icon: 'fa fa-sticky-note-o'}, "last", function (new_node) {
 	                                setTimeout(function () {
 	                                    inst.edit(new_node);
 	                                }, 0);
@@ -152,8 +152,7 @@
     			type : 'post',
     			async : false,
     			path: path + res.node.text,
-    			type: res.node.original.type,
-    			action: 'create_folder'
+    			action: 'create_' + res.node.original.type
     		}
 
             callAjax('{{ route('source.editor') }}', params, 'callback', function(d) {

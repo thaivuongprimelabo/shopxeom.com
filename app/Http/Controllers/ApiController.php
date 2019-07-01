@@ -272,8 +272,8 @@ class ApiController extends Controller
                 break;
                 
             case 'read_file':
-                
-                $content = SourceUtils::getInstance()->readDataFile($request->path);
+                $filePath = $request->path;
+                $content = SourceUtils::getInstance()->readDataFile($filePath);
                 if(strlen($content) == 0) {
                     return response()->json($this->output);
                 }
@@ -292,8 +292,14 @@ class ApiController extends Controller
                 
             case 'create_folder':
                 $path = $request->path;
-                $type = $request->type;
                 if(SourceUtils::getInstance()->createFolder($path)) {
+                    $this->output['code'] = 200;
+                }
+                break;
+                
+            case 'create_file':
+                $path = $request->path;
+                if(SourceUtils::getInstance()->createFile($path)) {
                     $this->output['code'] = 200;
                 }
                 break;

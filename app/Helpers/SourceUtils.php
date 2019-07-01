@@ -113,5 +113,16 @@ class SourceUtils {
         }
         return false;
     }
+    
+    public function createFile($path) {
+        $path = $_SERVER['DOCUMENT_ROOT'] . $path;
+        if(!file_exists($path)) {
+            $file = fopen($path, 'w');
+            fwrite($file, "");
+            fclose($file);
+            return true;
+        }
+        return false;
+    }
 }
 ?>
