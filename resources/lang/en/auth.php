@@ -99,7 +99,7 @@ $auth = [
     ],
     /*------------ Editor page ------------------- */
     'editor' => [
-        'list_title' => 'Source Editor',
+        'list_title' => 'Chỉnh sửa mã nguồn',
     ],
     /*------------ Backup page ------------------- */
     'backup' => [

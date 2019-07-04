@@ -189,9 +189,13 @@ class Utils {
         
     }
     
-    public static function removeFile($file) {
+    public static function removeFile($file, $root = false) {
         if(!self::blank($file)) {
-            $filepath = public_path(UploadPath::UPLOAD . $file);
+            if(!$root) {
+                $filepath = public_path(UploadPath::UPLOAD . $file);
+            } else {
+                $filepath = $file;
+            }
             if(file_exists($filepath)) {
                 unlink($filepath);
             }
@@ -743,4 +747,5 @@ class Utils {
         curl_close($ch);
         return $result;
     }
+    
 }

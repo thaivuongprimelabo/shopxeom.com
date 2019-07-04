@@ -263,6 +263,7 @@ class ApiController extends Controller
     
     public function editor(Request $request) {
         $action = $request->action;
+        $path = $request->path;
         switch($action) {
             case 'init':
                 
@@ -272,34 +273,39 @@ class ApiController extends Controller
                 break;
                 
             case 'read_file':
-                $filePath = $request->path;
-                $content = SourceUtils::getInstance()->readDataFile($filePath);
-                if(strlen($content) == 0) {
-                    return response()->json($this->output);
-                }
+                $content = SourceUtils::getInstance()->readDataFile($path);
                 $this->output['code'] = 200;
                 $this->output['data'] = $content;
                 
                 break;
                 
             case 'save_file':
-                $filePath = $request->path;
                 $content = $request->content;
-                if(SourceUtils::getInstance()->saveFile($filePath, $content)) {
+                if(SourceUtils::getInstance()->saveFile($path, $content)) {
                     $this->output['code'] = 200;
                 }
                 break;
                 
             case 'create_folder':
-                $path = $request->path;
                 if(SourceUtils::getInstance()->createFolder($path)) {
                     $this->output['code'] = 200;
                 }
                 break;
                 
             case 'create_file':
-                $path = $request->path;
                 if(SourceUtils::getInstance()->createFile($path)) {
+                    $this->output['code'] = 200;
+                }
+                break;
+                
+            case 'delete_folder':
+                if(SourceUtils::getInstance()->deleteFolder($path)) {
+                    $this->output['code'] = 200;
+                }
+                break;
+                
+            case 'delete_file':
+                if(SourceUtils::getInstance()->deleteFile($path)) {
                     $this->output['code'] = 200;
                 }
                 break;

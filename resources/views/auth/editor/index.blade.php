@@ -35,7 +35,6 @@
         </div>
         <div class="col-xs-12">
         	<button type="button" id="save_source" class="btn btn-primary pull-right" data-id="save_source" data-loading-text="<i class='fa fa-spinner fa-spin '></i> {{ trans('auth.button.submit') }}"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ trans('auth.button.submit') }}</button>
-        	<button type="button" id="reload_source" class="btn btn-warning pull-right mr-1" data-id="reload_source" data-loading-text="<i class='fa fa-spinner fa-spin '></i> {{ trans('auth.button.refresh') }}"><i class="fa fa-refresh" aria-hidden="true"></i> {{ trans('auth.button.refresh') }}</button>
         </div>
   	</div>
 </section>
@@ -141,11 +140,18 @@
 	        },
 	        'unique': {
 	            'duplicate': function (name, counter) {
+		            console.log('duplicate');
 	                return name + ' ' + counter;
+	            },
+	            'error_callback': function(n, p, f) {
+	            	console.log("Duplicate node `" + n + "` with function `" + f + "`!");
 	            }
 	        },
 	        'plugins': ['state', 'dnd', 'types', 'contextmenu', 'unique']
 		})
+		.on('create_node.jstree', function (e, res) {
+			console.log('create_node.jstree', res);
+        })
         .on('rename_node.jstree', function (e, res) {
         	var path = getPath(res.node.parents);
         	var params = {
@@ -157,10 +163,21 @@
 
             callAjax('{{ route('source.editor') }}', params, 'callback', function(d) {
             	res.instance.set_id(res.node, res.node.text);
+            	res.instance.set_icon(res.node, '{{ url('lang_icons/php.png') }}');
             });
     	})
     	.on('delete_node.jstree', function (e, res) {
-            
+    		var path = getPath(res.node.parents);
+        	var params = {
+    			type : 'post',
+    			async : false,
+    			path: path + res.node.text,
+    			action: 'delete_' + res.node.original.type
+    		}
+
+            callAjax('{{ route('source.editor') }}', params, 'callback', function(d) {
+            	res.instance.refresh();
+            });
         })
         .on('select_node.jstree', function (e, res) {
  			var type = res.selected[0].split('.').pop();
@@ -213,6 +230,9 @@
 
                  callAjax('{{ route('source.editor') }}', data, 'callback', function(res) { editor.setValue(res.data); });
              }
+        })
+        .on('changed.jstree', function (e, res) {
+			console.log('changed.jstree', res);
         }); 
 
 		$(document).on('click', '#save_source', function(e) {

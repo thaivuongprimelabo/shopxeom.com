@@ -54,7 +54,7 @@ class SourceUtils {
                     'id' => $file . '_' . $indx . time(),
                     'text' => $file,
                     'children' => [],
-                    'type' => 'default'
+                    'type' => 'folder'
                 ];
                 
                 $arrFolders[$indx] = $node;
@@ -62,7 +62,7 @@ class SourceUtils {
                 $arrFolders[$indx]['children'] = $this->loadFoldersAndFiles($filePath);
             } else {
                 $node = [
-                    'id' => $file,
+                    'id' => $file . '_' . $indx . time(),
                     'text' => $file,
                     'icon' => 'fa fa-sticky-note-o',
                     'children' => [],
@@ -120,6 +120,22 @@ class SourceUtils {
             $file = fopen($path, 'w');
             fwrite($file, "");
             fclose($file);
+            return true;
+        }
+        return false;
+    }
+    
+    public function deleteFolder($path) {
+        $path = $_SERVER['DOCUMENT_ROOT'] . $path;
+        if(Utils::deleteDir($path)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function deleteFile($path) {
+        $path = $_SERVER['DOCUMENT_ROOT'] . $path;
+        if(Utils::removeFile($path, true)) {
             return true;
         }
         return false;
