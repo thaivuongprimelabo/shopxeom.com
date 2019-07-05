@@ -131,6 +131,12 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     
 });
 
+Route::group(['prefix' => 'backend', 'namespace' => 'Auth'], function () {
+    Route::get('/{a?}', function () {
+        return File::get(public_path('dist/backend.html'));
+    });
+});
+
 Route::group(['prefix' => ''], function () {
     
     $config = Config::first();
