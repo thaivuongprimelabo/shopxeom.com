@@ -1,20 +1,55 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
+// Routes
+import * as Routes from '../constants/routes';
+
+// Redux
+import { connect } from 'react-redux';
+
+// React bootstrap
+import { Button } from 'react-bootstrap';
+
+// Actions
+import { logout } from '../redux/actions/index';
+
 class Header extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            title: '',
+            buttonProfileText: '',
+            buttonSignoutText: '',
+            userInfo: {}
+        }
     }
 
     componentWillMount() {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(nextProps.auth !== this.props.auth) {
+            this.setState({
+                userInfo: nextProps.auth.data,
+            })
+        }
 
+        if(nextProps.lang !== this.props.lang) {
+            this.setState({
+                buttonProfileText: nextProps.lang.button.profile,
+                buttonSignoutText: nextProps.lang.button.logout
+            })
+        }
     } 
 
     componentDidMount() {
+
+    }
+
+    signOut = () => {
+        this.props.logout();
     }
 
     render() {
@@ -36,24 +71,22 @@ class Header extends Component {
                             <ul className="nav navbar-nav">
                                 <li className="dropdown user user-menu">
                                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                        <img src={ this.props.userIcon } className="user-image" alt="User Image" />
-                                        <span className="hidden-xs">Alexander Pierce</span>
+                                        <img src={ this.state.userInfo.avatar } className="user-image" alt="User Image" />
+                                        <span className="hidden-xs">{ this.state.userInfo.name }</span>
                                     </a>
                                     <ul className="dropdown-menu">
-                                        <li class="user-header">
-                                            <img src={ this.props.userIcon } class="img-circle" alt="User Image" />
-
+                                        <li className="user-header">
+                                            <img src={ this.state.userInfo.avatar } className="img-circle" alt="User Image" />
                                             <p>
-                                            Alexander Pierce - Web Developer
-                                            <small>Member since Nov. 2012</small>
+                                            { this.state.userInfo.name }
                                             </p>
                                         </li>
                                         <li className="user-footer">
                                             <div className="pull-left">
-                                                <a href="#" className="btn btn-default btn-flat">Profile</a>
+                                                <a href="#" className="btn btn-default btn-flat">{ this.state.buttonProfileText }</a>
                                             </div>
                                             <div className="pull-right">
-                                                <Link to="/login" className="btn btn-default btn-flat">Sign Out</Link>
+                                                <Button variant="btn btn-default btn-flat" onClick={ this.signOut }>{ this.state.buttonSignoutText }</Button>
                                             </div>
                                         </li>
                                     </ul>
@@ -67,4 +100,19 @@ class Header extends Component {
     }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return {
+        lang: state.lang,
+        auth: state.auth
+    };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        logout:() => {
+            dispatch(logout());
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

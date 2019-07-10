@@ -19,44 +19,44 @@ class Sidebar extends Component {
     render() {
         return (
             <div>
-                <aside class="main-sidebar">
-                    <section class="sidebar">
-                        <div class="user-panel">
-                            <div class="pull-left image">
-                                <img src={ this.props.userIcon } class="img-circle" alt="User Image" />
+                <aside className="main-sidebar">
+                    <section className="sidebar">
+                        <div className="user-panel">
+                            <div className="pull-left image">
+                                <img src={ this.props.userIcon } className="img-circle" alt="User Image" />
                             </div>
-                            <div class="pull-left info">
+                            <div className="pull-left info">
                                 <p>Alexander Pierce</p>
-                                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                                <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
                             </div>
                         </div>
-                        <ul class="sidebar-menu" data-widget="tree">
-                            <li class="header">MAIN NAVIGATION</li>
-                            <li class="treeview">
+                        <ul className="sidebar-menu" data-widget="tree">
+                            <li className="header">MAIN NAVIGATION</li>
+                            <li className="treeview">
                                 <a href="#">
-                                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                                    <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
+                                    <i className="fa fa-dashboard"></i> <span>Dashboard</span>
+                                    <span className="pull-right-container">
+                                    <i className="fa fa-angle-left pull-right"></i>
                                     </span>
                                 </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                    <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                                <ul className="treeview-menu">
+                                    <li><a href="../../index.html"><i className="fa fa-circle-o"></i> Dashboard v1</a></li>
+                                    <li><a href="../../index2.html"><i className="fa fa-circle-o"></i> Dashboard v2</a></li>
                                 </ul>
                             </li>
-                            <li class="treeview">
+                            <li className="treeview">
                                 <a href="#">
-                                    <i class="fa fa-files-o"></i>
+                                    <i className="fa fa-files-o"></i>
                                     <span>Layout Options</span>
-                                    <span class="pull-right-container">
-                                    <span class="label label-primary pull-right">4</span>
+                                    <span className="pull-right-container">
+                                    <span className="label label-primary pull-right">4</span>
                                     </span>
                                 </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                                    <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                                    <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                                    <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                                <ul className="treeview-menu">
+                                    <li><a href="../layout/top-nav.html"><i className="fa fa-circle-o"></i> Top Navigation</a></li>
+                                    <li><a href="../layout/boxed.html"><i className="fa fa-circle-o"></i> Boxed</a></li>
+                                    <li><a href="../layout/fixed.html"><i className="fa fa-circle-o"></i> Fixed</a></li>
+                                    <li><a href="../layout/collapsed-sidebar.html"><i className="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
                                 </ul>
                             </li>
                         </ul>

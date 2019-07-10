@@ -17,6 +17,12 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], function () {
+    Route::get('/lang', 'ApiController@lang')->name('lang');
+    Route::post('/check_login', 'ApiController@checkLogin')->name('checkLogin');
+    Route::post('/handle_login', 'ApiController@handleLogin')->name('handleLogin');
+    Route::post('/logout', 'ApiController@logout')->name('logout');
+});
 
 Route::post('/check_exists', 'ApiController@checkExists')->name('check_exists');
 Route::post('/update_status', 'ApiController@updateStatus')->name('update_status');
@@ -34,3 +40,5 @@ Route::post('/editor', 'ApiController@editor')->name('source.editor');
 // Route::post('/read-source-file', 'ApiController@readSourceFile')->name('source.read');
 // Route::post('/save-file', 'ApiController@saveFile')->name('source.save');
 // Route::post('/create-folder', 'ApiController@createFolder')->name('source.create_folder');
+
+

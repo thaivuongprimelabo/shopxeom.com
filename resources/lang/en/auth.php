@@ -45,7 +45,7 @@ $auth = [
     'title' => 'Control Panel',
     /*------------ Login page ------------------- */
     'login_page_title' => '<b>Control</b>Panel',
-    'login_page_top_text' => 'Vui lòng đăng nhập để truy cập hệ thống',
+    'login_page_top_text' => 'Chào bạn trở lại.Vui lòng đăng nhập',
     'email_placeholder' => 'E-mail',
     'password_placeholder' => 'Mật khẩu',
     'remember_me' => 'Duy trì đăng nhập',
