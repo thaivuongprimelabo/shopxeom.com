@@ -18,13 +18,6 @@ class ButtonSubmit extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // if(prevProps.exception.code !== this.props.exception.code) {
-        //     if(this.props.exception.code !== 0) {
-        //         this.setState({
-        //             isLoading: false
-        //         })
-        //     }
-        // }
     }
 
     componentDidMount() {
@@ -35,14 +28,13 @@ class ButtonSubmit extends Component {
     }
 
     render() {
-
         return (
             <Button
                 variant="primary btn-block btn-flat"
-                disabled={this.props.progress}
+                disabled={this.props.progress.status}
                 onClick={ this.onButtonClick }
             >
-                {this.props.progress ? 'Loading...' : this.props.text}
+                {this.props.progress.status ? 'Loading...' : this.props.text}
             </Button>
         )
     }
@@ -50,7 +42,6 @@ class ButtonSubmit extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        exception: state.exception,
         progress: state.progress
     };
 }

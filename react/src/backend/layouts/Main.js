@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
 
+import jquery from 'jquery'
+
 import '../../../../public/admin/bower_components/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../public/admin/bower_components/font-awesome/css/font-awesome.min.css';
 import '../../../../public/admin/bower_components/Ionicons/css/ionicons.min.css';
@@ -12,8 +14,6 @@ import '../../../../public/admin/bower_components/bootstrap-colorpicker/dist/css
 import '../../../../public/admin/dist/css/skins/_all-skins.min.css';
 import '../../../../public/admin/css/custom-styles.css';
 
-
-import '../../../../public/admin/bower_components/jquery/dist/jquery.min.js';
 import '../../../../public/admin/bower_components/bootstrap/dist/js/bootstrap.min.js';
 import '../../../../public/admin/plugins/iCheck/icheck.min.js';
 import '../../../../public/admin/dist/js/adminlte.js';
@@ -31,6 +31,9 @@ import { checkLogin, loadLang } from '../redux/actions/index';
 // Routes
 import * as Routes from '../constants/routes';
 
+// Types
+import * as types from '../redux/types/index';
+
 class Main extends Component {
 
     constructor(props) {
@@ -38,19 +41,13 @@ class Main extends Component {
     }
 
     componentWillMount() {
-        
+        this.props.checkLogin();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.auth !== this.props.auth) {
-        }
-    } 
-
-    componentDidMount() {
+    componentDidUpdate(prevProps) {
 
         document.body.className="hold-transition skin-blue sidebar-mini";
 
-        // Fix height
         var Selector = {
             wrapper       : '.wrapper',
             contentWrapper: '.content-wrapper',
@@ -96,27 +93,43 @@ class Main extends Component {
                 $(Selector.contentWrapper).css('min-height', $controlSidebar.height());
             }
         }
+        
+    }
 
-        this.props.loadLang();
-        this.props.checkLogin();
+    componentDidMount() {
+        
+        
     }
 
     render() {
+        var render;
+        var lang = this.props.lang;
+        // Check login
+        if(this.props.auth.type === types.CHECK_LOGIN) {
+            if(!this.props.auth.status) {
+                return <Redirect to={Routes.LOGIN} />
+            }
+        }
 
-        if(!this.props.auth.status) {
+        // Logout
+        if(this.props.auth.type === types.LOGOUT) {
             return <Redirect to={Routes.LOGIN} />
+        }
+
+        if(Object.keys(lang).length) {
+            render =    <div className="wrapper">
+                            <Header userIcon={ UserIcon160x160 } />
+                            <Sidebar userIcon={ UserIcon160x160 } />
+                            <div className="content-wrapper">
+                            {this.props.children}
+                            </div>
+                            <Footer />
+                        </div>
         }
 
         return (
             <div>
-                <div className="wrapper">
-                    <Header userIcon={ UserIcon160x160 } />
-                    <Sidebar userIcon={ UserIcon160x160 } />
-                    <div className="content-wrapper">
-                    {this.props.children}
-                    </div>
-                    <Footer />
-                </div>
+                {render}
             </div>
         )
     }
@@ -125,7 +138,9 @@ class Main extends Component {
 const mapStateToProps = (state) => {
     return {
         lang: state.lang,
-        auth: state.auth
+        auth: state.auth,
+        progress: state.progress,
+        config: state.config
     };
 }
 
@@ -133,9 +148,6 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         checkLogin:() => {
             dispatch(checkLogin());
-        },
-        loadLang: () => {
-            dispatch(loadLang());
         }
     }
 };

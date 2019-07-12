@@ -21,7 +21,7 @@
 							<div id="gallery_01" class="fixborder  owl-carousel owl-theme thumbnail-product" data-md-items="4" data-sm-items="4" data-xs-items="4" data-xss-items="2" data-margin="10" data-nav="true">
     							@foreach($images as $img)
     							<div class="item">
-									<a class="clearfix" href="#" data-image="{{ $img->getImageLink('medium') }}" data-zoom-image="{{ $img->getImageLink() }}">
+									<a class="clearfix" onclick="return onClickThumbnail(this)" href="#" data-image="{{ $img->getImageLink('medium') }}" data-zoom-image="{{ $img->getImageLink() }}">
 										<img  src="{{ $img->getImageLink('small') }}" alt="{{ $data->getName() }}">
 									</a>
 								</div>
@@ -243,7 +243,13 @@
 			 data.items = items;
 			 callAjax('{{ route('addToCart') }}', data, $(this));
 		 });
+
+		
 	});
 
+	function onClickThumbnail(obj) {
+		var zoomImage = obj.getAttribute('data-zoom-image');
+		$('.large-image').find('a').attr('href', zoomImage);
+	}
 </script>
 @endsection

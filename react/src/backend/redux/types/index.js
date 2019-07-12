@@ -1,10 +1,10 @@
 export const LOAD_LANG = 'LOAD_LANG';
-export const BEFORE_LOGIN = 'BEFORE_LOGIN';
-export const LOGIN_SUCCEED = 'LOGIN_SUCCEED';
-export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const HANDLE_LOGIN = 'HANDLE_LOGIN';
 export const CHECK_LOGIN = 'CHECK_LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const EXCEPTION = 'EXCEPTION';
 export const INIT_EXCEPTION = 'INIT_EXCEPTION';
 export const START_PROGRESS = 'START_PROGRESS';
 export const END_PROGRESS = 'END_PROGRESS';
+export const ALERT = 'ALERT';
+export const LOAD_CONFIG = 'LOAD_CONFIG';

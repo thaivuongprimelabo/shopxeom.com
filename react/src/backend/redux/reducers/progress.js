@@ -1,15 +1,21 @@
 import * as types from '../types/index';
 
-var initialState = false;
+var initialState = {
+  status: false,
+  type: ''
+};
 
 var myReducer = (state = initialState, action) => {
+    var newState = initialState;
+    newState.type = action.type;
+
     switch (action.type) {
         case types.START_PROGRESS:
-          state = true;
-          return state;
+          newState.status = true;
+          return {...state, ...newState};
         case types.END_PROGRESS:
-          state = false;
-          return state;
+          newState.status = false;
+          return {...state, ...newState};
         default:
           return state
     }

@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
 import lang from './lang';
 import auth from './auth';
-import exception from './exception';
 import progress from './progress';
+import alert from './alert';
+import config from './config';
 
 const reducer = combineReducers({
     lang,
     auth,
-    exception,
-    progress
+    progress,
+    alert,
+    config
 });
 
 export default reducer;

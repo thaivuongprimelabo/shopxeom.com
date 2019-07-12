@@ -13,30 +13,20 @@ export const loadLang = () => {
 
 export const checkLogin = () => {
     return (dispatch) => {
-        axios({
+        dispatch(callAxios({
             method: 'POST',
             url : Api.API_CHECK_LOGIN,
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json; charset=utf-8',
             }
-        })
-        .then(res => {
-            if(res.data.status) {
-                dispatch(callReducer(types.CHECK_LOGIN, res.data));
-            }
-        })
-        .catch((error) =>{
-            console.log(error);
-        });
+        }));
     }
 }
 
 export const handleLogin = (form) => {
 
     return (dispatch) => {
-        
-        dispatch(startProgress());
         dispatch(callAxios({
             method: 'POST',
             url : Api.API_HANDLE_LOGIN,
@@ -52,43 +42,17 @@ export const handleLogin = (form) => {
 
 export const logout = () => {
     return (dispatch) => {
-        axios({
+        dispatch(callAxios({
             method: 'POST',
             url : Api.API_LOGOUT,
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json; charset=utf-8',
             }
-        })
-        .then(res => {
-            if(res.data.status) {
-                dispatch(callReducer(types.LOGOUT, res.data));
-            }
-        })
-        .catch(handleException(error));
+        }));
     }
 }
 
-export const callReducer = (type, data) => {
-
-    var params = {};
-    if(type !== undefined) {
-        params.type = type;
-    }
-
-    if(data !== undefined) {
-        params.data = data;
-    }
-
-    return params;
-}
-
-export const loginSucceed = (data) => {
-    return {
-        type: types.LOGIN_SUCCEED,
-        data: data
-    }
-}
 
 export const sendReducer = (obj) => {
     return obj;
@@ -97,6 +61,7 @@ export const sendReducer = (obj) => {
 /** ============================== AXIOS ================================== */
 export const callAxios = (params) => {
     return (dispatch) => {
+        dispatch(startProgress());
         axios(params)
         .then(res => handleSuccess(res.data, params, dispatch))
         .catch(error => handleException(error, dispatch));
@@ -104,41 +69,79 @@ export const callAxios = (params) => {
 }
 
 export const handleSuccess = (res, params, dispatch) => {
-    if(res.status) {
-        switch(params.url) {
-            case Api.API_LANG:
-                dispatch(sendReducer(types.LOAD_LANG, res.data));
-                break;
-            case Api.API_HANDLE_LOGIN:
-                dispatch(sendReducer({type: types.LOGIN_SUCCEED, data: res.data }));
-                break;
-            case Api.API_LOGOUT:
-                dispatch(sendReducer({type: types.LOGOUT, data: res.data }));
-                break;
-            default:
+    switch(params.url) {
+        case Api.API_LANG:
+            dispatch(sendReducer({type: types.LOAD_LANG, data: res}));
+            break;
+        case Api.API_HANDLE_LOGIN:
+            dispatch(sendReducer({type: types.HANDLE_LOGIN, data: res }));
+            break;
+        case Api.API_LOGOUT:
+            dispatch(sendReducer({type: types.LOGOUT, data: res }));
+            break;
+        case Api.API_CHECK_LOGIN:
+            dispatch(sendReducer({type: types.CHECK_LOGIN, data: res }));
+            break;
+        case Api.API_CONFIG:
+            dispatch(sendReducer({type: types.LOAD_CONFIG, data: res}));
+            break;
+        default:
 
-                break;
-        }
-        
+            break;
     }
     dispatch(endProgress());
 }
 
 export const handleException = (error, dispatch) => {
-    dispatch(callReducer(types.EXCEPTION, error.response));
+    dispatch(alertError(error.response.statusText));
     dispatch(endProgress());
-    
 }
 
 /** ============================== PROGRESS ================================== */
 export const startProgress = () => {
-    return {
-        type: types.START_PROGRESS
+    return (dispatch) => {
+        dispatch(clearAlert());
+        dispatch({ type: types.START_PROGRESS });
     }
 }
 
 export const endProgress = () => {
     return {
         type: types.END_PROGRESS
+    }
+}
+
+/** ============================== ALERT ================================== */
+export const clearAlert = () => {
+    return {
+        type: types.ALERT,
+        message: '',
+        cssClass: ''
+    }
+}
+
+export const alertError = (message) => {
+    return {
+        type: types.ALERT,
+        message: message,
+        cssClass: 'alert alert-danger alert-dismissible'
+    }
+}
+
+export const alertSuccess = (message) => {
+    return {
+        type: types.ALERT,
+        message: message,
+        cssClass: 'alert alert-success alert-dismissible'
+    }
+}
+
+/** ============================== CONFIG ================================== */
+export const loadConfig = () => {
+    return (dispatch) => {
+        dispatch(callAxios({
+            method: 'GET',
+            url : Api.API_CONFIG
+        }));
     }
 }

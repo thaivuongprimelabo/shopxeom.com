@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use App\Config;
 
 class ApiController extends Controller {
     
@@ -39,9 +40,10 @@ class ApiController extends Controller {
         $validator = Validator::make($request->all(), $rules);
             
         if (!$validator->fails()) {
+
             $userdata = array(
-                'email' => $email,
-                'password' => $password
+                'email' => $request->email,
+                'password' => $request->password
             );
 
             if (Auth::attempt($userdata)) {
@@ -70,5 +72,9 @@ class ApiController extends Controller {
         return response()->json($this->output);
     }
 
-    
+    public function config(Request $request) {
+        $this->output['data'] = Config::first();
+
+        return response()->json($this->output);
+    }
 }

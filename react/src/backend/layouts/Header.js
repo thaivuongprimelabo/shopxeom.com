@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import ReactHtmlParser from 'react-html-parser'; 
 
 // Routes
 import * as Routes from '../constants/routes';
@@ -17,35 +17,15 @@ class Header extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            title: '',
-            buttonProfileText: '',
-            buttonSignoutText: '',
-            userInfo: {}
-        }
     }
 
     componentWillMount() {
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.auth !== this.props.auth) {
-            this.setState({
-                userInfo: nextProps.auth.data,
-            })
-        }
-
-        if(nextProps.lang !== this.props.lang) {
-            this.setState({
-                buttonProfileText: nextProps.lang.button.profile,
-                buttonSignoutText: nextProps.lang.button.logout
-            })
-        }
+    componentDidUpdate(prevProps) {
     } 
 
     componentDidMount() {
-
     }
 
     signOut = () => {
@@ -53,12 +33,15 @@ class Header extends Component {
     }
 
     render() {
+
+        var userInfo = this.props.auth.data;
+        var lang = this.props.lang;
+
         return (
             <div>
                 <header className="main-header">
                     <a href="#" className="logo">
-                        <span className="logo-mini"><b>R</b>JS</span>
-                        <span className="logo-lg"><b>React</b>JS</span>
+                        <span className="logo-lg">{ ReactHtmlParser(lang.dashboard_title) }</span>
                     </a>
                     <nav className="navbar navbar-static-top">
                         <a href="#" className="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -71,22 +54,22 @@ class Header extends Component {
                             <ul className="nav navbar-nav">
                                 <li className="dropdown user user-menu">
                                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                        <img src={ this.state.userInfo.avatar } className="user-image" alt="User Image" />
-                                        <span className="hidden-xs">{ this.state.userInfo.name }</span>
+                                        <img src={ userInfo.avatar } className="user-image" alt="User Image" />
+                                        <span className="hidden-xs">{ userInfo.name }</span>
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li className="user-header">
-                                            <img src={ this.state.userInfo.avatar } className="img-circle" alt="User Image" />
+                                            <img src={ userInfo.avatar } className="img-circle" alt="User Image" />
                                             <p>
-                                            { this.state.userInfo.name }
+                                            { userInfo.name }
                                             </p>
                                         </li>
                                         <li className="user-footer">
                                             <div className="pull-left">
-                                                <a href="#" className="btn btn-default btn-flat">{ this.state.buttonProfileText }</a>
+                                                <a href="#" className="btn btn-default btn-flat">{ lang.button.profile }</a>
                                             </div>
                                             <div className="pull-right">
-                                                <Button variant="btn btn-default btn-flat" onClick={ this.signOut }>{ this.state.buttonSignoutText }</Button>
+                                                <Button variant="btn btn-default btn-flat" onClick={ this.signOut }>{ lang.button.logout }</Button>
                                             </div>
                                         </li>
                                     </ul>

@@ -3,32 +3,38 @@ import * as types from '../types/index';
 var initialState = {
     status: false,
     data: [],
-    error: []
+    error: [],
+    type: ''
 };
 
 var myReducer = (state = initialState, action) => {
+    var newState = initialState;
+    newState.type = action.type;
+
     switch (action.type) {
-        case types.BEFORE_LOGIN:
-            return state;
         case types.CHECK_LOGIN:
-        case types.LOGIN_SUCCEED:
+            newState.status = action.data.status;
+            newState.data = action.data.data;
             return {
                 ...state,
-                status: action.data.status,
-                data: action.data.data
+                ...newState
             };
 
-        case types.LOGIN_FAILED:
+        case types.HANDLE_LOGIN:
+            newState.status = action.data.status;
+            newState.data = action.data.data;
+            newState.error = action.data.error;
+            
             return {
                 ...state,
-                status: action.data.status,
-                error: action.data.error
+                ...newState
             };
+
         case types.LOGOUT:
-            state.status = action.data.status;
+            newState.status = action.data.status;
             return {
                 ...state,
-                status: action.data.status
+                ...newState
             };
             
         default:

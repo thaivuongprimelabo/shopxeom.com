@@ -49,6 +49,7 @@ $auth = [
     'email_placeholder' => 'E-mail',
     'password_placeholder' => 'Mật khẩu',
     'remember_me' => 'Duy trì đăng nhập',
+    'dashboard_title' => '<b>Control</b>Panel',
      /*------------ Dashboard page ------------------- */
     'dashboard_page_title' => '<b>C</b>Panel',
     'back_to_home' => 'Xem trang chính',

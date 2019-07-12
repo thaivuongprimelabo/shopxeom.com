@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import ReactHtmlParser from 'react-html-parser';
+
+import { connect } from 'react-redux';
 
 class Footer extends Component {
 
@@ -20,15 +23,21 @@ class Footer extends Component {
         return (
             <div>
                 <footer className="main-footer">
-                    <div className="pull-right hidden-xs">
-                    <b>Version</b> 2.4.0
-                    </div>
-                    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-                    reserved.
+                    { ReactHtmlParser(this.props.config.footer_text) }
                 </footer>
             </div>
         )
     }
 }
 
-export default Footer;
+const mapStateToProps = (state) => {
+    return {
+        config: state.config
+    };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

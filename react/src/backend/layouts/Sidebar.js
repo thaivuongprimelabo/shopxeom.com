@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 
+import { connect } from 'react-redux';
+
+import SidebarItem from '../components/SidebarItem';
+
 class Sidebar extends Component {
 
     constructor(props) {
@@ -17,48 +21,30 @@ class Sidebar extends Component {
     }
 
     render() {
+        var render;
+        var userInfo = this.props.auth.data;
+        var lang = this.props.lang;
+        var sidebar = lang.sidebar;
+        var keys = Object.keys(sidebar);
+        var render = keys.map((item, index) => {
+            return <SidebarItem key={index} item={sidebar[item]}></SidebarItem>
+        });
+        
         return (
             <div>
                 <aside className="main-sidebar">
                     <section className="sidebar">
                         <div className="user-panel">
                             <div className="pull-left image">
-                                <img src={ this.props.userIcon } className="img-circle" alt="User Image" />
+                                <img src={ userInfo.avatar } className="img-circle" alt="User Image" />
                             </div>
                             <div className="pull-left info">
-                                <p>Alexander Pierce</p>
+                                <p>{userInfo.name}</p>
                                 <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
                             </div>
                         </div>
                         <ul className="sidebar-menu" data-widget="tree">
-                            <li className="header">MAIN NAVIGATION</li>
-                            <li className="treeview">
-                                <a href="#">
-                                    <i className="fa fa-dashboard"></i> <span>Dashboard</span>
-                                    <span className="pull-right-container">
-                                    <i className="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li><a href="../../index.html"><i className="fa fa-circle-o"></i> Dashboard v1</a></li>
-                                    <li><a href="../../index2.html"><i className="fa fa-circle-o"></i> Dashboard v2</a></li>
-                                </ul>
-                            </li>
-                            <li className="treeview">
-                                <a href="#">
-                                    <i className="fa fa-files-o"></i>
-                                    <span>Layout Options</span>
-                                    <span className="pull-right-container">
-                                    <span className="label label-primary pull-right">4</span>
-                                    </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li><a href="../layout/top-nav.html"><i className="fa fa-circle-o"></i> Top Navigation</a></li>
-                                    <li><a href="../layout/boxed.html"><i className="fa fa-circle-o"></i> Boxed</a></li>
-                                    <li><a href="../layout/fixed.html"><i className="fa fa-circle-o"></i> Fixed</a></li>
-                                    <li><a href="../layout/collapsed-sidebar.html"><i className="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-                                </ul>
-                            </li>
+                            { render }
                         </ul>
                     </section>
                 </aside>
@@ -67,4 +53,15 @@ class Sidebar extends Component {
     }
 }
 
-export default Sidebar;
+const mapStateToProps = (state) => {
+    return {
+        lang: state.lang,
+        auth: state.auth
+    };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

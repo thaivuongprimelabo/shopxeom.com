@@ -310,6 +310,7 @@
 		        container.hide();
 		    }
 		});
+		
 
 	</script>
 	@yield('script')

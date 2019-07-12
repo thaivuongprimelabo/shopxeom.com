@@ -9,7 +9,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 
 // Actions
-import { loadLang } from './redux/actions/index';
+import { loadLang, loadConfig } from './redux/actions/index';
 
 // Redux
 import { connect } from 'react-redux';
@@ -18,22 +18,14 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            lang: {}
-        }
     }
 
     componentWillMount() {
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.lang !== this.props.lang) {
-        }
-    } 
-
     componentDidMount() {
         this.props.loadLang();
+        this.props.loadConfig();
     }
 
     render() {
@@ -52,15 +44,16 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        lang: state.lang
-    };
+    return {};
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
         loadLang: () => {
             dispatch(loadLang());
+        },
+        loadConfig: () => {
+            dispatch(loadConfig());
         }
     }
 };

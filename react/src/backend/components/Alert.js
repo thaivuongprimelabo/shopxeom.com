@@ -1,26 +1,19 @@
 import React, { Component } from 'react'
 
-import {withRouter} from 'react-router-dom';
+import * as types from '../redux/types/index';
+
+import { connect } from 'react-redux';
 
 class Alert extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            cssClass: 'alert alert-danger alert-dismissible',
-            message: ''
-        }
     }
 
     componentWillMount() {
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.message !== this.props.message) {
-            this.setState({
-                message: nextProps.message
-            })
-        }
+    componentDidUpdate(prevProps) {
     } 
 
     componentDidMount() {
@@ -28,19 +21,35 @@ class Alert extends Component {
 
     render() {
 
+        var message = this.props.alert.message;
+        var cssClass = this.props.alert.cssClass;
+
         var render;
-        if(this.state.message.length) {
-            render = <div className={ this.state.cssClass }>
+        if(message.length) {
+            render = <div className={ cssClass }>
                         <button type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        { this.state.message }
+                        { message }
                     </div>
         }
         return (
             <div>
-            {render}
+                {render}
             </div>
         )
     }
 }
 
-export default withRouter(Alert);
+const mapStateToProps = (state) => {
+    return {
+        progress: state.progress,
+        alert: state.alert
+    };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Alert);
