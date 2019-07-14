@@ -5,7 +5,7 @@ namespace App\Helpers;
 
 class SourceUtils {
     
-    private $ignore = ['.settings', 'vendor', '.buildpath', '.', '..', '.git'];
+    private $ignore = ['.settings', 'vendor', '.buildpath', '.', '..', '.git', 'node_modules'];
     private $icons = [
         'php' => 'lang_icons/php.png',
         'css' => 'lang_icons/css.png',

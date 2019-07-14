@@ -44,15 +44,15 @@ $auth = [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'title' => 'Control Panel',
     /*------------ Login page ------------------- */
-    'login_page_title' => '<b>Control</b>Panel',
-    'login_page_top_text' => 'Chào bạn trở lại.Vui lòng đăng nhập',
+    'login_page_title' => '<b>Control</b> Panel',
+    'login_page_top_text' => 'Chào bạn trở lại. Vui lòng đăng nhập',
     'email_placeholder' => 'E-mail',
     'password_placeholder' => 'Mật khẩu',
     'remember_me' => 'Duy trì đăng nhập',
     'dashboard_title' => '<b>Control</b>Panel',
      /*------------ Dashboard page ------------------- */
     'dashboard_page_title' => '<b>C</b>Panel',
-    'back_to_home' => 'Xem trang chính',
+    'back_to_home' => 'Xem trang chủ',
     'count' => '&nbsp;&nbsp;(Tìm thấy tất cả :count dòng dữ liệu)',
     /*------------ Sidebar ------------------- */
     'sidebar' => [

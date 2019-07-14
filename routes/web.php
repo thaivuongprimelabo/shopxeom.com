@@ -183,8 +183,6 @@ Route::group(['prefix' => ''], function () {
     Route::post('refreshcaptcha', 'MembersController@refreshCaptcha')->name('refreshcaptcha');
     Route::post('checkcaptcha', 'MembersController@checkCaptcha')->name('checkCaptcha');
     
-    Route::get('/test', 'TestController@index')->name('test');
-    
     Route::get('/offline' . $config['url_ext'], function() {
         exit;
     })->name('offline');

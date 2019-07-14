@@ -8,6 +8,7 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">
+    	{{ trans('auth.login_page_top_text') }}
     </p>
 
     <form action="{{ route('login') }}" method="post">
@@ -37,6 +38,11 @@
         <!-- /.col -->
       </div>
     </form>
+  </div>
+  <div class="row">
+  	<div class="col-xs-8 mt-1">
+  		<a class="" href="/" target="_block"><i class="fa fa-home" aria-hidden="true"></i> {{ trans('auth.back_to_home') }}</a>
+  	</div>
   </div>
   <!-- /.login-box-body -->
 </div>

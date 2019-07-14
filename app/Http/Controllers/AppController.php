@@ -92,7 +92,7 @@ class AppController extends Controller
             ];
             
             if($config->off == 1) {
-                return abort(404);
+                return abort(405);
             }
             
         }

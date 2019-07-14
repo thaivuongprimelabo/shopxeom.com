@@ -51,7 +51,7 @@
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
-<script src="{{ url('admin/jstree/jstree.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script type="text/javascript">
 	$(function () { 
 

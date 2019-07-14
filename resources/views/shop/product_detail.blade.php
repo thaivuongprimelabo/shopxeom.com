@@ -13,7 +13,7 @@
 						@if($images->count())
 						<div class="col-xs-12 col-sm-12 col-md-5">
 							<div class="large-image">
-								<a href="{{ $images->first()->getImageLink() }}" data-rel="">
+								<a href="{{ $images->first()->getImageLink() }}" data-rel="" target="_block">
 									<img id="zoom_01" src="{{ $images->first()->getImageLink('medium') }}"  data-zoom-image="{{ $images->first()->getImageLink() }}" alt="{{ $data->getName() }}">
 								</a>
 							</div>
@@ -243,13 +243,12 @@
 			 data.items = items;
 			 callAjax('{{ route('addToCart') }}', data, $(this));
 		 });
-
-		
 	});
-
+	
 	function onClickThumbnail(obj) {
 		var zoomImage = obj.getAttribute('data-zoom-image');
 		$('.large-image').find('a').attr('href', zoomImage);
 	}
+
 </script>
 @endsection

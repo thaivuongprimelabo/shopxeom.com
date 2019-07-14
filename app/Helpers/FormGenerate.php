@@ -499,6 +499,8 @@ class FormGenerate {
                     $valueData = boolval($data[$key]);
                     if(!$valueData) {
                         $arrParams['checked'] = '';
+                    } else {
+                        $arrParams['checked'] = 'checked="checked"';
                     }
                 }
                 $view = 'helpers.form_generate.checkbox';

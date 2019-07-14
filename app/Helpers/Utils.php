@@ -93,6 +93,11 @@ class Utils {
                 for($i = 0; $i < count($files); $i++) {
                     
                     $filename = '';
+                    
+                    if(!isset($files[$i])) {
+                        continue;
+                    }
+                    
                     $file = $files[$i];
                     
                     if(is_null($upload_images)) {

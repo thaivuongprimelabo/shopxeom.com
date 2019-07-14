@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Contact;
-use App\Constants\ContactStatus;
+use App\Constants\Common;
+use App\Constants\Status;
 use App\Helpers\Utils;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Contact;
+use App\Constants\ContactStatus;
 
 class ContactsController extends AppController
 {

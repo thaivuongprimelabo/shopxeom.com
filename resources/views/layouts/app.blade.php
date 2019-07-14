@@ -184,7 +184,6 @@
 <script src="{{ url('admin/bower_components/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ url('admin/js/jquery.validate.js') }}" type="text/javascript"></script>
 <script src="{{ url('js/custom.js?t=' . time()) }}"></script>
-
 <script>
   $(function () {
 	if($('.alert').length > 0) {
