@@ -58,14 +58,14 @@
 								</ul>
 							</div>
 						</div>
-						<div class="col-xs-12 col-sm-6 col-lg-4">
+						<div class="col-xs-12 col-sm-6 col-lg-2">
 							<div class="footer-widget">
 								<h3 class="hastog"><span>{{ trans('shop.category_txt') }}</span></h3>
 								{!! $subFooter !!}
 							</div>
 						</div>
 						
-						<div class="col-xs-12 col-sm-6 col-lg-4">
+						<div class="col-xs-12 col-sm-6 col-lg-3">
 							<div class="footer-widget">
 								<h3 class="hastog"><span>{{ trans('shop.policy.title') }}</span></h3>
 								<ul class="list-menu list-blogs">
@@ -80,7 +80,7 @@
 						</div>
 
 
-						<!-- <div class="col-xs-12 col-sm-6 col-lg-3">
+						<div class="col-xs-12 col-sm-6 col-lg-3">
 							<div class="footer-widget">
 								<h3 class="hastog"><span>{{ trans('shop.social_txt') }}</span></h3>
 								<ul class="list-menu">
@@ -92,7 +92,7 @@
 									</li>
 								</ul>
 							</div>
-						</div> -->
+						</div>
 					</div>
 				</div>
 			</div>

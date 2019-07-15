@@ -35,7 +35,7 @@
 	
 	<link href="{{ url('shop/frontend/100/308/325/themes/665783/assets/iwish4d7c.css') }}" rel="stylesheet" type="text/css" />
 	
-	<link href="{{ url('shop/css/custom.shop.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ url('shop/css/custom.shop.css?t=' . time()) }}" rel="stylesheet" type="text/css" />
 	<!-- Header JS -->	
 	<script src="{{ url('shop/frontend/100/308/325/themes/665783/assets/jquery-2.2.3.min4d7c.js') }}" type="text/javascript"></script> 
 	

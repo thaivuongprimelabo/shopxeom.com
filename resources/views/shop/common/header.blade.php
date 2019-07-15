@@ -114,7 +114,7 @@
 					@endif
 					<div class="item-policy">
 						<a href="#" class="policy-icon">
-							<img src="{{ url('shop/social_icon.png') }}" style="width:40px; height:28px" >
+							<img src="{{ url('shop/social_icon.png') }}" style="width:40px; height:40px" >
 						</a>
 						<div class="info a-left policy-content">
 							<a href="#">{{ trans('shop.social_txt') }}</a>
