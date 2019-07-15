@@ -65,7 +65,7 @@
 <div class="container">
 	<div class="header-content clearfix a-center">
 		<div class="row">
-			<div class="col-xs-12 col-md-3 text-lg-center">
+			<div class="col-xs-12 col-md-3  col-lg-2 text-lg-center">
 				<div class="logo inline-block">
 					
 					<a href="/" class="logo-wrapper ">
@@ -75,10 +75,10 @@
 					</a>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-8 col-lg-7 hidden-xs">
-				<div class="policy d-flex justify-content-around">
+			<div class="col-xs-12 col-md-8 col-lg-8 hidden-xs policy-block">
+				<div class="policy justify-content-around">
 					@if(!Utils::blank($config['freeship']))
-					<div class="item-policy d-flex">
+					<div class="item-policy">
 						<a href="#" class="policy-icon">
 							<img src="{{ url('shop/frontend/thumb/medium/100/308/325/themes/665783/assets/policy14d7c.png') }}" >
 						</a>
@@ -89,7 +89,7 @@
 					</div>
 					@endif
 					@if(count($hotline))
-					<div class="item-policy d-flex">
+					<div class="item-policy">
 						<a href="#" class="policy-icon">
 							<img src="{{ url('shop/frontend/thumb/medium/100/308/325/themes/665783/assets/policy24d7c.png') }}" style="height:28px" >
 						</a>
@@ -102,7 +102,7 @@
 					</div>
 					@endif
 					@if(!Utils::blank($config['web_working_time']))	
-					<div class="item-policy d-flex">
+					<div class="item-policy">
 						<a href="#" class="policy-icon">
 							<img src="{{ url('shop/frontend/thumb/medium/100/308/325/themes/665783/assets/policy34d7c.png') }}" style="height:28px" >
 						</a>
@@ -111,7 +111,23 @@
 							<p>{!! $config['web_working_time'] !!}</p>
 						</div>
 					</div>
-					@endif	
+					@endif
+					<div class="item-policy">
+						<a href="#" class="policy-icon">
+							<img src="{{ url('shop/social_icon.png') }}" style="width:40px; height:28px" >
+						</a>
+						<div class="info a-left policy-content">
+							<a href="#">{{ trans('shop.social_txt') }}</a>
+							<ul class="list-menu">
+								<li>
+									<a href="https://www.facebook.com/sharer.php?u={{ route('home') }}" target="_blank" title="Facebook"><img class="social-icon" src="{{ url('shop/facebook_icon.png') }}" /></a>
+									<a href="{{ $config['youtube_channel'] }}" target="_blank" title="Youtube"><img src="{{ url('shop/youtube_icon.png') }}" class="social-icon" /></a>
+									<a href="{{ $config['zalo_page'] }}" target="_blank" title="Zalo"><img src="{{ url('shop/zalo_logo.png') }}" class="social-icon" /></a>
+									<a href="{{ $config['shopee_page'] }}" target="_blank" title="Shopee"><img src="{{ url('shop/shopee_icon.png') }}" class="social-icon" /></a>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-1 col-lg-2 hidden-sm hidden-xs">

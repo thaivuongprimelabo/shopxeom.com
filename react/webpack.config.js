@@ -53,7 +53,7 @@ module.exports = {
                         type: 'js'
                     },
                     global: 'jQuery',
-                }            
+                }         
             ]
         }),
     ]

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
 
-import jquery from 'jquery'
-
 import '../../../../public/admin/bower_components/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../public/admin/bower_components/font-awesome/css/font-awesome.min.css';
 import '../../../../public/admin/bower_components/Ionicons/css/ionicons.min.css';
@@ -42,63 +40,64 @@ class Main extends Component {
 
     componentWillMount() {
         this.props.checkLogin();
+        console.log('componentWillMount')
     }
 
     componentDidUpdate(prevProps) {
 
         document.body.className="hold-transition skin-blue sidebar-mini";
+        console.log('componentDidUpdate')
 
-        var Selector = {
-            wrapper       : '.wrapper',
-            contentWrapper: '.content-wrapper',
-            layoutBoxed   : '.layout-boxed',
-            mainFooter    : '.main-footer',
-            mainHeader    : '.main-header',
-            sidebar       : '.sidebar',
-            controlSidebar: '.control-sidebar',
-            fixed         : '.fixed',
-            sidebarMenu   : '.sidebar-menu',
-            logo          : '.main-header .logo'
-        };
+        // var Selector = {
+        //     wrapper       : '.wrapper',
+        //     contentWrapper: '.content-wrapper',
+        //     layoutBoxed   : '.layout-boxed',
+        //     mainFooter    : '.main-footer',
+        //     mainHeader    : '.main-header',
+        //     sidebar       : '.sidebar',
+        //     controlSidebar: '.control-sidebar',
+        //     fixed         : '.fixed',
+        //     sidebarMenu   : '.sidebar-menu',
+        //     logo          : '.main-header .logo'
+        // };
 
-        var ClassName = {
-            fixed         : 'fixed',
-            holdTransition: 'hold-transition'
-        };
+        // var ClassName = {
+        //     fixed         : 'fixed',
+        //     holdTransition: 'hold-transition'
+        // };
         
-        var footerHeight  = $(Selector.mainFooter).outerHeight() || 0;
-        var neg           = $(Selector.mainHeader).outerHeight() + footerHeight;
-        var windowHeight  = $(window).height();
-        var sidebarHeight = $(Selector.sidebar).height() || 0;
+        // var footerHeight  = $(Selector.mainFooter).outerHeight() || 0;
+        // var neg           = $(Selector.mainHeader).outerHeight() + footerHeight;
+        // var windowHeight  = $(window).height();
+        // var sidebarHeight = $(Selector.sidebar).height() || 0;
 
-        // Set the min-height of the content and sidebar based on
-        // the height of the document.
-        if ($('body').hasClass(ClassName.fixed)) {
-        $(Selector.contentWrapper).css('min-height', windowHeight - footerHeight);
-        } else {
-            var postSetHeight;
+        // // Set the min-height of the content and sidebar based on
+        // // the height of the document.
+        // if ($('body').hasClass(ClassName.fixed)) {
+        //     $(Selector.contentWrapper).css('min-height', windowHeight - footerHeight);
+        // } else {
+        //     var postSetHeight;
 
-            if (windowHeight >= sidebarHeight) {
-                $(Selector.contentWrapper).css('min-height', windowHeight - neg);
-                postSetHeight = windowHeight - neg;
-            } else {
-                $(Selector.contentWrapper).css('min-height', sidebarHeight);
-                postSetHeight = sidebarHeight;
-            }
+        //     if (windowHeight >= sidebarHeight) {
+        //         $(Selector.contentWrapper).css('min-height', windowHeight - neg);
+        //         postSetHeight = windowHeight - neg;
+        //     } else {
+        //         $(Selector.contentWrapper).css('min-height', sidebarHeight);
+        //         postSetHeight = sidebarHeight;
+        //     }
 
-            // Fix for the control sidebar height
-            var $controlSidebar = $(Selector.controlSidebar);
-            if (typeof $controlSidebar !== 'undefined') {
-                if ($controlSidebar.height() > postSetHeight)
-                $(Selector.contentWrapper).css('min-height', $controlSidebar.height());
-            }
-        }
+        //     // Fix for the control sidebar height
+        //     var $controlSidebar = $(Selector.controlSidebar);
+        //     if (typeof $controlSidebar !== 'undefined') {
+        //         if ($controlSidebar.height() > postSetHeight)
+        //         $(Selector.contentWrapper).css('min-height', $controlSidebar.height());
+        //     }
+        // }
         
     }
 
     componentDidMount() {
-        
-        
+        console.log('componentDidMount')
     }
 
     render() {
@@ -116,20 +115,27 @@ class Main extends Component {
             return <Redirect to={Routes.LOGIN} />
         }
 
-        if(Object.keys(lang).length) {
-            render =    <div className="wrapper">
-                            <Header userIcon={ UserIcon160x160 } />
-                            <Sidebar userIcon={ UserIcon160x160 } />
-                            <div className="content-wrapper">
-                            {this.props.children}
-                            </div>
-                            <Footer />
-                        </div>
-        }
+        // if(Object.keys(lang).length) {
+        //     render =    <div className="wrapper">
+        //                     <Header userIcon={ UserIcon160x160 } />
+        //                     <Sidebar userIcon={ UserIcon160x160 } />
+        //                     <div className="content-wrapper">
+        //                     {this.props.children}
+        //                     </div>
+        //                     <Footer />
+        //                 </div>
+        // }
 
         return (
             <div>
-                {render}
+                <div className="wrapper">
+                    <Header userIcon={ UserIcon160x160 } />
+                    <Sidebar userIcon={ UserIcon160x160 } />
+                    <div className="content-wrapper">
+                    {this.props.children}
+                    </div>
+                    <Footer />
+                </div>
             </div>
         )
     }

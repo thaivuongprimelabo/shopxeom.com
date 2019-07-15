@@ -79,3 +79,25 @@ h2.title-head a {
     color: #80bb35;
     font-weight: normal !important;
 }
+
+.policy-block {
+	text-align: left !important;
+}
+
+.item-policy {
+	vertical-align: top;
+	margin-left: 15px !important;
+	margin-right: 15px !important;
+}
+
+.policy-icon {
+	text-align: center;
+}
+
+.social-icon {
+	width:30px; height:30px;
+}
+
+.mr-1 {
+	margin-right:10px !important;
+}

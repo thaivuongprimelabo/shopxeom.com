@@ -23,12 +23,12 @@ class Sidebar extends Component {
     render() {
         var render;
         var userInfo = this.props.auth.data;
-        var lang = this.props.lang;
-        var sidebar = lang.sidebar;
-        var keys = Object.keys(sidebar);
-        var render = keys.map((item, index) => {
-            return <SidebarItem key={index} item={sidebar[item]}></SidebarItem>
-        });
+        if(Object.keys(this.props.lang).length) {
+            var sidebar = this.props.lang.sidebar;
+            render = Object.keys(sidebar).map((item, index) => {
+                return <SidebarItem key={index} item={sidebar[item]}></SidebarItem>
+            });
+        }
         
         return (
             <div>

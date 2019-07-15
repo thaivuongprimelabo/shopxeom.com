@@ -34,14 +34,22 @@ class Header extends Component {
 
     render() {
 
+        var headerTitle = '';
+        var btnProfileText = '';
+        var btnSigeoutText = '';
         var userInfo = this.props.auth.data;
-        var lang = this.props.lang;
+
+        if(Object.keys(this.props.lang).length) {
+            headerTitle = this.props.lang.dashboard_title;
+            btnProfileText = this.props.lang.button.profile;
+            btnSigeoutText = this.props.lang.button.logout;
+        }
 
         return (
             <div>
                 <header className="main-header">
                     <a href="#" className="logo">
-                        <span className="logo-lg">{ ReactHtmlParser(lang.dashboard_title) }</span>
+                        <span className="logo-lg">{ ReactHtmlParser(headerTitle) }</span>
                     </a>
                     <nav className="navbar navbar-static-top">
                         <a href="#" className="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -66,10 +74,10 @@ class Header extends Component {
                                         </li>
                                         <li className="user-footer">
                                             <div className="pull-left">
-                                                <a href="#" className="btn btn-default btn-flat">{ lang.button.profile }</a>
+                                                <a href="#" className="btn btn-default btn-flat">{ btnProfileText }</a>
                                             </div>
                                             <div className="pull-right">
-                                                <Button variant="btn btn-default btn-flat" onClick={ this.signOut }>{ lang.button.logout }</Button>
+                                                <Button variant="btn btn-default btn-flat" onClick={ this.signOut }>{ btnSigeoutText }</Button>
                                             </div>
                                         </li>
                                     </ul>
