@@ -8,3 +8,4 @@ export const START_PROGRESS = 'START_PROGRESS';
 export const END_PROGRESS = 'END_PROGRESS';
 export const ALERT = 'ALERT';
 export const LOAD_CONFIG = 'LOAD_CONFIG';
+export const GET_DATA = 'GET_DATA';

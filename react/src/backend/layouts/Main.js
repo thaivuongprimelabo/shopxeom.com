@@ -33,7 +33,8 @@ import * as Routes from '../constants/routes';
 // Types
 import * as types from '../redux/types/index';
 
-import Login from '../pages/Login';
+import Search from '../components/Search';
+import TableList from '../components/TableList';
 import Dashboard from '../pages/Dashboard';
 import Products from '../pages/Products';
 import Categories from '../pages/Categories';
@@ -63,7 +64,13 @@ class Main extends Component {
             document.body.className="hold-transition skin-blue sidebar-mini";
         } else {
             document.body.className="hold-transition login-page";
-        }        
+        }
+
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+        });
     }
 
     render() {
@@ -72,6 +79,10 @@ class Main extends Component {
         var show = false;
         
         var lang = this.props.lang;
+        if(lang.hasOwnProperty(this.props.match.params.module)) {
+            document.title = lang[this.props.match.params.module].list_title;
+        }
+
         // Check login
         if(this.props.auth.type === types.CHECK_LOGIN) {
             if(!this.props.auth.status) {
@@ -94,15 +105,15 @@ class Main extends Component {
             }
 
             if(moduleName === 'products') {
-                content = <Products />
+                content = <Products  moduleName={moduleName} />
             }
 
             if(moduleName === 'categories') {
-                content = <Categories />
+                content = <Categories  moduleName={moduleName} />
             }
 
             if(moduleName === 'vendors') {
-                content = <Vendors />
+                content = <Vendors  moduleName={moduleName} />
             }
 
             if(moduleName === 'orders') {
@@ -113,16 +124,37 @@ class Main extends Component {
                 content = <Banners />
             }
 
-            if(moduleName !== 'login') {
-                render = <div className="wrapper" style={{ 'display': !show ? 'none' : 'block'}}>
+            var title = '';
+            if(Object.keys(this.props.lang).length) {
+                title = this.props.lang[moduleName].list_title;
+            }
+           
+            render = <div className="wrapper" style={{ 'display': !show ? 'none' : 'block'}}>
                         <Header userIcon={ UserIcon160x160 } />
                         <Sidebar userIcon={ UserIcon160x160 } />
                         <div className="content-wrapper">
-                        {content}
+                            <section className="content-header">
+                                <h1>
+                                    {title}
+                                </h1>
+                                <ol className="breadcrumb">
+                                    <li><a href="#"><i className="fa fa-dashboard"></i> Home</a></li>
+                                    <li><a href="#">Examples</a></li>
+                                    <li className="active">Blank page</li>
+                                </ol>
+                            </section>
+                            <section className="content">
+                                <div className="row">
+                                    <div className="col-xs-12">
+                                        <Search />
+                                        {content}
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                         <Footer />
                     </div>;
-            }
+            
             
         }
 

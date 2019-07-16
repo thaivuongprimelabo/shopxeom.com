@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import TableList from '../components/TableList';
+
 class Categories extends Component {
 
     constructor(props) {
@@ -7,6 +9,7 @@ class Categories extends Component {
     }
 
     componentWillMount() {
+        console.log('Categories:componentWillMount');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -14,23 +17,12 @@ class Categories extends Component {
     } 
 
     componentDidMount() {
+        console.log('Categories:componentDidMount');
     }
 
     render() {
         return (
-            <Main2>
-                <section className="content-header">
-                    <h1>
-                        Categories page
-                        <small>it all starts here</small>
-                    </h1>
-                    <ol className="breadcrumb">
-                        <li><a href="#"><i className="fa fa-dashboard"></i> Home</a></li>
-                        <li><a href="#">Examples</a></li>
-                        <li className="active">Blank page</li>
-                    </ol>
-                </section>
-            </Main2>
+            <TableList moduleName={this.props.moduleName} />
         )
     }
 }

@@ -11,6 +11,19 @@ export const loadLang = () => {
     }
 }
 
+export const getData = (table) => {
+    return (dispatch) => {
+        dispatch(callAxios({
+            method: 'GET',
+            url : Api.API_GETDATA,
+            params: {
+                table: table
+            }
+        }));
+    }
+}
+
+
 export const checkLogin = () => {
     return (dispatch) => {
         dispatch(callAxios({
@@ -84,6 +97,9 @@ export const handleSuccess = (res, params, dispatch) => {
             break;
         case Api.API_CONFIG:
             dispatch(sendReducer({type: types.LOAD_CONFIG, data: res}));
+            break;
+        case Api.API_GETDATA:
+            dispatch(sendReducer({type: types.GET_DATA, data: res}));
             break;
         default:
 

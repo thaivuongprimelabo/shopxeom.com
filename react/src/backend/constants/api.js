@@ -4,3 +4,4 @@ export const API_CHECK_LOGIN = API_HOST + '/check_login';
 export const API_HANDLE_LOGIN = API_HOST + '/handle_login';
 export const API_LOGOUT = API_HOST + '/logout';
 export const API_CONFIG = API_HOST + '/config';
+export const API_GETDATA = API_HOST + '/get';

@@ -19,11 +19,6 @@ class SidebarItem extends Component {
     componentDidMount() {
     }
 
-    movePage = (routeName) => {
-        console.log(this.props.history);
-        this.props.history.push(routeName);
-    }
-
     render() {
 
         var subMenu = null;
@@ -44,7 +39,8 @@ class SidebarItem extends Component {
         
         return (
             <li className={ this.props.item.hasOwnProperty('sub_menu') ? 'treeview': '' }>
-                <a href="javascript:void(0)" onClick={() => this.movePage(routeName)}>
+                {this.props.item.hasOwnProperty('sub_menu') ? (
+                <a href="javascript:void(0)">
                     <i className={this.props.item.icon}></i> <span>{ this.props.item.title }</span>
                     {this.props.item.hasOwnProperty('sub_menu') &&
                         <span className="pull-right-container">
@@ -52,6 +48,12 @@ class SidebarItem extends Component {
                         </span>
                     }
                 </a>
+                ) : (
+                    <Link to={routeName}>
+                        <i className={this.props.item.icon}></i> <span>{ this.props.item.title }</span>
+                    </Link>
+                )
+                }
                 {this.props.item.hasOwnProperty('sub_menu') &&
                     <ul className="treeview-menu">
                         {subMenu}

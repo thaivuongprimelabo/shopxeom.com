@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use App\Config;
+use App\Constants\Common;
 
 class ApiController extends Controller {
     
@@ -74,6 +75,16 @@ class ApiController extends Controller {
 
     public function config(Request $request) {
         $this->output['data'] = Config::first();
+
+        return response()->json($this->output);
+    }
+
+    public function getData(Request $request) {
+        $table = $request->table;
+
+        $data = DB::table($table)->paginate(Common::ROW_PER_PAGE);
+
+        $this->output['data'] = $data;
 
         return response()->json($this->output);
     }

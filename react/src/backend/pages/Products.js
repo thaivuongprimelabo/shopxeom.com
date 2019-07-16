@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 
+import { connect } from 'react-redux';
+
+import TableList from '../components/TableList';
+
+
 class Products extends Component {
 
     constructor(props) {
@@ -7,6 +12,7 @@ class Products extends Component {
     }
 
     componentWillMount() {
+        console.log('Products:componentWillMount');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -14,23 +20,24 @@ class Products extends Component {
     } 
 
     componentDidMount() {
+        console.log('Products:componentDidMount');
     }
 
     render() {
+
+
         return (
-                <section className="content-header">
-                    <h1>
-                        Products page
-                        <small>it all starts here</small>
-                    </h1>
-                    <ol className="breadcrumb">
-                        <li><a href="#"><i className="fa fa-dashboard"></i> Home</a></li>
-                        <li><a href="#">Examples</a></li>
-                        <li className="active">Blank page</li>
-                    </ol>
-                </section>
+            <TableList moduleName={this.props.moduleName} />
         )
     }
 }
 
-export default Products;
+const mapStateToProps = (state) => {
+    return {};
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

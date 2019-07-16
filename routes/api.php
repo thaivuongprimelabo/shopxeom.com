@@ -23,6 +23,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::post('/handle_login', 'ApiController@handleLogin')->name('handleLogin');
     Route::post('/logout', 'ApiController@logout')->name('logout');
     Route::get('/config', 'ApiController@config')->name('config');
+    Route::get('/get', 'ApiController@getData')->name('getData');
 });
 
 Route::post('/check_exists', 'ApiController@checkExists')->name('check_exists');
