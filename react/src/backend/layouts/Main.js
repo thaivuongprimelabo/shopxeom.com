@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
+import loadjs from 'loadjs';
 
 import '../../../../public/admin/bower_components/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../public/admin/bower_components/font-awesome/css/font-awesome.min.css';
@@ -32,6 +33,14 @@ import * as Routes from '../constants/routes';
 // Types
 import * as types from '../redux/types/index';
 
+import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard';
+import Products from '../pages/Products';
+import Categories from '../pages/Categories';
+import Vendors from '../pages/Vendors';
+import Orders from '../pages/Orders';
+import Banners from '../pages/Banners';
+
 class Main extends Component {
 
     constructor(props) {
@@ -40,102 +49,86 @@ class Main extends Component {
 
     componentWillMount() {
         this.props.checkLogin();
-        console.log('componentWillMount')
+
+        console.log('Main:componentWillMount');
+    }
+
+    componentDidMount() {
+        console.log('Main:componentDidMount');
     }
 
     componentDidUpdate(prevProps) {
 
-        document.body.className="hold-transition skin-blue sidebar-mini";
-        console.log('componentDidUpdate')
-
-        // var Selector = {
-        //     wrapper       : '.wrapper',
-        //     contentWrapper: '.content-wrapper',
-        //     layoutBoxed   : '.layout-boxed',
-        //     mainFooter    : '.main-footer',
-        //     mainHeader    : '.main-header',
-        //     sidebar       : '.sidebar',
-        //     controlSidebar: '.control-sidebar',
-        //     fixed         : '.fixed',
-        //     sidebarMenu   : '.sidebar-menu',
-        //     logo          : '.main-header .logo'
-        // };
-
-        // var ClassName = {
-        //     fixed         : 'fixed',
-        //     holdTransition: 'hold-transition'
-        // };
-        
-        // var footerHeight  = $(Selector.mainFooter).outerHeight() || 0;
-        // var neg           = $(Selector.mainHeader).outerHeight() + footerHeight;
-        // var windowHeight  = $(window).height();
-        // var sidebarHeight = $(Selector.sidebar).height() || 0;
-
-        // // Set the min-height of the content and sidebar based on
-        // // the height of the document.
-        // if ($('body').hasClass(ClassName.fixed)) {
-        //     $(Selector.contentWrapper).css('min-height', windowHeight - footerHeight);
-        // } else {
-        //     var postSetHeight;
-
-        //     if (windowHeight >= sidebarHeight) {
-        //         $(Selector.contentWrapper).css('min-height', windowHeight - neg);
-        //         postSetHeight = windowHeight - neg;
-        //     } else {
-        //         $(Selector.contentWrapper).css('min-height', sidebarHeight);
-        //         postSetHeight = sidebarHeight;
-        //     }
-
-        //     // Fix for the control sidebar height
-        //     var $controlSidebar = $(Selector.controlSidebar);
-        //     if (typeof $controlSidebar !== 'undefined') {
-        //         if ($controlSidebar.height() > postSetHeight)
-        //         $(Selector.contentWrapper).css('min-height', $controlSidebar.height());
-        //     }
-        // }
-        
-    }
-
-    componentDidMount() {
-        console.log('componentDidMount')
+        if(this.props.match.params.module !== 'login') {
+            document.body.className="hold-transition skin-blue sidebar-mini";
+        } else {
+            document.body.className="hold-transition login-page";
+        }        
     }
 
     render() {
-        var render;
+        var content = '';
+        var render = '';
+        var show = false;
+        
         var lang = this.props.lang;
         // Check login
         if(this.props.auth.type === types.CHECK_LOGIN) {
             if(!this.props.auth.status) {
-                return <Redirect to={Routes.LOGIN} />
+                window.location = Routes.BASENAME + Routes.LOGIN;
+            } else {
+                show = true;
             }
         }
 
         // Logout
         if(this.props.auth.type === types.LOGOUT) {
-            return <Redirect to={Routes.LOGIN} />
+            window.location = Routes.BASENAME + Routes.LOGIN;
         }
 
-        // if(Object.keys(lang).length) {
-        //     render =    <div className="wrapper">
-        //                     <Header userIcon={ UserIcon160x160 } />
-        //                     <Sidebar userIcon={ UserIcon160x160 } />
-        //                     <div className="content-wrapper">
-        //                     {this.props.children}
-        //                     </div>
-        //                     <Footer />
-        //                 </div>
-        // }
+        if(this.props.match.params.module !== undefined) {
+            var moduleName = this.props.match.params.module;
+    
+            if(moduleName === 'dashboard') {
+                content = <Dashboard />
+            }
+
+            if(moduleName === 'products') {
+                content = <Products />
+            }
+
+            if(moduleName === 'categories') {
+                content = <Categories />
+            }
+
+            if(moduleName === 'vendors') {
+                content = <Vendors />
+            }
+
+            if(moduleName === 'orders') {
+                content = <Orders />
+            }
+
+            if(moduleName === 'banners') {
+                content = <Banners />
+            }
+
+            if(moduleName !== 'login') {
+                render = <div className="wrapper" style={{ 'display': !show ? 'none' : 'block'}}>
+                        <Header userIcon={ UserIcon160x160 } />
+                        <Sidebar userIcon={ UserIcon160x160 } />
+                        <div className="content-wrapper">
+                        {content}
+                        </div>
+                        <Footer />
+                    </div>;
+            }
+            
+        }
 
         return (
             <div>
-                <div className="wrapper">
-                    <Header userIcon={ UserIcon160x160 } />
-                    <Sidebar userIcon={ UserIcon160x160 } />
-                    <div className="content-wrapper">
-                    {this.props.children}
-                    </div>
-                    <Footer />
-                </div>
+                {render}
             </div>
         )
     }
@@ -158,4 +151,4 @@ const mapDispatchToProps = (dispatch, props) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

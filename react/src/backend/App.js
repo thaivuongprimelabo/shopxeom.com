@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch, NavLink, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, NavLink, Redirect, withRouter } from 'react-router-dom';
 
  // Routes
 import * as Routes from './constants/routes';
 
 // Pages
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import Main from './layouts/Main';
 
 // Actions
 import { loadLang, loadConfig } from './redux/actions/index';
@@ -33,9 +33,9 @@ class App extends Component {
             <div>
                 <Router basename={Routes.BASENAME}>
                     <Switch>
-                        <Route exact path="/" component={Login} />
-                        <Route path={Routes.LOGIN} component={Login} />
-                        <Route path={Routes.DASHBOARD} component={Dashboard} />
+                        <Redirect exact from="/" to="/login" />
+                        <Route path="/login" component={Login} />
+                        <Route path="/:module" component={Main} />
                     </Switch>
                 </Router>
             </div>

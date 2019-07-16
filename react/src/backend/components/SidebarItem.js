@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { Link, withRouter } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 class SidebarItem extends Component {
@@ -17,21 +19,32 @@ class SidebarItem extends Component {
     componentDidMount() {
     }
 
+    movePage = (routeName) => {
+        console.log(this.props.history);
+        this.props.history.push(routeName);
+    }
+
     render() {
 
-        var subMenu;
+        var subMenu = null;
+        var routeName = "/";
+        var keys = null;
         if(this.props.item.hasOwnProperty('sub_menu')) {
             var sub_menu = this.props.item.sub_menu;
-            var keys = Object.keys(sub_menu);
+            keys = Object.keys(sub_menu);
             subMenu = keys.map((item, index) => {
-                return <SidebarItem key={index} item={sub_menu[item]}></SidebarItem>
+                return <SidebarItem key={index} item={sub_menu[item]} routeName={item}></SidebarItem>
             });
+
+            routeName = "/" + this.props.routeName;
+            
+        } else {
+            routeName = "/" + this.props.routeName;
         }
         
-
         return (
             <li className={ this.props.item.hasOwnProperty('sub_menu') ? 'treeview': '' }>
-                <a href="#">
+                <a href="javascript:void(0)" onClick={() => this.movePage(routeName)}>
                     <i className={this.props.item.icon}></i> <span>{ this.props.item.title }</span>
                     {this.props.item.hasOwnProperty('sub_menu') &&
                         <span className="pull-right-container">
@@ -50,4 +63,4 @@ class SidebarItem extends Component {
 }
 
 
-export default SidebarItem;
+export default withRouter(SidebarItem);

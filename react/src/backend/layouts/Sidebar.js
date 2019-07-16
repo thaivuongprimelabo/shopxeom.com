@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { withRouter } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 import SidebarItem from '../components/SidebarItem';
@@ -26,7 +28,7 @@ class Sidebar extends Component {
         if(Object.keys(this.props.lang).length) {
             var sidebar = this.props.lang.sidebar;
             render = Object.keys(sidebar).map((item, index) => {
-                return <SidebarItem key={index} item={sidebar[item]}></SidebarItem>
+                return <SidebarItem key={index} item={sidebar[item]} routeName={item} ></SidebarItem>
             });
         }
         
@@ -64,4 +66,4 @@ const mapDispatchToProps = (dispatch, props) => {
     return {}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sidebar));

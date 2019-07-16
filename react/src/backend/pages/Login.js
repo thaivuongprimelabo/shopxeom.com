@@ -102,7 +102,7 @@ class Login extends Component {
         // If login success
         var errors = {};
         if(this.props.auth.type === types.HANDLE_LOGIN && this.props.auth.status) {
-            return <Redirect to={Routes.DASHBOARD} />
+            window.location = Routes.BASENAME + Routes.DASHBOARD;
         }
 
         // If Login failed

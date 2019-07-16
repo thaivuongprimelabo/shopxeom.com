@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class Dashboard extends Component {
+class Orders extends Component {
 
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ class Dashboard extends Component {
         return (
                 <section className="content-header">
                     <h1>
-                        Blank page
+                        Orders page
                         <small>it all starts here</small>
                     </h1>
                     <ol className="breadcrumb">
@@ -33,4 +33,4 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+export default Orders;
