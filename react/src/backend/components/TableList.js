@@ -50,7 +50,7 @@ class TableList extends Component {
                 thead.push(<th key={i}>{tableHeaders[keys[i]].text}</th>);
             }
 
-            render = <div className="box"><div className="box-header"><div className="col-md-12">Loading...</div></div></div>
+            render = <div className="box"><div class='box-header text-center'><i class='fa fa-circle-o-notch fa-spin'></i> Đang tải dữ liệu</div></div>
             if(this.props.list.hasOwnProperty('data') && this.props.progress.type === types.END_PROGRESS) {
                 console.log(this.props.list);
                 tbody = this.props.list.data.map((row, index) => {
@@ -67,7 +67,7 @@ class TableList extends Component {
                                     {ReactHtmlParser(totalText)}
                                 </div>
                                 <div className="col-md-6">
-                                    <Pagination />
+                                    <Pagination moduleName={this.props.moduleName} />
                                 </div>
                             </div>
                             <div className="box-body">
@@ -89,7 +89,7 @@ class TableList extends Component {
                             </div>
                             <div className="box-footer">
                                 <div className="col-md-12">
-                                    <Pagination />
+                                    <Pagination moduleName={this.props.moduleName} />
                                 </div>
                             </div>
                         </div>

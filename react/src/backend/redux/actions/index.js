@@ -11,13 +11,14 @@ export const loadLang = () => {
     }
 }
 
-export const getData = (table) => {
+export const getData = (table, pageNo) => {
     return (dispatch) => {
         dispatch(callAxios({
             method: 'GET',
             url : Api.API_GETDATA,
             params: {
-                table: table
+                table: table,
+                page: pageNo !== undefined ? pageNo : 1
             }
         }));
     }

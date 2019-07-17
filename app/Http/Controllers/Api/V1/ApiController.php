@@ -11,6 +11,7 @@ use App\Config;
 use App\Product;
 use App\Constants\Common;
 use App\Constants\Status;
+use Illuminate\Pagination\Paginator;
 
 class ApiController extends Controller {
     
