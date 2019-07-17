@@ -34,6 +34,7 @@ class App extends Component {
                 <Router basename={Routes.BASENAME}>
                     <Switch>
                         <Redirect exact from="/" to="/login" />
+                        <Redirect exact from="/dashboard" to="/products" />
                         <Route path="/login" component={Login} />
                         <Route path="/:module" component={Main} />
                     </Switch>

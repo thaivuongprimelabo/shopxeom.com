@@ -66,11 +66,7 @@ class Main extends Component {
             document.body.className="hold-transition login-page";
         }
 
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' /* optional */
-        });
+        
     }
 
     render() {
@@ -99,34 +95,12 @@ class Main extends Component {
 
         if(this.props.match.params.module !== undefined) {
             var moduleName = this.props.match.params.module;
-    
-            if(moduleName === 'dashboard') {
-                content = <Dashboard />
-            }
-
-            if(moduleName === 'products') {
-                content = <Products  moduleName={moduleName} />
-            }
-
-            if(moduleName === 'categories') {
-                content = <Categories  moduleName={moduleName} />
-            }
-
-            if(moduleName === 'vendors') {
-                content = <Vendors  moduleName={moduleName} />
-            }
-
-            if(moduleName === 'orders') {
-                content = <Orders />
-            }
-
-            if(moduleName === 'banners') {
-                content = <Banners />
-            }
 
             var title = '';
             if(Object.keys(this.props.lang).length) {
-                title = this.props.lang[moduleName].list_title;
+                if(this.props.lang.hasOwnProperty(moduleName)) {
+                    title = this.props.lang[moduleName].list_title;
+                }
             }
            
             render = <div className="wrapper" style={{ 'display': !show ? 'none' : 'block'}}>
@@ -146,8 +120,8 @@ class Main extends Component {
                             <section className="content">
                                 <div className="row">
                                     <div className="col-xs-12">
-                                        <Search />
-                                        {content}
+                                        <Search moduleName={moduleName} />
+                                        <TableList moduleName={moduleName} />
                                     </div>
                                 </div>
                             </section>

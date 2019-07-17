@@ -23,6 +23,17 @@ export const getData = (table) => {
     }
 }
 
+export const getSelectData = (key) => {
+    return (dispatch) => {
+        dispatch(callAxios({
+            method: 'GET',
+            url : Api.API_GETSELECTDATA,
+            params: {
+                key: key
+            }
+        }));
+    }
+}
 
 export const checkLogin = () => {
     return (dispatch) => {
@@ -82,6 +93,9 @@ export const callAxios = (params) => {
 }
 
 export const handleSuccess = (res, params, dispatch) => {
+
+    dispatch(endProgress());
+    
     switch(params.url) {
         case Api.API_LANG:
             dispatch(sendReducer({type: types.LOAD_LANG, data: res}));
@@ -101,11 +115,14 @@ export const handleSuccess = (res, params, dispatch) => {
         case Api.API_GETDATA:
             dispatch(sendReducer({type: types.GET_DATA, data: res}));
             break;
+        case Api.API_GETSELECTDATA:
+            dispatch(sendReducer({type: types.GET_SELECT_DATA, data: res, key: params.params.key}));
+            break;
         default:
 
             break;
     }
-    dispatch(endProgress());
+    
 }
 
 export const handleException = (error, dispatch) => {

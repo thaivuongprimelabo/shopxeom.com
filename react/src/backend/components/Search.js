@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux';
 
+import { Button } from 'react-bootstrap';
+import ElementSearch from './elements/ElementSearch';
+import Select from './elements/Select';
+import Input from './elements/Input';
+import InputDatePicker from './elements/InputDatePicker';
+
 class Search extends Component {
 
     constructor(props) {
@@ -18,54 +24,46 @@ class Search extends Component {
     }
 
     render() {
+
+        var render;
+        var searchButtonText = '';
+        if(Object.keys(this.props.lang).length) {
+            searchButtonText = this.props.lang.button.search;
+            var searchForm = this.props.lang[this.props.moduleName].search_form;
+            render = Object.keys(searchForm).map((item, index) => {
+                var element = {
+                    id: item,
+                    placeholder: searchForm[item].placeholder,
+                    emptyText: searchForm[item].empty_text,
+                    table: searchForm[item].hasOwnProperty('table') ? searchForm[item].table : item
+                }
+
+                var control = <Input key={index} element={element} />;
+
+                if(searchForm[item].type === 'select') {
+                    searchForm[item]['value'] = item;
+                    control = <Select key={index} element={element} />
+                }
+
+                if(searchForm[item].type === 'calendar') {
+                    searchForm[item]['value'] = item;
+                    control = <InputDatePicker key={index} element={element} />
+                }
+
+                return  <ElementSearch key={index}>{control}</ElementSearch>
+            });
+        }
+
         return (
             <div className="box">
                 <div className="box-body">
                     <form id="search_form">
                             <div className="form-group">
-                                <div className="col-md-3">
-                                    <div className="form-group has-feedback">
-                                        <div className="input-group"><span className="input-group-addon"><i className="fa fa-search"></i></span>
-                                        <input type="text" className="form-control" name="id" id="id" placeholder="Lọc theo mã đơn hàng" />
-                                    </div>
-                                    
-                                    </div>
-                                </div>
-                                <div className="col-md-3">
-                                    <div className="form-group has-feedback">
-                                        <div className="input-group"><span className="input-group-addon"><i className="fa fa-search"></i></span>
-                                        <input type="text" className="form-control" name="customer_name" id="customer_name" placeholder="Lọc theo tên khách hàng" />
-                                    </div>
-                                    
-                                    </div>
-                                </div>      
-                                <div className="col-md-3">
-                                    <div className="form-group has-feedback">
-                                        <div className="input-group"><span className="input-group-addon"><i className="fa fa-search"></i></span>
-                                            <input type="text" className="form-control" name="customer_phone" id="customer_phone" placeholder="Lọc theo số điện thoại" />
-                                        </div>
-                                    </div>
-                                </div>        
-                                <div className="col-md-3">
-                                    <div className="form-group">
-                                    <select className="form-control" name="status" id="status">
-                                        <option value="">Lọc theo trạng thái</option>
-                                        <option value="0">Đơn hàng mới</option><option value="1">Đang giao hàng</option><option value="2">Hoàn tất</option><option value="3">Đã hủy</option>
-                                    </select>
-                                    </div>
-                                </div>
-                                                                                                    
-                                <div className="col-md-3">
-                                    <div className="form-group has-feedback">
-                                        <div className="input-group"><span className="input-group-addon"><i className="fa fa-calendar"></i></span>
-                                            <input type="text" id="datepicker" className="form-control" name="created_at" placeholder="Lọc theo ngày đặt hàng" />
-                                        </div>
-                                    </div>        
-                                </div>
+                                {render}
                             </div>            
                             <div className="col-md-12" style={{'padding': '0', 'margin': '0'}}>
                                 <div className="col-md-12">
-                                    <button type="button" id="search" className="btn btn-primary pull-right" data-url="https://shopxeom.com/auth/orders/search"><i className="fa fa-search"></i> Tìm kiếm</button>
+                                    <Button variant="primary pull-right"><i className="fa fa-search"></i> {searchButtonText}</Button>
                                 </div>             
                             </div>
                     </form>
@@ -77,6 +75,7 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        lang: state.lang
     };
 }
 

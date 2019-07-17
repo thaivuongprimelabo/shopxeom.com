@@ -5,6 +5,7 @@ import progress from './progress';
 import alert from './alert';
 import config from './config';
 import list from './list';
+import select from './select';
 
 const reducer = combineReducers({
     lang,
@@ -12,7 +13,8 @@ const reducer = combineReducers({
     progress,
     alert,
     config,
-    list
+    list,
+    select
 });
 
 export default reducer;

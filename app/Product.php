@@ -22,6 +22,8 @@ class Product extends Model
      */
     protected $table = Common::PRODUCTS;
     
+    protected $appends = ["thumb_image", "status_txt"];
+    
     public function getFirstImage($thumb = '') {
         $image_product = ImageProduct::select('image','medium','small')->where('product_id', $this->id)->where('is_main', 1)->first();
         if($image_product) {
@@ -208,5 +210,46 @@ class Product extends Model
     public function getRelatedProducts() {
         $products = Product::where('id', '!=', $this->id)->active()->get();
         return $products;
+    }
+    
+    // Attribute
+    public function getThumbImageAttribute($value) {
+        $image_product = ImageProduct::select('small')->where('product_id', $this->id)->where('is_main', 1)->first();
+        if($image_product) {
+            return Utils::getImageLink($image_product->small);
+        }
+        
+        return Utils::getImageLink(Common::NO_IMAGE_FOUND);
+    }
+    
+    public function getPriceAttribute($value) {
+        return Utils::formatCurrency($value);
+    }
+    
+    public function getCategoryIdAttribute($value) {
+        $category = Category::select('name')->where('id', $value)->first();
+        return $category ? $category->name : '';
+    }
+    
+    public function getStatusAttribute($value) {
+        $text = Status::getData($value);
+        return $value ? $text . ',label label-success' : $text . ',label label-danger';
+    }
+    
+    public function getStatusTxtAttribute($value) {
+        return Status::getData($value);
+    }
+    
+    public function getAvailFlgAttribute($value) {
+        $text = ProductStatus::getData($value);
+        return $value ? $text . ',label label-success' : $text . ',label label-danger';
+    }
+    
+    public function getCreatedAtAttribute($value) {
+        return Utils::formatDate($value);
+    }
+    
+    public function getUpdatedAtAttribute($value) {
+        return Utils::formatDate($value);
     }
 }

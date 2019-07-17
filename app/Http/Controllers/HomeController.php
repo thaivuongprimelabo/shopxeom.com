@@ -467,13 +467,16 @@ class HomeController extends AppController
             if(!Utils::blank($sort_by)) {
                 $sort = explode(',', $sort_by);
                 $orderBy = $sort[0] . ' ' . $sort[1];
+                if($sort[0] == 'price') {
+                    $orderBy = 'CAST(' . $sort[0] . ' AS UNSIGNED) ' . $sort[1];
+                }
             }
             
             $wherePriceSearch = '1 = 1';
             if(!Utils::blank($price_search)) {
                 $wherePriceSearch .= ' AND (' . $price_search . ')';
             }
-            
+
             $view = 'shop.common.product_ajax';
             $count = 0;
             switch($page) {
@@ -497,7 +500,7 @@ class HomeController extends AppController
                     break;
                     
                 case 'all-products-page':
-                    $data = Product::active()->orderByRaw($orderBy)->whereRaw($wherePriceSearch)->orderByRaw($orderBy)->paginate($limit_product);
+                    $data = Product::active()->whereRaw($wherePriceSearch)->orderByRaw($orderBy)->paginate($limit_product);
                     break;
                 
                 case 'vendor-page':

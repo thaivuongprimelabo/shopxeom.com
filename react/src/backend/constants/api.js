@@ -5,3 +5,4 @@ export const API_HANDLE_LOGIN = API_HOST + '/handle_login';
 export const API_LOGOUT = API_HOST + '/logout';
 export const API_CONFIG = API_HOST + '/config';
 export const API_GETDATA = API_HOST + '/get';
+export const API_GETSELECTDATA = API_HOST + '/get_select_data';

@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use App\Config;
+use App\Product;
 use App\Constants\Common;
+use App\Constants\Status;
 
 class ApiController extends Controller {
     
@@ -16,7 +18,25 @@ class ApiController extends Controller {
     public $rules = [];
 
     public function lang() {
-        $this->output['data'] = trans('auth');
+        $this->output['data'] = trans('react');
+        return response()->json($this->output);
+    }
+
+    public function getSelectData(Request $request) {
+        $key = $request->key;
+        $data = [];
+        switch($key) {
+            case 'status':
+                $data = Status::getData();
+                break;
+
+            default:
+                $data = collect(DB::table($key)->select('id', 'name')->where('status', Status::ACTIVE)->get()->toArray())->pluck('name', 'id')->toArray();
+                break;
+        }
+
+        $this->output['data'] = $data;
+
         return response()->json($this->output);
     }
 
@@ -81,8 +101,16 @@ class ApiController extends Controller {
 
     public function getData(Request $request) {
         $table = $request->table;
+        $wheres = [];
 
-        $data = DB::table($table)->paginate(Common::ROW_PER_PAGE);
+        switch($table) {
+            case \App\Constants\Common::PRODUCTS:
+                $data = Product::where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
+                break;
+            default:
+                $data = DB::table($table)->where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
+                break;
+        }
 
         $this->output['data'] = $data;
 
