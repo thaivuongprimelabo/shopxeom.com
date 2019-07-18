@@ -10,6 +10,11 @@ class Pagination extends Component {
 
     constructor(props) {
         super(props);
+
+        this.params = {
+            table: this.props.moduleName,
+            page: 1
+        }
     }
 
     componentWillMount() {
@@ -22,7 +27,11 @@ class Pagination extends Component {
     }
 
     onPageClick = (pageNo) => {
-        this.props.getData(this.props.moduleName, pageNo);
+        this.params.page = pageNo;
+        if(Object.keys(this.props.searchCondition).length) {
+            this.params.searchCondition = this.props.searchCondition;
+        }
+        this.props.getData(this.params);
     }
 
     render() {
@@ -31,6 +40,7 @@ class Pagination extends Component {
         var currentPage = 1;
         if(Object.keys(this.props.list).length) {
             var totalPages = this.props.list.last_page;
+            var lastPage = this.props.list.last_page;
             var currentPage = this.props.list.current_page;
             var left = currentPage - 2;
             var right = currentPage + 2 + 1;
@@ -82,7 +92,7 @@ class Pagination extends Component {
                         <li className="disabled"><span>«</span></li>
                     ) :
                     (
-                        <li><a className="page_number" href="javascript:void(0)" onClick={() => this.onPageClick(currentPage)}>«</a></li>
+                        <li><a className="page_number" href="javascript:void(0)" onClick={this.onPageClick.bind(this, 1)}>«</a></li>
                     )
                 }
                 {pageNumber}
@@ -91,7 +101,7 @@ class Pagination extends Component {
                         <li className="disabled"><span>»</span></li>
                     ) :
                     (
-                        <li><a className="page_number" href="javascript:void(0)" onClick={() => this.onPageClick(lastPage)}>»</a></li>
+                        <li><a className="page_number" href="javascript:void(0)" onClick={this.onPageClick.bind(this, lastPage)}>»</a></li>
                     )
                 }
             </ul>

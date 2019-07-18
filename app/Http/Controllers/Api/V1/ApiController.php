@@ -12,6 +12,9 @@ use App\Product;
 use App\Constants\Common;
 use App\Constants\Status;
 use Illuminate\Pagination\Paginator;
+use App\Vendor;
+use App\Banner;
+use App\User;
 
 class ApiController extends Controller {
     
@@ -102,19 +105,51 @@ class ApiController extends Controller {
 
     public function getData(Request $request) {
         $table = $request->table;
+        $searchCondition = json_decode($request->searchCondition, true);
         $wheres = [];
-
-        switch($table) {
-            case \App\Constants\Common::PRODUCTS:
-                $data = Product::where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
-                break;
-            default:
-                $data = DB::table($table)->where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
-                break;
+        if(is_array($searchCondition) && count($searchCondition)) {
+            foreach($searchCondition as $key=>$value) {
+                switch($key) {
+                    case 'name':
+                        array_push($wheres, [$key, 'LIKE', '%' . $value . '%']);
+                        break;
+                    default:
+                        array_push($wheres, [$key, '=', $value]);
+                        break;
+                }
+                
+            }
         }
-
+        
+        $model = ucfirst($table);
+        $lastChar = substr($table, -1);
+        if($lastChar == 's') {
+            $model = substr($model, 0, -1);
+        }
+        
+        $model = $this->convertVariableToModelName($model);
+        $data = $model::where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
         $this->output['data'] = $data;
 
         return response()->json($this->output);
+    }
+    
+    private function convertVariableToModelName($modelName='', $nameSpace='App') {
+        if (empty($nameSpace) || is_null($nameSpace) || $nameSpace === "")
+        {
+            $modelNameWithNameSpace = "App".'\\'.$modelName;
+            return app($modelNameWithNameSpace);
+        }
+        
+        if (is_array($nameSpace))
+        {
+            $nameSpace = implode('\\', $nameSpace);
+            $modelNameWithNameSpace = $nameSpace.'\\'.$modelName;
+            return app($modelNameWithNameSpace);
+        }elseif (!is_array($nameSpace))
+        {
+            $modelNameWithNameSpace = $nameSpace.'\\'.$modelName;
+            return app($modelNameWithNameSpace);
+        }
     }
 }

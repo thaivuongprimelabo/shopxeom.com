@@ -50,4 +50,12 @@ class User extends Authenticatable
         }
         return Utils::getImageLink(Common::NO_AVATAR);
     }
+    
+    public function getAvatarAttribute($value) {
+        if(!Utils::blank($value)) {
+            return Utils::getImageLink($value);
+        }
+        
+        return Utils::getImageLink(Common::NO_IMAGE_FOUND);
+    }
 }

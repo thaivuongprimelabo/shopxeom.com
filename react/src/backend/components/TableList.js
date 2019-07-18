@@ -9,6 +9,7 @@ import { getData } from '../redux/actions/index';
 import TableRow from '../components/TableRow';
 import Checkbox from '../components/elements/Checkbox';
 import Pagination from '../components/Pagination';
+import Spinner from '../components/Spinner';
 import { Button } from 'react-bootstrap';
 
 import * as types from '../redux/types/index';
@@ -17,6 +18,11 @@ class TableList extends Component {
 
     constructor(props) {
         super(props);
+
+        this.params = {
+            table: this.props.moduleName,
+            page: 1
+        }
     }
 
     componentWillMount() {
@@ -25,12 +31,14 @@ class TableList extends Component {
 
     componentDidUpdate(prevProps) {
         if(prevProps.moduleName !== this.props.moduleName) {
-            this.props.getData(this.props.moduleName); 
+            this.params.table = this.props.moduleName;
+            this.props.getData(this.params); 
         }
     } 
 
     componentDidMount() {
-        this.props.getData(this.props.moduleName);
+        console.log('TableList:componentDidMount')
+        this.props.getData(this.params);
     }
 
     render() {
@@ -43,56 +51,87 @@ class TableList extends Component {
             lang = this.props.lang;
             var tableHeaders = lang[this.props.moduleName].table_header;
             var keys = Object.keys(tableHeaders)
-            colgroup.push(<col key={9999} width="3%" />);
-            thead.push(<th key={9999}><Checkbox value={'all'} /></th>);
             for(var i = 0; i < keys.length; i++) {
                 colgroup.push(<col key={i} width={tableHeaders[keys[i]].width} />);
-                thead.push(<th key={i}>{tableHeaders[keys[i]].text}</th>);
+                if(keys[i] === 'select_all') {
+                    thead.push(<th key={i}><Checkbox /></th>);
+                } else {
+                    thead.push(<th key={i}>{tableHeaders[keys[i]].text}</th>);
+                }
             }
 
-            render = <div className="box"><div class='box-header text-center'><i class='fa fa-circle-o-notch fa-spin'></i> Đang tải dữ liệu</div></div>
+            render = <Spinner />
             if(this.props.list.hasOwnProperty('data') && this.props.progress.type === types.END_PROGRESS) {
-                console.log(this.props.list);
-                tbody = this.props.list.data.map((row, index) => {
-                    return <TableRow key={index} row={row} header={tableHeaders} />
-                });
+                if(this.props.list.data.length === 0) {
+                    
+                    tbody = <TableRow key={-1} header={tableHeaders} />
 
-                var totalText = lang.count.toString().replace(':count', this.props.list.total);
-                var removeButtonText = lang.button.remove;
+                    render = <div className="box">
+                                <div className="box-body">
+                                    <div className="table-responsive">
+                                        <table className="table table-hover" style={{'wordWrap' : 'break-word'}}>
+                                            <colgroup>
+                                                {colgroup}
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    {thead}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {tbody}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
 
-                render = <div className="box">
-                            <div className="box-header">
-                                <div className="col-md-6">
-                                    <Button variant="danger"><i className="fa fa-trash"></i> {removeButtonText}</Button>
-                                    {ReactHtmlParser(totalText)}
+                } else {
+                    tbody = this.props.list.data.map((row, index) => {
+                        return <TableRow key={index} row={row} header={tableHeaders} />
+                    });
+    
+                    var totalText = lang.count.toString().replace(':count', this.props.list.total);
+                    var removeButtonText = lang.button.remove;
+
+                    render = <div className="box">
+                                <div className="box-header">
+                                    <div className="col-md-6">
+                                        <Button variant="danger"><i className="fa fa-trash"></i> {removeButtonText}</Button>
+                                        {ReactHtmlParser(totalText)}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <Pagination moduleName={this.props.moduleName} searchCondition={this.props.searchCondition} />
+                                    </div>
                                 </div>
-                                <div className="col-md-6">
-                                    <Pagination moduleName={this.props.moduleName} />
+                                <div className="box-body">
+                                    <div className="table-responsive">
+                                        <table className="table table-hover" style={{'wordWrap' : 'break-word'}}>
+                                            <colgroup>
+                                                {colgroup}
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    {thead}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {tbody}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className="box-footer">
+                                    <div className="col-md-12">
+                                        <Pagination moduleName={this.props.moduleName} searchCondition={this.props.searchCondition} />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="box-body">
-                                <div className="table-responsive">
-                                    <table className="table table-hover" style={{'wordWrap' : 'break-word'}}>
-                                        <colgroup>
-                                            {colgroup}
-                                        </colgroup>
-                                        <thead>
-                                            <tr>
-                                                {thead}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {tbody}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div className="box-footer">
-                                <div className="col-md-12">
-                                    <Pagination moduleName={this.props.moduleName} />
-                                </div>
-                            </div>
-                        </div>
+                }
+
+                
+                
+                
             }
         }
 

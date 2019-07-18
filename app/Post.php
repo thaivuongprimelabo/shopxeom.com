@@ -68,4 +68,12 @@ class Post extends Model
     public function scopeActive($query) {
         return $query->where('status', Status::ACTIVE);
     }
+    
+    public function getPhotoAttribute($value) {
+        if(!Utils::blank($value)) {
+            return Utils::getImageLink($value);
+        }
+        
+        return Utils::getImageLink(Common::NO_IMAGE_FOUND);
+    }
 }

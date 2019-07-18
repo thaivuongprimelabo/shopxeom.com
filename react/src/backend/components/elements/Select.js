@@ -8,6 +8,10 @@ class Select extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            value: ''
+        }
     }
 
     componentWillMount() {
@@ -18,6 +22,13 @@ class Select extends Component {
 
     componentDidMount() {
         this.props.getSelectData(this.props.element.table);
+    }
+
+    onChangeSelect = (e) => {
+        this.setState({ 
+            value:  e.target.value
+        });
+        this.props.setValue(e.target.value, this.props.element.id);
     }
 
     render() {
@@ -33,7 +44,7 @@ class Select extends Component {
         return (
             <div className="input-group"><span className="input-group-addon">
                 <i className="fa fa-search"></i></span>
-                <select className="form-control">
+                <select className="form-control" onChange={ () => this.onChangeSelect(event) }>
                     {render}
                 </select>
             </div>

@@ -121,7 +121,6 @@ class Main extends Component {
                                 <div className="row">
                                     <div className="col-xs-12">
                                         <Search moduleName={moduleName} />
-                                        <TableList moduleName={moduleName} />
                                     </div>
                                 </div>
                             </section>
