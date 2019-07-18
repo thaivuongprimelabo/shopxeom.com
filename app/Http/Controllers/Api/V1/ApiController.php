@@ -11,6 +11,8 @@ use App\Config;
 use App\Product;
 use App\Constants\Common;
 use App\Constants\Status;
+use App\Constants\StatusOrders;
+use App\Constants\ContactStatus;
 use Illuminate\Pagination\Paginator;
 use App\Vendor;
 use App\Banner;
@@ -34,6 +36,18 @@ class ApiController extends Controller {
                 $data = Status::getData();
                 break;
 
+            case 'banner_type':
+                $bannerType = trans('react.banner_type');
+                foreach($bannerType as $key=>$value) {
+                    $data[$key] = $value['text'];
+                }
+                break;
+            case 'order_status':
+                $data = StatusOrders::getData();
+                break;
+            case 'contact_type':
+                $data = ContactStatus::getData();
+                break;
             default:
                 $data = collect(DB::table($key)->select('id', 'name')->where('status', Status::ACTIVE)->get()->toArray())->pluck('name', 'id')->toArray();
                 break;
@@ -121,10 +135,15 @@ class ApiController extends Controller {
             }
         }
         
+
         $model = ucfirst($table);
         $lastChar = substr($table, -1);
         if($lastChar == 's') {
             $model = substr($model, 0, -1);
+        }
+
+        if($table == \App\Constants\Common::CATEGORIES) {
+            $model = 'Category';
         }
         
         $model = $this->convertVariableToModelName($model);

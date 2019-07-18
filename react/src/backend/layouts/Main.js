@@ -22,6 +22,7 @@ import UserIcon160x160 from '../../../../public/admin/dist/img/user2-160x160.jpg
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import Form from '../components/Form';
 
 // Redux
 import { connect } from 'react-redux';
@@ -94,12 +95,21 @@ class Main extends Component {
         }
 
         if(this.props.match.params.module !== undefined) {
+            
             var moduleName = this.props.match.params.module;
-
+            var action = this.props.match.params.action;
+            console.log(moduleName, action);
+            var content = <Search moduleName={moduleName} />
+            
             var title = '';
             if(Object.keys(this.props.lang).length) {
                 if(this.props.lang.hasOwnProperty(moduleName)) {
                     title = this.props.lang[moduleName].list_title;
+                    if(action !== undefined) {
+                        content = <Form />;
+                        title = this.props.lang[moduleName].create_title;
+                    }
+        
                 }
             }
            
@@ -112,23 +122,20 @@ class Main extends Component {
                                     {title}
                                 </h1>
                                 <ol className="breadcrumb">
-                                    <li><a href="#"><i className="fa fa-dashboard"></i> Home</a></li>
-                                    <li><a href="#">Examples</a></li>
-                                    <li className="active">Blank page</li>
+                                    <li><a href="javascript:void(0)"><i className="fa fa-dashboard"></i> Trang chủ</a></li>
+                                    <li className="active">{title}</li>
                                 </ol>
                             </section>
                             <section className="content">
                                 <div className="row">
                                     <div className="col-xs-12">
-                                        <Search moduleName={moduleName} />
+                                        {content}
                                     </div>
                                 </div>
                             </section>
                         </div>
                         <Footer />
                     </div>;
-            
-            
         }
 
         return (

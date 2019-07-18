@@ -230,12 +230,4 @@ class Product extends Model
         $category = Category::select('name')->where('id', $value)->first();
         return $category ? $category->name : '';
     }
-    
-    public function getCreatedAtAttribute($value) {
-        return Utils::formatDate($value);
-    }
-    
-    public function getUpdatedAtAttribute($value) {
-        return Utils::formatDate($value);
-    }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -40,6 +41,10 @@ class Search extends Component {
         this.props.getData(this.params);
     }
 
+    onCreate = () => {
+        this.props.history.push(this.props.moduleName + "/add");
+    }
+
     setValue = (value, id) => {
         var searchCondition = {...this.state.searchCondition};
         if(value.length > 0) {
@@ -57,9 +62,12 @@ class Search extends Component {
         var render;
         var searchRender;
         var searchButtonText = '';
+        var createButtonText = '';
         var control;
         if(Object.keys(this.props.lang).length) {
+            
             searchButtonText = this.props.lang.button.search;
+            createButtonText = this.props.lang.button.create;
             var searchForm = this.props.lang[this.props.moduleName].search_form;
             if(searchForm !== undefined) {
                 searchRender = Object.keys(searchForm).map((item, index) => {
@@ -92,7 +100,10 @@ class Search extends Component {
                                             {searchRender}
                                         </div>            
                                         <div className="col-md-12" style={{'padding': '0', 'margin': '0'}}>
-                                            <div className="col-md-12">
+                                            <div className="col-md-6">
+                                                <Button variant="warning pull-left" onClick={this.onCreate}><i className="fa fa-plus"></i> {createButtonText}</Button>
+                                            </div>
+                                            <div className="col-md-6">
                                                 <Button variant="primary pull-right" onClick={this.onSearch}><i className="fa fa-search"></i> {searchButtonText}</Button>
                                             </div>             
                                         </div>
@@ -127,4 +138,4 @@ const mapDispatchToProps = (dispatch, props) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Search));

@@ -10,6 +10,8 @@ import RemoveButton from './elements/RemoveButton';
 import EditButton from './elements/EditButton';
 import Checkbox from './elements/Checkbox';
 
+import Utils from '../helpers/Utils';
+
 class TableRow extends Component {
 
     constructor(props) {
@@ -33,20 +35,22 @@ class TableRow extends Component {
         if(this.props.header !== undefined) {
             if(this.props.row !== undefined) {
                 render = Object.keys(this.props.header).map((item, index) => {
+
+                    var value = this.props.row[item];
+
                     if(item === 'select_all') {
                         return <td key={index}><Checkbox /></td>
                     }
 
                     if(item.indexOf('image') >= 0 || item === 'logo' || item === 'banner' || item === 'avatar' || item === 'photo') {
-                        return <td key={index}><ThumbImage src={this.props.row[item]} /></td>
+                        return <td key={index}><ThumbImage src={value} /></td>
                     }
     
                     if(item.indexOf('status') >= 0 || item.indexOf('avail_flg') >= 0) {
-                        var status = this.props.row[item];
                         if(item.indexOf('status') >= 0) {
-                            status = this.props.row.status;
+                            value = this.props.row.status;
                         }
-                        return <td key={index}><Status status={status} type={item} /></td>
+                        return <td key={index}><Status status={value} type={item} /></td>
                     }
     
                     if(item === 'remove_action') {
@@ -56,8 +60,12 @@ class TableRow extends Component {
                     if(item === 'edit_action') {
                         return <td key={index}><EditButton /></td>
                     }
+
+                    if(item === 'created_at' || item === 'updated_at') {
+                        return <td key={index}>{Utils.formatDate(value)}</td>
+                    }
     
-                    return <td key={index}>{this.props.row[item]}</td>
+                    return <td key={index}>{value}</td>
                 });
             } else {
                 render = <td colSpan={Object.keys(this.props.header).length} style={{textAlign: 'center'}}>{this.props.lang.no_data_found}</td>

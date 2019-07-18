@@ -202,23 +202,11 @@ $auth = [
             ],
             'name' => [
                 'type' => 'text',
-                'placeholder' => 'Lọc theo tên nhà cung cấp'
+                'placeholder' => 'Lọc theo tên nhà cung cấp',
             ],
             'status' => [
-                'type' => 'select'
-            ]
-        ],
-        'search_form' => [
-            'id' => [
-                'type' => 'text',
-                'placeholder' => 'Lọc theo ID loại sản phẩm'
-            ],
-            'name' => [
-                'type' => 'text',
-                'placeholder' => 'Lọc theo tên loại sản phẩm'
-            ],
-            'status' => [
-                'type' => 'select'
+                'type' => 'select',
+                'empty_text' => 'Lọc theo trạng thái'
             ]
         ],
         'form' => [
@@ -292,7 +280,8 @@ $auth = [
                 'placeholder' => 'Lọc theo tên loại sản phẩm'
             ],
             'status' => [
-                'type' => 'select'
+                'type' => 'select',
+                'empty_text' => 'Lọc theo trạng thái'
             ]
         ],
         'form' => [
@@ -363,8 +352,8 @@ $auth = [
                 'empty_text' => 'Lọc theo trạng thái'
             ],
             'select_type' => [
-                'type' => 'data_select',
-                'table' => 'BANNER_TYPE',
+                'type' => 'select',
+                'table' => 'banner_type',
                 'empty_text' => 'Lọc theo loại'
             ]
         ],
@@ -459,9 +448,9 @@ $auth = [
                 'placeholder' => 'Lọc theo số điện thoại'
             ],
             'status' => [
-                'type' => 'data_select',
+                'type' => 'select',
                 'empty_text' => 'Lọc theo trạng thái',
-                'table' => 'CONTACT_TYPE'
+                'table' => 'contact_type'
             ]
         ],
         'form' => [
@@ -787,8 +776,8 @@ $auth = [
                 'placeholder' => 'Lọc theo số điện thoại'
             ],
             'status' => [
-                'type' => 'data_select',
-                'table' => 'STATUS_ORDERS',
+                'type' => 'select',
+                'table' => 'order_status',
                 'empty_text' => 'Lọc theo trạng thái'
             ],
             'created_at' => [

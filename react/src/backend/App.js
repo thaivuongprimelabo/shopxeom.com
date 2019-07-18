@@ -36,6 +36,7 @@ class App extends Component {
                         <Redirect exact from="/" to="/login" />
                         <Redirect exact from="/dashboard" to="/products" />
                         <Route path="/login" component={Login} />
+                        <Route path="/:module/:action" component={Main} />
                         <Route path="/:module" component={Main} />
                     </Switch>
                 </Router>

@@ -37,8 +37,10 @@ class Select extends Component {
         var element = this.props.element;
         var select_data = this.props.select[this.props.element.table];
         render.push(<option key={9999} value="">{element.hasOwnProperty('emptyText') ? element.emptyText : '---' }</option>);
+        var i = 0;
         for(var index in select_data) {
-            render.push(<option key={index} value={index}>{select_data[index]}</option>);
+            render.push(<option key={i} value={index}>{select_data[index]}</option>);
+            i++;
         }
         
         return (

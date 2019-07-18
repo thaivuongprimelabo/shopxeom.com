@@ -132,7 +132,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 });
 
 Route::group(['prefix' => 'backend', 'namespace' => 'Auth'], function () {
-    Route::get('/{a?}', function () {
+    Route::get('/{a?}/{b?}', function () {
         return File::get(public_path('dist/backend.html'));
     });
 });
