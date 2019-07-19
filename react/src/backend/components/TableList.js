@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 
 import { getData } from '../redux/actions/index';
 
-import TableRow from '../components/TableRow';
-import Checkbox from '../components/elements/Checkbox';
-import Pagination from '../components/Pagination';
-import Spinner from '../components/Spinner';
+import TableRow from './TableRow';
+import Checkbox from './elements/Checkbox';
+import Pagination from './Pagination';
+import Spinner from './Spinner';
 import { Button } from 'react-bootstrap';
 
 import * as types from '../redux/types/index';
@@ -54,7 +54,13 @@ class TableList extends Component {
             for(var i = 0; i < keys.length; i++) {
                 colgroup.push(<col key={i} width={tableHeaders[keys[i]].width} />);
                 if(keys[i] === 'select_all') {
-                    thead.push(<th key={i}><Checkbox /></th>);
+                    var element = {
+                        name: 'select_all',
+                        id: 'select_all',
+                        value: 1,
+                        isChecked: false
+                    }
+                    thead.push(<th key={i}><Checkbox element={element} isList={true} /></th>);
                 } else {
                     thead.push(<th key={i}>{tableHeaders[keys[i]].text}</th>);
                 }

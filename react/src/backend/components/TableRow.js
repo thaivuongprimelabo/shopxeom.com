@@ -39,7 +39,12 @@ class TableRow extends Component {
                     var value = this.props.row[item];
 
                     if(item === 'select_all') {
-                        return <td key={index}><Checkbox /></td>
+                        var element = {
+                            name: 'select_row',
+                            value: this.props.row.ids,
+                            isChecked: false
+                        }
+                        return <td key={index}><Checkbox element={element}  isList={true} /></td>
                     }
 
                     if(item.indexOf('image') >= 0 || item === 'logo' || item === 'banner' || item === 'avatar' || item === 'photo') {

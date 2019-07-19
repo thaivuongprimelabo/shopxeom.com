@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -135,25 +136,49 @@ class ApiController extends Controller {
             }
         }
         
-
-        $model = ucfirst($table);
-        $lastChar = substr($table, -1);
-        if($lastChar == 's') {
-            $model = substr($model, 0, -1);
-        }
-
-        if($table == \App\Constants\Common::CATEGORIES) {
-            $model = 'Category';
-        }
-        
-        $model = $this->convertVariableToModelName($model);
+        $model = $this->convertVariableToModelName($table);
         $data = $model::where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
         $this->output['data'] = $data;
 
         return response()->json($this->output);
     }
     
+    public function save(Request $request) {
+        $form = $request->form;
+        $table = $request->table;
+        $model = $this->convertVariableToModelName($table);
+        
+        if(count($form)) {
+            foreach($form as $key=>$value) {
+                $model->$key = Utils::cnvNull($value, '');
+                if($key == 'name') {
+                    $model->name_url = Utils::createNameUrl(Utils::cnvNull($value, ''));
+                }
+            }
+            
+            $model->created_at = date('Y-m-d H:i:s');
+            $model->updated_at = date('Y-m-d H:i:s');
+            
+            if($model->save()) {
+                $this->output['data'] = $model;
+            }
+        }
+        
+        return response()->json($this->output);
+    }
+    
     private function convertVariableToModelName($modelName='', $nameSpace='App') {
+        
+        if($modelName == \App\Constants\Common::CATEGORIES) {
+            $modelName = 'Category';
+        } else {
+            $modelName = ucfirst($modelName);
+            $lastChar = substr($modelName, -1);
+            if($lastChar == 's') {
+                $modelName = substr($modelName, 0, -1);
+            }
+        }
+        
         if (empty($nameSpace) || is_null($nameSpace) || $nameSpace === "")
         {
             $modelNameWithNameSpace = "App".'\\'.$modelName;

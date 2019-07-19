@@ -25,7 +25,7 @@ Route::group(['prefix' => '/v1', 'namespace' => 'Api\V1', 'as' => 'api.'], funct
     Route::get('/config', 'ApiController@config')->name('config');
     Route::get('/get', 'ApiController@getData')->name('getData');
     Route::get('/get_select_data', 'ApiController@getSelectData')->name('getSelectData');
-    
+    Route::post('/save', 'ApiController@save')->name('save');
 });
 
 Route::post('/check_exists', 'ApiController@checkExists')->name('check_exists');

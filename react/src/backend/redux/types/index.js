@@ -10,3 +10,4 @@ export const ALERT = 'ALERT';
 export const LOAD_CONFIG = 'LOAD_CONFIG';
 export const GET_DATA = 'GET_DATA';
 export const GET_SELECT_DATA = 'GET_SELECT_DATA';
+export const SAVE = 'SAVE';

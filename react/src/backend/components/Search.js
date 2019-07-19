@@ -4,10 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Button } from 'react-bootstrap';
-import ElementSearch from './elements/ElementSearch';
 import Select from './elements/Select';
 import Input from './elements/Input';
-import InputDatePicker from './elements/InputDatePicker';
 import TableList from './TableList';
 
 import { getData } from '../redux/actions/index';
@@ -42,7 +40,7 @@ class Search extends Component {
     }
 
     onCreate = () => {
-        this.props.history.push(this.props.moduleName + "/add");
+        this.props.history.replace(this.props.moduleName + "/add");
     }
 
     setValue = (value, id) => {
@@ -59,6 +57,7 @@ class Search extends Component {
     }
 
     render() {
+        var icon = 'fa fa-search';
         var render;
         var searchRender;
         var searchButtonText = '';
@@ -78,19 +77,23 @@ class Search extends Component {
                         table: searchForm[item].hasOwnProperty('table') ? searchForm[item].table : item
                     }
     
-                    control = <Input key={index} element={element} setValue={this.setValue} />;
+                    control = <Input key={index} element={element} setValue={this.setValue} icon={icon} />;
     
                     if(searchForm[item].type === 'select') {
                         searchForm[item]['value'] = item;
-                        control = <Select key={index} element={element}  setValue={this.setValue} />
+                        control = <Select key={index} element={element}  setValue={this.setValue} icon={icon} />
                     }
     
                     if(searchForm[item].type === 'calendar') {
                         searchForm[item]['value'] = item;
-                        control = <InputDatePicker key={index} element={element}  setValue={this.setValue} />
+                        control = <Input key={index} element={element}  setValue={this.setValue} icon={'fa fa-calendar'} />
                     }
 
-                    return <ElementSearch key={index}>{control}</ElementSearch>;
+                    return  <div key={index} className="col-md-3">
+                                <div className="form-group has-feedback">
+                                    {control}
+                                </div>
+                            </div>
                 });
 
                 render =  <div className="box">

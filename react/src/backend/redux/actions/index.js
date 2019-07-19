@@ -33,6 +33,20 @@ export const getSelectData = (key) => {
     }
 }
 
+export const save = (form) => {
+    return (dispatch) => {
+        dispatch(callAxios({
+            method: 'POST',
+            url : Api.API_SAVE,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            data: JSON.stringify(form)
+        }));
+    }
+}
+
 export const checkLogin = () => {
     return (dispatch) => {
         dispatch(callAxios({
@@ -116,6 +130,10 @@ export const handleSuccess = (res, params, dispatch) => {
         case Api.API_GETSELECTDATA:
             dispatch(sendReducer({type: types.GET_SELECT_DATA, data: res, key: params.params.key}));
             break;
+        case Api.API_SAVE:
+            dispatch(sendReducer({type: types.SAVE, data: res}));
+            dispatch(alertSuccess('Save Success'));
+            break;
         default:
 
             break;
@@ -155,7 +173,7 @@ export const alertError = (message) => {
     return {
         type: types.ALERT,
         message: message,
-        cssClass: 'alert alert-danger alert-dismissible'
+        cssClass: 'alert alert-danger'
     }
 }
 
@@ -163,7 +181,7 @@ export const alertSuccess = (message) => {
     return {
         type: types.ALERT,
         message: message,
-        cssClass: 'alert alert-success alert-dismissible'
+        cssClass: 'alert alert-success'
     }
 }
 

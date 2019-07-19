@@ -28,13 +28,16 @@ class ButtonSubmit extends Component {
     }
 
     render() {
+        var icon = this.props.icon !== undefined ? <i className={this.props.icon} aria-hidden="true" /> : ''
+        var cssClass = this.props.cssClass !== undefined ? this.props.cssClass : 'primary btn-block btn-flat'
+
         return (
             <Button
-                variant="primary btn-block btn-flat"
+                variant={cssClass}
                 disabled={this.props.progress.status}
                 onClick={ this.onButtonClick }
             >
-                {this.props.progress.status ? 'Loading...' : this.props.text}
+                {icon} {this.props.progress.status ? 'Loading...' : this.props.text}
             </Button>
         )
     }

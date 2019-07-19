@@ -23,6 +23,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import Form from '../components/Form';
+import Alert from '../components/Alert';
 
 // Redux
 import { connect } from 'react-redux';
@@ -98,7 +99,6 @@ class Main extends Component {
             
             var moduleName = this.props.match.params.module;
             var action = this.props.match.params.action;
-            console.log(moduleName, action);
             var content = <Search moduleName={moduleName} />
             
             var title = '';
@@ -106,7 +106,7 @@ class Main extends Component {
                 if(this.props.lang.hasOwnProperty(moduleName)) {
                     title = this.props.lang[moduleName].list_title;
                     if(action !== undefined) {
-                        content = <Form />;
+                        content = <Form moduleName={moduleName} action={action} />;
                         title = this.props.lang[moduleName].create_title;
                     }
         
@@ -141,6 +141,7 @@ class Main extends Component {
         return (
             <div>
                 {render}
+                <Alert />
             </div>
         )
     }

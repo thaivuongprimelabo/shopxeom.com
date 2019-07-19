@@ -293,7 +293,7 @@ $auth = [
                 'type' => 'select',
                 'text' => 'Chọn loại cha',
                 'empty_text' => '(Không chọn mặc định đây là loại cha)',
-                'table' => 'CATEGORY_PARENT'
+                'table' => 'categories'
             ],
             'status' => [
                 'type' => 'checkbox',

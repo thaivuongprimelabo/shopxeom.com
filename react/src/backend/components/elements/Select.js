@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { getSelectData } from '../../redux/actions/index';
 
+import * as types from '../../redux/types/index';
+
 class Select extends Component {
 
     constructor(props) {
@@ -18,6 +20,16 @@ class Select extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if(prevProps.progress !== this.props.progress) {
+            if(this.props.progress.type === types.END_PROGRESS) {
+                if(this.props.element.value !== undefined) {
+                    this.setState({
+                        value: this.props.element.value
+                    })
+                }
+                
+            }
+        }
     } 
 
     componentDidMount() {
@@ -33,6 +45,7 @@ class Select extends Component {
 
     render() {
 
+        var icon = this.props.icon !== undefined ? this.props.icon : 'fa fa-pencil fa-fw';
         var render = [];
         var element = this.props.element;
         var select_data = this.props.select[this.props.element.table];
@@ -45,10 +58,11 @@ class Select extends Component {
         
         return (
             <div className="input-group"><span className="input-group-addon">
-                <i className="fa fa-search"></i></span>
-                <select className="form-control" onChange={ () => this.onChangeSelect(event) }>
+                <i className={icon}></i></span>
+                <select className="form-control" onChange={ () => this.onChangeSelect(event) } value={this.state.value}>
                     {render}
                 </select>
+                <span className="help-block"></span>
             </div>
             
         )
@@ -57,7 +71,8 @@ class Select extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        select: state.select
+        select: state.select,
+        progress: state.progress
     };
 }
 

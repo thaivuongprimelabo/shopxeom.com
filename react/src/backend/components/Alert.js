@@ -14,21 +14,29 @@ class Alert extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        
     } 
 
     componentDidMount() {
     }
 
     render() {
-
-        var message = this.props.alert.message;
-        var cssClass = this.props.alert.cssClass;
-
         var render;
-        if(message.length) {
-            render = <div className={ cssClass }>
-                        <button type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        { message }
+
+        if(this.props.alert.message.length > 0) {
+
+            setTimeout(function(){ 
+                $('.alert').fadeOut();
+            }, 4000);
+            
+            var message = this.props.alert.message;
+            var cssClass = this.props.alert.cssClass;
+            render = <div id="message">
+                        <div style={{ padding: '5px' }}>
+                            <div id="inner-message" className={ cssClass }>
+                                <i className="fa fa-check fa-2x"></i> { message }
+                            </div>
+                        </div>
                     </div>
         }
         return (
@@ -50,6 +58,5 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
     }
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Alert);

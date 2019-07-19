@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux';
 
+import * as types from '../../redux/types/index';
+
 class Input extends Component {
 
     constructor(props) {
@@ -16,7 +18,16 @@ class Input extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        
+        if(prevProps.progress !== this.props.progress) {
+            if(this.props.progress.type === types.END_PROGRESS) {
+                if(this.props.element.value !== undefined) {
+                    this.setState({
+                        value: this.props.element.value
+                    })
+                }
+                
+            }
+        }
     } 
 
     componentDidMount() {
@@ -31,7 +42,7 @@ class Input extends Component {
     
 
     render() {
-
+        var icon = this.props.icon !== undefined ? this.props.icon : 'fa fa-pencil fa-fw';
         var element = this.props.element;
         var render = <input type="text" className="form-control" 
                         name={element.id} 
@@ -44,8 +55,9 @@ class Input extends Component {
         
         return (
             <div className="input-group"><span className="input-group-addon">
-                <i className="fa fa-search"></i></span>
+                <i className={icon}></i></span>
                 {render}
+                <span className="help-block"></span>
             </div>
         )
     }
@@ -53,7 +65,8 @@ class Input extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        lang: state.lang
+        lang: state.lang,
+        progress: state.progress
     };
 }
 

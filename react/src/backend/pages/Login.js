@@ -139,7 +139,7 @@ class Login extends Component {
                                         </div>
                                     </div>
                                     <div className="col-xs-4">
-                                        <ButtonSubmit text={ lang.button.login } redirectUrl={Routes.DASHBOARD} onButtonClick={this.onLoginClick} />
+                                        <ButtonSubmit text={ lang.button.login } onButtonClick={this.onLoginClick} />
                                     </div>
                                 </div>
                             </form>

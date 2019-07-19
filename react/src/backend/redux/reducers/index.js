@@ -6,6 +6,7 @@ import alert from './alert';
 import config from './config';
 import list from './list';
 import select from './select';
+import save from './save';
 
 const reducer = combineReducers({
     lang,
@@ -14,7 +15,8 @@ const reducer = combineReducers({
     alert,
     config,
     list,
-    select
+    select,
+    save
 });
 
 export default reducer;
