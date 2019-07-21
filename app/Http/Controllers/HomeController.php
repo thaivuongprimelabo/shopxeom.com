@@ -476,7 +476,7 @@ class HomeController extends AppController
             if(!Utils::blank($price_search)) {
                 $wherePriceSearch .= ' AND (' . $price_search . ')';
             }
-
+            
             $view = 'shop.common.product_ajax';
             $count = 0;
             switch($page) {
@@ -500,7 +500,7 @@ class HomeController extends AppController
                     break;
                     
                 case 'all-products-page':
-                    $data = Product::active()->whereRaw($wherePriceSearch)->orderByRaw($orderBy)->paginate($limit_product);
+                    $data = Product::active()->orderByRaw($orderBy)->whereRaw($wherePriceSearch)->orderByRaw($orderBy)->paginate($limit_product);
                     break;
                 
                 case 'vendor-page':

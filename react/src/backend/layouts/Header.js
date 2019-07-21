@@ -13,6 +13,8 @@ import { Button } from 'react-bootstrap';
 // Actions
 import { logout } from '../redux/actions/index';
 
+import UserIcon160x160 from '../../../../public/admin/dist/img/user2-160x160.jpg';
+
 class Header extends Component {
 
     constructor(props) {
@@ -62,7 +64,7 @@ class Header extends Component {
                             <ul className="nav navbar-nav">
                                 <li className="dropdown user user-menu">
                                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                        <img src={ userInfo.avatar } className="user-image" alt="User Image" />
+                                        <img src={ userInfo.avatar ? userInfo.avatar : UserIcon160x160 } className="user-image" alt="User Image" />
                                         <span className="hidden-xs">{ userInfo.name }</span>
                                     </a>
                                     <ul className="dropdown-menu">

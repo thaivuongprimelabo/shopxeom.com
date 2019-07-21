@@ -9,7 +9,8 @@ class Input extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: '',
+            error: ''
         }
     }
 
@@ -28,6 +29,12 @@ class Input extends Component {
                 
             }
         }
+
+        if(prevProps.validate !== this.props.validate) {
+            this.setState({
+                error: this.props.validate[this.props.element.id]
+            })
+        }
     } 
 
     componentDidMount() {
@@ -35,7 +42,8 @@ class Input extends Component {
 
     onChangeInput = (e) => {
         this.setState({ 
-            value:  e.target.value
+            value:  e.target.value,
+            error: ''
         });
         this.props.setValue(e.target.value, this.props.element.id);
     }
@@ -54,10 +62,15 @@ class Input extends Component {
                     />;
         
         return (
-            <div className="input-group"><span className="input-group-addon">
-                <i className={icon}></i></span>
-                {render}
-                <span className="help-block"></span>
+            <div className={this.state.error.length ? "form-group has-error" : "form-group"}>
+                {element.hasOwnProperty('text') && <label>{element.text}</label>}
+                <div className="input-group">
+                    <span className="input-group-addon">
+                        <i className={icon}></i>
+                    </span>
+                    {render}
+                </div>
+                <span className="help-block">{this.state.error}</span>
             </div>
         )
     }
@@ -66,7 +79,8 @@ class Input extends Component {
 const mapStateToProps = (state) => {
     return {
         lang: state.lang,
-        progress: state.progress
+        progress: state.progress,
+        validate: state.validate
     };
 }
 

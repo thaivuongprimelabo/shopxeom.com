@@ -12,7 +12,8 @@ class Select extends Component {
         super(props);
 
         this.state = {
-            value: ''
+            value: '',
+            error: ''
         }
     }
 
@@ -57,14 +58,16 @@ class Select extends Component {
         }
         
         return (
-            <div className="input-group"><span className="input-group-addon">
-                <i className={icon}></i></span>
-                <select className="form-control" onChange={ () => this.onChangeSelect(event) } value={this.state.value}>
-                    {render}
-                </select>
-                <span className="help-block"></span>
+            <div className={this.state.error.length ? "form-group has-error" : "form-group"}>
+                {element.hasOwnProperty('text') && <label>{element.text}</label>}
+                <div className="input-group"><span className="input-group-addon">
+                    <i className={icon}></i></span>
+                    <select className="form-control" onChange={ () => this.onChangeSelect(event) } value={this.state.value}>
+                        {render}
+                    </select>
+                    <span className="help-block"></span>
+                </div>
             </div>
-            
         )
     }
 }

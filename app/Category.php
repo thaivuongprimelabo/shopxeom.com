@@ -20,6 +20,8 @@ class Category extends Model
      * @var array
      */
     protected $table = Common::CATEGORIES;
+
+    protected $appends = ['parent_name'];
     
     public function getParentName() {
         $category = Category::select('name')->where('id', $this->parent_id)->first();
@@ -74,5 +76,10 @@ class Category extends Model
     
     public function scopeActive($query) {
         return $query->where('status', Status::ACTIVE);
+    }
+    
+    public function getParentNameAttribute() {
+        $category = Category::select('name')->where('id', $this->parent_id)->first();
+        return $category ? $category->name : '---';
     }
 }

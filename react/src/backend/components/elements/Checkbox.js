@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 import '../../../../../public/admin/plugins/iCheck/icheck.min.js';
 
+import * as types from '../../redux/types/index';
+
+import { connect } from 'react-redux';
+
 class Checkbox extends Component {
 
     constructor(props) {
@@ -12,6 +16,15 @@ class Checkbox extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if(prevProps.progress !== this.props.progress) {
+            if(this.props.progress.type === types.END_PROGRESS) {
+                if(this.props.element.value) {
+                    $('input').iCheck('check')
+                } else {
+                    $('input').iCheck('uncheck')
+                }
+            }
+        }
         
     } 
 
@@ -74,5 +87,17 @@ class Checkbox extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        progress: state.progress,
+        validate: state.validate
+    };
+}
 
-export default (Checkbox);
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkbox);

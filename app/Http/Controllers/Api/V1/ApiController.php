@@ -21,7 +21,7 @@ use App\User;
 
 class ApiController extends Controller {
     
-    public $output = ['status' => true, 'data' => [], 'error' => []];
+    public $output = ['status' => true, 'data' => [], 'error' => [], 'message'];
     public $rules = [];
 
     public function lang() {
@@ -77,8 +77,14 @@ class ApiController extends Controller {
             'email' => 'required|email',
             'password' => 'required|min:6'
         ];
+        
+        $niceNames = array(
+            'email' => 'E-mail',
+            'password' => 'Mật khẩu'
+        );
+        
         $validator = Validator::make($request->all(), $rules);
-            
+        $validator->setAttributeNames($niceNames);
         if (!$validator->fails()) {
 
             $userdata = array(
@@ -135,10 +141,12 @@ class ApiController extends Controller {
                 
             }
         }
-        
-        $model = $this->convertVariableToModelName($table);
-        $data = $model::where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
-        $this->output['data'] = $data;
+
+        if(in_array($table, \App\Constants\Common::TABLE_LIST)) {
+            $model = $this->convertVariableToModelName($table);
+            $data = $model::where($wheres)->orderBy('created_at', 'DESC')->paginate(Common::ROW_PER_PAGE);
+            $this->output['data'] = $data;
+        }
 
         return response()->json($this->output);
     }
@@ -146,21 +154,40 @@ class ApiController extends Controller {
     public function save(Request $request) {
         $form = $request->form;
         $table = $request->table;
-        $model = $this->convertVariableToModelName($table);
+        $rules = $request->rules;
+        $attributes = [];
+        $lang = trans('auth.'. $table . '.form');
+        foreach($rules as $k=>$l) {
+            $attributes[$k] = $lang[$k]['text'];
+        }
         
-        if(count($form)) {
-            foreach($form as $key=>$value) {
-                $model->$key = Utils::cnvNull($value, '');
-                if($key == 'name') {
-                    $model->name_url = Utils::createNameUrl(Utils::cnvNull($value, ''));
+        $validator = Validator::make($form, $rules);
+        $validator->setAttributeNames($attributes);
+        
+        if (!$validator->fails()) {
+            $model = $this->convertVariableToModelName($table);
+            
+            if(count($form)) {
+                foreach($form as $key=>$value) {
+                    $model->$key = Utils::cnvNull($value, '');
+                    if($key == 'name') {
+                        $model->name_url = Utils::createNameUrl(Utils::cnvNull($value, ''));
+                    }
+                }
+                
+                $model->created_at = date('Y-m-d H:i:s');
+                $model->updated_at = date('Y-m-d H:i:s');
+                
+                if($model->save()) {
+                    $this->output['data'] = $model;
+                    $this->output['message'] = isset($form['id']) ? trans('messages.UPDATE_SUCCESS') : trans('messages.CREATE_SUCCESS');
                 }
             }
-            
-            $model->created_at = date('Y-m-d H:i:s');
-            $model->updated_at = date('Y-m-d H:i:s');
-            
-            if($model->save()) {
-                $this->output['data'] = $model;
+        } else {
+            $this->output['status'] = false;
+            $errors = $validator->errors();
+            foreach($errors->getMessages() as $key=>$error) {
+                $this->output['error'][$key] = $error[0];
             }
         }
         

@@ -24,6 +24,7 @@ class Form extends Component {
         super(props);
         this.state = {
             form: {},
+            rules: this.props.lang[this.props.moduleName].rules,
             table: this.props.moduleName
         }
     }
@@ -73,6 +74,7 @@ class Form extends Component {
             
             if(lang[moduleName].hasOwnProperty('form')) {
                 var formAction = lang[moduleName].form;
+                var editData = this.props.edit;
                 
                 render = Object.keys(formAction).map((item, index) => {
                     var formItem = formAction[item];
@@ -85,6 +87,11 @@ class Form extends Component {
                         emptyText: formItem.empty_text,
                         table: formItem.hasOwnProperty('table') ? formItem.table : item,
                         value: formItem.hasOwnProperty('value') ? formItem.value : '',
+                        text: formItem.hasOwnProperty('text') ? formItem.text : '',
+                    }
+
+                    if(Object.keys(editData).length) {
+                        element.value = editData[item];
                     }
 
                     switch(type) {
@@ -100,16 +107,12 @@ class Form extends Component {
                             break;
                     }
 
-                    return <div key={index} className="form-group">
-                                { type !== 'checkbox' && <label>{formItem.text}</label> }
+                    return <div key={index}>
                                 {control}
                             </div>;
                 });
             }
-
-            
         }
-
 
         return (
             <div className="box box-primary">
@@ -131,7 +134,9 @@ class Form extends Component {
 const mapStateToProps = (state) => {
     return {
         lang: state.lang,
-        progress: state.progress
+        progress: state.progress,
+        list: state.list,
+        edit: state.edit
     };
 }
 

@@ -47,6 +47,13 @@ export const save = (form) => {
     }
 }
 
+export const edit = (row) => {
+    return {
+        type: types.EDIT,
+        data: row
+    }
+}
+
 export const checkLogin = () => {
     return (dispatch) => {
         dispatch(callAxios({
@@ -106,8 +113,6 @@ export const callAxios = (params) => {
 
 export const handleSuccess = (res, params, dispatch) => {
 
-    dispatch(endProgress());
-    
     switch(params.url) {
         case Api.API_LANG:
             dispatch(sendReducer({type: types.LOAD_LANG, data: res}));
@@ -132,18 +137,31 @@ export const handleSuccess = (res, params, dispatch) => {
             break;
         case Api.API_SAVE:
             dispatch(sendReducer({type: types.SAVE, data: res}));
-            dispatch(alertSuccess('Save Success'));
+            if(res.status) {
+                dispatch(alertSuccess(res.message));
+            } else {
+                dispatch(handleValidate(res.error));
+            }
             break;
         default:
 
             break;
     }
+
+    dispatch(endProgress());
     
 }
 
 export const handleException = (error, dispatch) => {
     dispatch(alertError(error.response.statusText));
     dispatch(endProgress());
+}
+
+export const handleValidate = (error) => {
+    return {
+        type: types.VALIDATE,
+        error: error
+    }
 }
 
 /** ============================== PROGRESS ================================== */

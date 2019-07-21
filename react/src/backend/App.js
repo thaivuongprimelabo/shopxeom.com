@@ -7,6 +7,7 @@ import * as Routes from './constants/routes';
 // Pages
 import Login from './pages/Login';
 import Main from './layouts/Main';
+import PageNotFound from './pages/PageNotFound';
 
 // Actions
 import { loadLang, loadConfig } from './redux/actions/index';
@@ -34,7 +35,6 @@ class App extends Component {
                 <Router basename={Routes.BASENAME}>
                     <Switch>
                         <Redirect exact from="/" to="/login" />
-                        <Redirect exact from="/dashboard" to="/products" />
                         <Route path="/login" component={Login} />
                         <Route path="/:module/:action" component={Main} />
                         <Route path="/:module" component={Main} />

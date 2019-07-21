@@ -36,13 +36,7 @@ import * as Routes from '../constants/routes';
 import * as types from '../redux/types/index';
 
 import Search from '../components/Search';
-import TableList from '../components/TableList';
-import Dashboard from '../pages/Dashboard';
-import Products from '../pages/Products';
-import Categories from '../pages/Categories';
-import Vendors from '../pages/Vendors';
-import Orders from '../pages/Orders';
-import Banners from '../pages/Banners';
+import PageNotFound from '../pages/PageNotFound';
 
 class Main extends Component {
 
@@ -110,32 +104,33 @@ class Main extends Component {
                         title = this.props.lang[moduleName].create_title;
                     }
         
+                } else {
+                    content = <PageNotFound />;
                 }
             }
-           
-            render = <div className="wrapper" style={{ 'display': !show ? 'none' : 'block'}}>
-                        <Header userIcon={ UserIcon160x160 } />
-                        <Sidebar userIcon={ UserIcon160x160 } />
-                        <div className="content-wrapper">
-                            <section className="content-header">
-                                <h1>
-                                    {title}
-                                </h1>
-                                <ol className="breadcrumb">
-                                    <li><a href="javascript:void(0)"><i className="fa fa-dashboard"></i> Trang chủ</a></li>
-                                    <li className="active">{title}</li>
-                                </ol>
-                            </section>
-                            <section className="content">
-                                <div className="row">
-                                    <div className="col-xs-12">
-                                        {content}
+            render =    <div className="wrapper">
+                            <Header userIcon={ UserIcon160x160 } />
+                            <Sidebar userIcon={ UserIcon160x160 } />
+                            <div className="content-wrapper">
+                                <section className="content-header">
+                                    <h1>
+                                        {title}
+                                    </h1>
+                                    <ol className="breadcrumb">
+                                        <li><a href="javascript:void(0)"><i className="fa fa-dashboard"></i> Trang chủ</a></li>
+                                        <li className="active">{title}</li>
+                                    </ol>
+                                </section>
+                                <section className="content">
+                                    <div className="row">
+                                        <div className="col-xs-12">
+                                            {content}
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+                            </div>
+                            <Footer />
                         </div>
-                        <Footer />
-                    </div>;
         }
 
         return (

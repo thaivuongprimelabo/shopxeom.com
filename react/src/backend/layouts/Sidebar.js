@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import SidebarItem from '../components/SidebarItem';
 
+import UserIcon160x160 from '../../../../public/admin/dist/img/user2-160x160.jpg';
+
 class Sidebar extends Component {
 
     constructor(props) {
@@ -37,19 +39,22 @@ class Sidebar extends Component {
                 <aside className="main-sidebar">
                     <section className="sidebar">
                         <div className="user-panel">
+                            
                             <div className="pull-left image">
-                                <img src={ userInfo.avatar } className="img-circle" alt="User Image" />
+                                <img src={ userInfo.avatar ? userInfo.avatar : UserIcon160x160 } className="img-circle" alt="User Image" />
                             </div>
                             <div className="pull-left info">
                                 <p>{userInfo.name}</p>
                                 <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
                             </div>
+                            
                         </div>
                         <ul className="sidebar-menu" data-widget="tree">
                             { render }
                         </ul>
                     </section>
                 </aside>
+                
             </div>
         )
     }

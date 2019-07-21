@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { withRouter } from 'react-router-dom';
+
 import * as types from '../redux/types/index';
 
 import { connect } from 'react-redux';
@@ -11,6 +13,8 @@ import EditButton from './elements/EditButton';
 import Checkbox from './elements/Checkbox';
 
 import Utils from '../helpers/Utils';
+
+import { edit } from '../redux/actions/index';
 
 class TableRow extends Component {
 
@@ -29,6 +33,11 @@ class TableRow extends Component {
     componentDidMount() {
     }
 
+    onEdit = () => {
+        this.props.edit(this.props.row);
+        this.props.history.replace(this.props.moduleName + "/edit");
+    }
+
     render() {
 
         var render;
@@ -41,7 +50,7 @@ class TableRow extends Component {
                     if(item === 'select_all') {
                         var element = {
                             name: 'select_row',
-                            value: this.props.row.ids,
+                            value: this.props.row.id,
                             isChecked: false
                         }
                         return <td key={index}><Checkbox element={element}  isList={true} /></td>
@@ -58,12 +67,16 @@ class TableRow extends Component {
                         return <td key={index}><Status status={value} type={item} /></td>
                     }
     
-                    if(item === 'remove_action') {
-                        return <td key={index}><RemoveButton /></td>
-                    }
-    
-                    if(item === 'edit_action') {
-                        return <td key={index}><EditButton /></td>
+                    if(item === 'action') {
+                        var removeButton;
+                        var editButton;
+                        if(this.props.header[item].remove) {
+                            removeButton = <RemoveButton />;
+                        }
+                        if(this.props.header[item].edit) {
+                            editButton = <EditButton key={index} onEdit={this.onEdit}/>;
+                        }
+                        return <td key={index}>{removeButton}&nbsp;&nbsp;{editButton}</td>
                     }
 
                     if(item === 'created_at' || item === 'updated_at') {
@@ -88,13 +101,17 @@ class TableRow extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        lang: state.lang
+        lang: state.lang,
     };
 }
 
 const mapDispatchToProps = (dispatch, props) => {
-    return {}
+    return {
+        edit: (row) => {
+            dispatch(edit(row));
+        }
+    }
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableRow);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TableRow));

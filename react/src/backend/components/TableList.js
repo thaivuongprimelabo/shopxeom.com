@@ -94,7 +94,7 @@ class TableList extends Component {
 
                 } else {
                     tbody = this.props.list.data.map((row, index) => {
-                        return <TableRow key={index} row={row} header={tableHeaders} />
+                        return <TableRow key={index} row={row} header={tableHeaders} moduleName={this.props.moduleName} />
                     });
     
                     var totalText = lang.count.toString().replace(':count', this.props.list.total);

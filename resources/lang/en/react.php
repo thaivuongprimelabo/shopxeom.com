@@ -106,6 +106,10 @@ $auth = [
     'backup' => [
         'list_title' => 'Sao lưu hệ thống',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -136,6 +140,10 @@ $auth = [
     'jobs' => [
         'list_title' => 'Jobs list',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -162,6 +170,10 @@ $auth = [
         'edit_title' => 'Chỉnh sửa nhà cung cấp',
         'search_placeholder' => 'Mã, tên nhà cung cấp',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -237,15 +249,19 @@ $auth = [
         'edit_title' => 'Chỉnh sửa loại sản phẩm',
         'search_placeholder' => 'Mã, tên loại sản phẩm',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '2%'
+            ],
             'id' => [
                 'text' => 'ID',
-                'width' => '3%'
+                'width' => '5%'
             ],
             'name' => [
                 'text' => 'Tên loại sản phẩm',
                 'width' => '20%'
             ],
-            'parent_cate' => [
+            'parent_name' => [
                 'text' => 'Loại cha',
                 'width' => '10%'
             ],
@@ -261,13 +277,10 @@ $auth = [
                 'text' => 'Ngày cập nhật',
                 'width' => '10%'
             ],
-            'remove_action' => [
-                'text' => '',
-                'width' => '5%'
-            ],
-            'edit_action' => [
-                'text' => '',
-                'width' => '5%'
+            'action' => [
+                'width' => '5%',
+                'remove' => true,
+                'edit' => true
             ]
         ],
         'search_form' => [
@@ -312,6 +325,10 @@ $auth = [
         'edit_title' => 'Chỉnh sửa banner',
         'select_post_title' => 'Danh sách bài viết',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -405,6 +422,10 @@ $auth = [
         'list_title' => 'Danh mục liên hệ',
         'edit_title' => 'Xem thư',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '5%'
@@ -494,7 +515,10 @@ $auth = [
         'create_title' => 'Đăng ký bài viết',
         'edit_title' => 'Chỉnh sửa bài viết',
         'table_header' => [
-            
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -616,6 +640,10 @@ $auth = [
         'create_title' => 'Đăng ký bài viết',
         'edit_title' => 'Chỉnh sửa bài viết',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -699,6 +727,10 @@ $auth = [
         'edit_title' => 'Cập nhật đơn hàng',
         'order_info_title' => 'Thông tin đơn hàng',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -1226,6 +1258,10 @@ $auth = [
         'create_title' => 'Đăng ký tài khoản',
         'edit_title' => 'Chỉnh sửa tài khoản',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
@@ -1368,6 +1404,10 @@ $auth = [
         'edit_title' => 'Chỉnh sửa chủ đề',
         'search_placeholder' => 'Mã, tên chủ đề',
         'table_header' => [
+            'select_all' => [
+                'text' => '',
+                'width' => '3%'
+            ],
             'id' => [
                 'text' => 'ID',
                 'width' => '3%'
