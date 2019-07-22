@@ -13,3 +13,5 @@ export const GET_SELECT_DATA = 'GET_SELECT_DATA';
 export const SAVE = 'SAVE';
 export const VALIDATE = 'VALIDATE';
 export const EDIT = 'EDIT';
+export const REMOVE = 'REMOVE';
+export const SEARCH = 'SEARCH';

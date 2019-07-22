@@ -8,7 +8,7 @@ import Select from './elements/Select';
 import Input from './elements/Input';
 import TableList from './TableList';
 
-import { getData } from '../redux/actions/index';
+import { getData, setRowEdit } from '../redux/actions/index';
 
 class Search extends Component {
 
@@ -40,6 +40,7 @@ class Search extends Component {
     }
 
     onCreate = () => {
+        this.props.setRowEdit();
         this.props.history.replace(this.props.moduleName + "/add");
     }
 
@@ -136,6 +137,9 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         getData:(table) => {
             dispatch(getData(table));
+        },
+        setRowEdit:() => {
+            dispatch(setRowEdit({}));
         }
     }
 };

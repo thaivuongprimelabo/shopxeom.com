@@ -10,12 +10,12 @@ import { getData } from '../redux/actions/index';
 import Input from './elements/Input';
 import Select from './elements/Select';
 import Checkbox from './elements/Checkbox';
-import Spinner from './Spinner';
+import UploadFile from './elements/UploadFile';
 import { Button } from 'react-bootstrap';
 import ButtonSubmit from './ButtonSubmit';
 
 import * as types from '../redux/types/index';
-import { save } from '../redux/actions/index';
+import { save, alertSuccess, alertError, setRowEdit } from '../redux/actions/index';
 
 
 class Form extends Component {
@@ -34,9 +34,24 @@ class Form extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if(prevProps.save !== this.props.save) {
+            if(this.props.save.status) {
+                this.props.alertSuccess(this.props.save.message);
+                if(this.state.form.id) {
+                    this.props.setRowEdit(this.props.save.data);
+                }
+            } else {
+                this.props.alertError(this.props.save.message);
+            }
+        }
     } 
 
     componentDidMount() {
+        if(Object.keys(this.props.edit).length) {
+            this.setState({
+                form: this.props.edit
+            })
+        }
     }
 
     onBack = () => {
@@ -44,7 +59,7 @@ class Form extends Component {
     }
 
     onSave = () => {
-        this.props.save(this.state);
+        this.props.onSave(this.state);
     }
 
     setValue = (value, id) => {
@@ -52,7 +67,7 @@ class Form extends Component {
         if(value.toString().length > 0) {
             form[id] = value;
         } else {
-            delete form[id];
+            form[id] = 0;
         }
 
         this.setState({
@@ -102,6 +117,9 @@ class Form extends Component {
                             if (element.value.length === 0) element.value = 1;
                             control = <Checkbox key={index} element={element} text={formItem.text} setValue={this.setValue} />
                             break;
+                        case 'upload_logo':
+                            control = <UploadFile key={index} element={element} />
+                            break;
                         default:
                             control = <Input key={index} element={element} setValue={this.setValue} />
                             break;
@@ -136,14 +154,24 @@ const mapStateToProps = (state) => {
         lang: state.lang,
         progress: state.progress,
         list: state.list,
-        edit: state.edit
+        edit: state.edit,
+        save: state.save
     };
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        save: (form) => {
+        onSave: (form) => {
             dispatch(save(form))
+        },
+        alertSuccess: (message) => {
+            dispatch(alertSuccess(message));
+        },
+        alertError: (message) => {
+            dispatch(alertError(message));
+        },
+        setRowEdit: (row) => {
+            dispatch(setRowEdit(row));
         }
     }
 };

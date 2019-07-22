@@ -17,10 +17,14 @@ class RemoveButton extends Component {
     componentDidMount() {
     }
 
+    onRemove = () => {
+        this.props.onRemove();
+    }
+
     render() {
 
         return (
-            <a href="javascript:void(0)" className="remove-row" title="Xóa"><i className="fa fa-trash" aria-hidden="true" style={{'fontSize': '20px'}}></i></a>
+            <a href="javascript:void(0)" className="remove-row" title="Xóa" onClick={this.onRemove}><i className="fa fa-trash" aria-hidden="true" style={{'fontSize': '20px'}}></i></a>
         )
     }
 }

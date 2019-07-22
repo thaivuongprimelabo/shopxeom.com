@@ -22,6 +22,7 @@ class Category extends Model
     protected $table = Common::CATEGORIES;
 
     protected $appends = ['parent_name'];
+    protected $hidden = ['parent_name'];
     
     public function getParentName() {
         $category = Category::select('name')->where('id', $this->parent_id)->first();

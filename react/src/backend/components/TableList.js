@@ -4,7 +4,7 @@ import ReactHtmlParser from 'react-html-parser';
 
 import { connect } from 'react-redux';
 
-import { getData } from '../redux/actions/index';
+import { getData, remove } from '../redux/actions/index';
 
 import TableRow from './TableRow';
 import Checkbox from './elements/Checkbox';
@@ -18,6 +18,10 @@ class TableList extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            row_delete_id: []
+        }
 
         this.params = {
             table: this.props.moduleName,
@@ -34,11 +38,34 @@ class TableList extends Component {
             this.params.table = this.props.moduleName;
             this.props.getData(this.params); 
         }
+
+        if(prevProps.progress !== this.props.progress) {
+            if(this.props.list.type === types.REMOVE && this.props.progress.type === types.END_PROGRESS) {
+                this.params.table = this.props.moduleName;
+                this.props.getData(this.params); 
+            }
+        }
     } 
 
     componentDidMount() {
-        console.log('TableList:componentDidMount')
         this.props.getData(this.params);
+    }
+
+    onRemove = () => {
+        if(confirm(this.props.lang.messages.CONFIRM_DELETE)) {
+            this.props.onRemove({
+                id: this.state.row_delete_id,
+                table: this.props.moduleName
+            });
+        }
+    }
+
+    setValue = (value) => {
+        var row_delete_id = this.state.row_delete_id;
+        row_delete_id.push(value);
+        this.setState({
+            row_delete_id: row_delete_id
+        });
     }
 
     render() {
@@ -57,8 +84,7 @@ class TableList extends Component {
                     var element = {
                         name: 'select_all',
                         id: 'select_all',
-                        value: 1,
-                        isChecked: false
+                        value: 1
                     }
                     thead.push(<th key={i}><Checkbox element={element} isList={true} /></th>);
                 } else {
@@ -94,7 +120,7 @@ class TableList extends Component {
 
                 } else {
                     tbody = this.props.list.data.map((row, index) => {
-                        return <TableRow key={index} row={row} header={tableHeaders} moduleName={this.props.moduleName} />
+                        return <TableRow key={index} row={row} header={tableHeaders} moduleName={this.props.moduleName} setValue={this.setValue} />
                     });
     
                     var totalText = lang.count.toString().replace(':count', this.props.list.total);
@@ -103,7 +129,7 @@ class TableList extends Component {
                     render = <div className="box">
                                 <div className="box-header">
                                     <div className="col-md-6">
-                                        <Button variant="danger"><i className="fa fa-trash"></i> {removeButtonText}</Button>
+                                        <Button variant="danger" onClick={this.onRemove}><i className="fa fa-trash"></i> {removeButtonText}</Button>
                                         {ReactHtmlParser(totalText)}
                                     </div>
                                     <div className="col-md-6">
@@ -161,6 +187,9 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         getData: (table) => {
             dispatch(getData(table));
+        },
+        onRemove: (data) => {
+            dispatch(remove(data));
         }
     }
 };

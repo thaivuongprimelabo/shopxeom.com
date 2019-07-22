@@ -11,6 +11,13 @@ export const loadLang = () => {
     }
 }
 
+export const search = (params) => {
+    return {
+        type: types.SEARCH,
+        params
+    }
+}
+
 export const getData = (params) => {
     return (dispatch) => {
         dispatch(callAxios({
@@ -18,6 +25,8 @@ export const getData = (params) => {
             url : Api.API_GETDATA,
             params: params
         }));
+
+        dispatch(search(params))
     }
 }
 
@@ -47,10 +56,24 @@ export const save = (form) => {
     }
 }
 
-export const edit = (row) => {
+export const setRowEdit = (row) => {
     return {
         type: types.EDIT,
         data: row
+    }
+}
+
+export const remove = (data) => {
+    return (dispatch) => {
+        dispatch(callAxios({
+            method: 'POST',
+            url : Api.API_REMOVE,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            data: JSON.stringify(data)
+        }));
     }
 }
 
@@ -137,11 +160,9 @@ export const handleSuccess = (res, params, dispatch) => {
             break;
         case Api.API_SAVE:
             dispatch(sendReducer({type: types.SAVE, data: res}));
-            if(res.status) {
-                dispatch(alertSuccess(res.message));
-            } else {
-                dispatch(handleValidate(res.error));
-            }
+            break;
+        case Api.API_REMOVE:
+            dispatch(sendReducer({type: types.REMOVE, data: res}));
             break;
         default:
 

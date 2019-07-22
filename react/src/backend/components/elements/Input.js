@@ -30,10 +30,15 @@ class Input extends Component {
             }
         }
 
-        if(prevProps.validate !== this.props.validate) {
-            this.setState({
-                error: this.props.validate[this.props.element.id]
-            })
+        if(prevProps.save !== this.props.save) {
+            if(Object.keys(this.props.save.error).length) {
+                if(this.props.save.error.hasOwnProperty(this.props.element.id)) {
+                    this.setState({
+                        error: this.props.save.error[this.props.element.id]
+                    })
+                }
+            }
+            
         }
     } 
 
@@ -80,7 +85,7 @@ const mapStateToProps = (state) => {
     return {
         lang: state.lang,
         progress: state.progress,
-        validate: state.validate
+        save: state.save
     };
 }
 

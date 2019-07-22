@@ -31,6 +31,17 @@ class Select extends Component {
                 
             }
         }
+
+        if(prevProps.save !== this.props.save) {
+            if(Object.keys(this.props.save.error).length) {
+                if(this.props.save.error.hasOwnProperty(this.props.element.id)) {
+                    this.setState({
+                        error: this.props.save.error[this.props.element.id]
+                    })
+                }
+            }
+            
+        }
     } 
 
     componentDidMount() {
@@ -39,7 +50,8 @@ class Select extends Component {
 
     onChangeSelect = (e) => {
         this.setState({ 
-            value:  e.target.value
+            value:  e.target.value,
+            error: ''
         });
         this.props.setValue(e.target.value, this.props.element.id);
     }
@@ -60,13 +72,15 @@ class Select extends Component {
         return (
             <div className={this.state.error.length ? "form-group has-error" : "form-group"}>
                 {element.hasOwnProperty('text') && <label>{element.text}</label>}
-                <div className="input-group"><span className="input-group-addon">
-                    <i className={icon}></i></span>
-                    <select className="form-control" onChange={ () => this.onChangeSelect(event) } value={this.state.value}>
+                <div className="input-group">
+                    <span className="input-group-addon">
+                        <i className={icon}></i>
+                    </span>
+                    <select className="form-control" id={element.id} name={element.name} onChange={ () => this.onChangeSelect(event) } value={this.state.value}>
                         {render}
                     </select>
-                    <span className="help-block"></span>
                 </div>
+                <span className="help-block">{this.state.error}</span>
             </div>
         )
     }
@@ -75,7 +89,8 @@ class Select extends Component {
 const mapStateToProps = (state) => {
     return {
         select: state.select,
-        progress: state.progress
+        progress: state.progress,
+        save: state.save
     };
 }
 

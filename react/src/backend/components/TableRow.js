@@ -14,7 +14,7 @@ import Checkbox from './elements/Checkbox';
 
 import Utils from '../helpers/Utils';
 
-import { edit } from '../redux/actions/index';
+import { setRowEdit, remove } from '../redux/actions/index';
 
 class TableRow extends Component {
 
@@ -34,8 +34,22 @@ class TableRow extends Component {
     }
 
     onEdit = () => {
-        this.props.edit(this.props.row);
+        this.props.setRowEdit(this.props.row);
         this.props.history.replace(this.props.moduleName + "/edit");
+    }
+
+    onRemove = () => {
+        if(confirm(this.props.lang.messages.CONFIRM_DELETE)) {
+            
+            this.props.onRemove({
+                id: this.props.row.id,
+                table: this.props.moduleName
+            });
+        }
+    }
+
+    setValue = (value, id) => {
+        this.props.setValue(value);
     }
 
     render() {
@@ -50,10 +64,10 @@ class TableRow extends Component {
                     if(item === 'select_all') {
                         var element = {
                             name: 'select_row',
-                            value: this.props.row.id,
-                            isChecked: false
+                            value: this.props.row.id
                         }
-                        return <td key={index}><Checkbox element={element}  isList={true} /></td>
+                        
+                        return <td key={index}><Checkbox element={element} isList={true}  setValue={this.setValue} /></td>
                     }
 
                     if(item.indexOf('image') >= 0 || item === 'logo' || item === 'banner' || item === 'avatar' || item === 'photo') {
@@ -71,7 +85,7 @@ class TableRow extends Component {
                         var removeButton;
                         var editButton;
                         if(this.props.header[item].remove) {
-                            removeButton = <RemoveButton />;
+                            removeButton = <RemoveButton onRemove={this.onRemove} />;
                         }
                         if(this.props.header[item].edit) {
                             editButton = <EditButton key={index} onEdit={this.onEdit}/>;
@@ -107,8 +121,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        edit: (row) => {
-            dispatch(edit(row));
+        setRowEdit: (row) => {
+            dispatch(setRowEdit(row));
+        },
+        onRemove: (row) => {
+            dispatch(remove(row));
         }
     }
 };

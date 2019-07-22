@@ -7,7 +7,6 @@ import config from './config';
 import list from './list';
 import select from './select';
 import save from './save';
-import validate from './validate';
 import edit from './edit';
 
 const reducer = combineReducers({
@@ -19,7 +18,6 @@ const reducer = combineReducers({
     list,
     select,
     save,
-    validate,
     edit
 });
 

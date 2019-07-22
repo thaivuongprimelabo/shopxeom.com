@@ -7,3 +7,4 @@ export const API_CONFIG = API_HOST + '/config';
 export const API_GETDATA = API_HOST + '/get';
 export const API_GETSELECTDATA = API_HOST + '/get_select_data';
 export const API_SAVE = API_HOST + '/save';
+export const API_REMOVE = API_HOST + '/remove';

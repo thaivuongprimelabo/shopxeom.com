@@ -10,6 +10,9 @@ class Checkbox extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            value: 0
+        }
     }
 
     componentWillMount() {
@@ -18,7 +21,7 @@ class Checkbox extends Component {
     componentDidUpdate(prevProps) {
         if(prevProps.progress !== this.props.progress) {
             if(this.props.progress.type === types.END_PROGRESS) {
-                if(this.props.element.value) {
+                if(this.props.element.value && this.props.isList === undefined) {
                     $('input').iCheck('check')
                 } else {
                     $('input').iCheck('uncheck')
@@ -31,6 +34,10 @@ class Checkbox extends Component {
     componentDidMount() {
 
         var _self = this;
+        
+        this.setState({
+            value: _self.props.element.value
+        })
 
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
@@ -40,7 +47,8 @@ class Checkbox extends Component {
         
         $('input').on('ifChecked', function(event){
             if(_self.props.hasOwnProperty('setValue')) {
-                _self.props.setValue(_self.props.element.value, _self.props.element.id);
+                var value = ($(this).iCheck('update')[0].value);
+                _self.props.setValue(value, _self.props.element.id);
             }
         });
 
@@ -49,11 +57,6 @@ class Checkbox extends Component {
                 _self.props.setValue('', _self.props.element.id);
             }
         });
-
-        if(_self.props.element.isChecked === undefined || _self.props.element.isChecked) {
-            $('input').iCheck('check')
-            _self.props.setValue(_self.props.element.value, _self.props.element.id);
-        }
     }
 
     render() {
@@ -69,7 +72,7 @@ class Checkbox extends Component {
                     <input type="checkbox" 
                         name={name} 
                         id={id}
-                        ref={this.props.inputRef} />
+                        value={element.value} />
                 ) :
                 (
                     <div className="checkbox">
@@ -77,7 +80,7 @@ class Checkbox extends Component {
                                 <input type="checkbox" 
                                     name={name} 
                                     id={id}
-                                    ref={this.props.inputRef} />&nbsp;&nbsp;<strong>{text}</strong>
+                                    value={element.value} />&nbsp;&nbsp;<strong>{text}</strong>
                         </label>
                     </div>
                 )}

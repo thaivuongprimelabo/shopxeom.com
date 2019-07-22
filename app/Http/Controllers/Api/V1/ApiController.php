@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -21,11 +22,12 @@ use App\User;
 
 class ApiController extends Controller {
     
-    public $output = ['status' => true, 'data' => [], 'error' => [], 'message'];
+    public $output = ['status' => true, 'data' => [], 'error' => [], 'message' => ''];
     public $rules = [];
 
     public function lang() {
         $this->output['data'] = trans('react');
+        $this->output['data']['messages'] = trans('messages');
         return response()->json($this->output);
     }
 
@@ -165,23 +167,44 @@ class ApiController extends Controller {
         $validator->setAttributeNames($attributes);
         
         if (!$validator->fails()) {
-            $model = $this->convertVariableToModelName($table);
-            
-            if(count($form)) {
-                foreach($form as $key=>$value) {
-                    $model->$key = Utils::cnvNull($value, '');
-                    if($key == 'name') {
-                        $model->name_url = Utils::createNameUrl(Utils::cnvNull($value, ''));
+
+            try {
+
+                $model = $this->convertVariableToModelName($table);
+                
+                if(count($form)) {
+                    
+                    if(isset($form['id'])) {
+                        $model = $model::find($form['id']);
+                    }
+                    
+                    foreach($form as $key=>$value) {
+                        if($key == 'id') {
+                            continue;
+                        }
+                        
+                        $model->$key = Utils::cnvNull($value, 0);
+                        if($key == 'name') {
+                            $model->name_url = Utils::createNameUrl(Utils::cnvNull($value, 0));
+                        }
+                    }
+                    
+                    if(isset($form['id'])) {
+                        $model->updated_at = date('Y-m-d H:i:s');
+                    } else {
+                        $model->created_at = date('Y-m-d H:i:s');
+                        $model->updated_at = date('Y-m-d H:i:s');
+                    }
+                    
+                    if($model->save()) {
+                        $this->output['data'] = $model;
+                        $this->output['message'] = isset($form['id']) ? trans('messages.UPDATE_SUCCESS') : trans('messages.CREATE_SUCCESS');
                     }
                 }
-                
-                $model->created_at = date('Y-m-d H:i:s');
-                $model->updated_at = date('Y-m-d H:i:s');
-                
-                if($model->save()) {
-                    $this->output['data'] = $model;
-                    $this->output['message'] = isset($form['id']) ? trans('messages.UPDATE_SUCCESS') : trans('messages.CREATE_SUCCESS');
-                }
+
+            } catch(\Exception $e) {
+                $this->output['status'] = false;
+                $this->output['message'] = trans('messages.ERROR');
             }
         } else {
             $this->output['status'] = false;
@@ -189,6 +212,21 @@ class ApiController extends Controller {
             foreach($errors->getMessages() as $key=>$error) {
                 $this->output['error'][$key] = $error[0];
             }
+        }
+        
+        return response()->json($this->output);
+    }
+
+    public function remove(Request $request) {
+        try {
+            $model = $this->convertVariableToModelName($request->table);
+            $ids = $request->id;
+            if($model->destroy($ids)) {
+                $this->output['message'] = trans('messages.REMOVE_SUCCESS');
+            }
+        } catch(\Exception $e) {
+            $this->output['status'] = false;
+            $this->output['message'] = trans('messages.ERROR');
         }
         
         return response()->json($this->output);

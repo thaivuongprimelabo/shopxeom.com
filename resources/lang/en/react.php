@@ -198,13 +198,10 @@ $auth = [
                 'text' => 'Ngày cập nhật',
                 'width' => '10%'
             ],
-            'remove_action' => [
-                'text' => '',
-                'width' => '5%'
-            ],
-            'edit_action' => [
-                'text' => '',
-                'width' => '5%'
+            'action' => [
+                'width' => '5%',
+                'remove' => true,
+                'edit' => true
             ]
         ],
         'search_form' => [
@@ -315,7 +312,8 @@ $auth = [
             ]
         ],
         'rules' => [
-            'name' => 'required|max:' . \App\Constants\Common::NAME_MAXLENGTH
+            'name' => 'required|max:' . \App\Constants\Common::NAME_MAXLENGTH,
+            'parent_id' => 'required'
         ]
     ],
     /*------------ Banner page ------------------- */

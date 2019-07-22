@@ -8,6 +8,7 @@ class Alert extends Component {
 
     constructor(props) {
         super(props);
+        
     }
 
     componentWillMount() {
