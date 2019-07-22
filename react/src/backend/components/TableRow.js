@@ -67,7 +67,7 @@ class TableRow extends Component {
                             value: this.props.row.id
                         }
                         
-                        return <td key={index}><Checkbox element={element} isList={true}  setValue={this.setValue} /></td>
+                        return <td key={index}><Checkbox element={element} isList={true} /></td>
                     }
 
                     if(item.indexOf('image') >= 0 || item === 'logo' || item === 'banner' || item === 'avatar' || item === 'photo') {

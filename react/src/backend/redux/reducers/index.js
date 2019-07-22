@@ -8,6 +8,7 @@ import list from './list';
 import select from './select';
 import save from './save';
 import edit from './edit';
+import remove from './remove';
 
 const reducer = combineReducers({
     lang,
@@ -18,7 +19,8 @@ const reducer = combineReducers({
     list,
     select,
     save,
-    edit
+    edit,
+    remove
 });
 
 export default reducer;

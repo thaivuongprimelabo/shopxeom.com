@@ -6,6 +6,8 @@ import * as types from '../../redux/types/index';
 
 import { connect } from 'react-redux';
 
+import { setRemoveIds } from '../../redux/actions/index';
+
 class Checkbox extends Component {
 
     constructor(props) {
@@ -46,16 +48,51 @@ class Checkbox extends Component {
         });
         
         $('input').on('ifChecked', function(event){
-            if(_self.props.hasOwnProperty('setValue')) {
+            // var ids = [];
+            // if($(this).attr('id') !== 'select_all') {
+            //     if(_self.props.hasOwnProperty('setValue')) {
+            //         var value = ($(this).iCheck('update')[0].value);
+            //         ids.push(value);
+            //         _self.props.setValue(ids, _self.props.element.id);
+            //     }
+            // } else {
+            //     $('input[name="select_row"]').each(function(index, item) {
+            //         $(item).iCheck('check');
+            //         ids.push(item.value);
+            //     });
+            //     _self.props.setValue(ids, _self.props.element.id);
+            // }
+            var ids = [];
+            if($(this).attr('id') === 'select_all') {
+                $('input[name="select_row"]').each(function(index, item) {
+                    $(item).iCheck('check');
+                    ids.push(item.value);
+                });
+            } else {
                 var value = ($(this).iCheck('update')[0].value);
-                _self.props.setValue(value, _self.props.element.id);
+                ids = _self.props.remove.ids;
+                ids.push(value);
             }
+            _self.props.setRemoveIds(ids);
         });
 
         $('input').on('ifUnchecked', function(){
-            if(_self.props.hasOwnProperty('setValue')) {
-                _self.props.setValue('', _self.props.element.id);
+            var new_ids = [];
+            if($(this).attr('id') === 'select_all') {
+                $('input[name="select_row"]').each(function(index, item) {
+                    $(item).iCheck('uncheck');
+                });
+            } else {
+                var value = ($(this).iCheck('update')[0].value);
+                var ids = _self.props.remove.ids;
+                ids.map((id, index) => {
+                    if(value !== id) {
+                        new_ids.push(id);
+                    }
+                });
             }
+            
+            _self.props.setRemoveIds(new_ids);
         });
     }
 
@@ -93,12 +130,16 @@ class Checkbox extends Component {
 const mapStateToProps = (state) => {
     return {
         progress: state.progress,
-        validate: state.validate
+        validate: state.validate,
+        remove: state.remove
     };
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        setRemoveIds: (ids) => {
+            dispatch(setRemoveIds(ids));
+        }
     }
 };
 

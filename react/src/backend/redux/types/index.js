@@ -14,4 +14,5 @@ export const SAVE = 'SAVE';
 export const VALIDATE = 'VALIDATE';
 export const EDIT = 'EDIT';
 export const REMOVE = 'REMOVE';
+export const REMOVE_IDS = 'REMOVE_IDS';
 export const SEARCH = 'SEARCH';

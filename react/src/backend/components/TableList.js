@@ -54,18 +54,10 @@ class TableList extends Component {
     onRemove = () => {
         if(confirm(this.props.lang.messages.CONFIRM_DELETE)) {
             this.props.onRemove({
-                id: this.state.row_delete_id,
+                id: this.props.remove.ids,
                 table: this.props.moduleName
             });
         }
-    }
-
-    setValue = (value) => {
-        var row_delete_id = this.state.row_delete_id;
-        row_delete_id.push(value);
-        this.setState({
-            row_delete_id: row_delete_id
-        });
     }
 
     render() {
@@ -179,7 +171,8 @@ const mapStateToProps = (state) => {
     return {
         lang: state.lang,
         list: state.list,
-        progress: state.progress
+        progress: state.progress,
+        remove: state.remove
     };
 }
 

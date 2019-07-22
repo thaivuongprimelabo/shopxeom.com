@@ -77,6 +77,13 @@ export const remove = (data) => {
     }
 }
 
+export const setRemoveIds = (ids) => {
+    return {
+        type: types.REMOVE_IDS,
+        ids: ids
+    }
+}
+
 export const checkLogin = () => {
     return (dispatch) => {
         dispatch(callAxios({
