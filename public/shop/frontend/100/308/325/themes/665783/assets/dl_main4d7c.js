@@ -196,6 +196,18 @@ function dl_accordion(){
 /********************************************************
 # OWL CAROUSEL
 ********************************************************/
+var fixOwl = function(){
+	var $stage = $('.owl-stage'),
+		stageW = $stage.width(),
+		$el = $('.owl-item'),
+		elW = 0;
+	$el.each(function() {
+		elW += $(this).width()+ +($(this).css("margin-right").slice(0, -2))
+	});
+	if ( elW > stageW ) {
+		$stage.width( elW );
+	};
+}
 function dl_owl() { 
 	$('.owl-carousel:not(.not-aweowl)').each( function(){
 		var xss_item = $(this).attr('data-xss-items');
@@ -281,7 +293,9 @@ function dl_owl() {
 				1500:{
 					items:Number(lgg_item)				
 				}
-			}
+			},
+			onInitialized: fixOwl,
+        	onRefreshed: fixOwl
 			
 //			items:1,
 //		    margin:10,

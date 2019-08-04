@@ -518,11 +518,13 @@ class HomeController extends AppController
                     break;
                     
                 case 'search-suggestion-page':
+                    $keyword = str_replace('+', ' ', $keyword);
                     $data = Product::active()->where('name', 'LIKE', '%' . $keyword . '%')->paginate($limit_product);
                     $view = 'shop.common.search_suggestion';
                     $result['#product_results'] = view($view, compact('data'))->render();
                     return response()->json($result);
                 case 'search-page':
+                    $keyword = str_replace('+', ' ', $keyword);
                     $obj = Product::active()->where('name', 'LIKE', '%' . $keyword . '%');
                     $count = $obj->count();
                     $data = $obj->paginate($limit_product);

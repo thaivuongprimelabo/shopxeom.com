@@ -34,7 +34,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var keyword = location.search.split('=');
-        $('#keyword_search').val(decodeURIComponent(keyword[1]));
+        $('#keyword_search').val(decodeURIComponent(keyword[1].toString().replace('+', ' ')));
         var page_name = 'search-page';
     	var data = {
     		type : 'post',
