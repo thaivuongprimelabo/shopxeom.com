@@ -22,6 +22,7 @@ use App\Constants\ContactStatus;
 use App\Constants\PostStatus;
 use App\PostGroups;
 use App\Constants\ProductStatus;
+use App\Constants\ProductType;
 use App\Order;
 use App\Helpers\SourceUtils;
 
@@ -311,6 +312,44 @@ class ApiController extends Controller
                 break;
         }
         
+        return response()->json($this->output);
+    }
+
+    public function getProductTab(Request $request) {
+        $categoryId = $request->categoryId;
+        $productType = $request->productType;
+        $container = $request->container;
+        $products = [];
+        $this->output['code'] = 200;
+        $this->output['#' . $container] = '';
+
+        $wheres = [];
+        if($categoryId != 'all') {
+            array_push($wheres, ['category_id', '=', $categoryId]);
+        }
+
+        if($productType == ProductType::IS_NEW) {
+            array_push($wheres, ['is_new', '=', $productType]);
+        }
+
+        if($productType == ProductType::IS_BEST_SELLING) {
+            array_push($wheres, ['is_best_selling', '=', $productType]);
+        }
+
+        if($productType == ProductType::IS_POPULAR) {
+            array_push($wheres, ['is_popular', '=', $productType]);
+        }
+        
+        $products = Product::where($wheres)->active()->orderBy('updated_at', 'DESC')->limit(8)->get();
+        
+        if($products->count()) {
+            $html = '';
+            foreach($products as $product) {
+                $html .= view('shop.common.product_item', ['product' => $product])->render();
+            }
+            $this->output['code'] = 200;
+            $this->output['#' . $container] = $html;
+        }
         return response()->json($this->output);
     }
 }

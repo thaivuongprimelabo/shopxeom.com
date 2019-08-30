@@ -15,13 +15,26 @@ var callAjax = function(url, data, button) {
 	    			con.html(spinner());
 	    		}
 	    	}
-	    	
+	    	if(typeof data.container === 'string') {
+				var con = $('#' + data.container);
+				con.html(spinner());
+			}
 	    },
 	    headers: {
 	    	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 	    },
 	    success: function (res, textStatus, xhr) {
 	    	if(xhr.status === 200) {
+				if(typeof data.container === 'string') {
+					var id = '#' + data.container;
+					if(res[id].length) {
+						$(id).html(res[id]);
+					} else {
+						$(id).html('')
+					}
+					return;
+				}
+
 	    		for(var id in data.container) {
 	    			var div = data.container[id];
 	    			if(res.hasOwnProperty(div)) {
@@ -178,6 +191,18 @@ var formatCurrency = function (nStr, decSeperate, groupSeperate) {
         x1 = x1.replace(rgx, '$1' + groupSeperate + '$2');
     }
     return x1 + x2 + 'đ';
+}
+
+var getProductTab = function(url, categoryId, productType) {
+	var containerId = 'section-tab-' + productType;
+	$(containerId).html(spinner());
+	var data = {
+		categoryId: categoryId,
+		productType: productType,
+		type : 'get',
+		container: containerId
+	}
+	callAjax(url, data);
 }
 
 var popupWindow = function (url, title, w, h) {

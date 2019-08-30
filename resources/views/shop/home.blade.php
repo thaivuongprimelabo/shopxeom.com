@@ -74,3 +74,13 @@
 @endif
 {!! Utils::createVendorSection() !!}
 @endsection
+@section('script')
+<script>
+	function loadAllProduct() {
+		getProductTab('{{ route('get.product.tab') }}', 'all', {{ ProductType::IS_NEW }})
+		getProductTab('{{ route('get.product.tab') }}', 'all', {{ ProductType::IS_BEST_SELLING }})
+		getProductTab('{{ route('get.product.tab') }}', 'all', {{ ProductType::IS_POPULAR }})
+	}
+	document.addEventListener('onload', loadAllProduct());
+</script>
+@endsection
